@@ -8,18 +8,37 @@ struct Vehicle: Identifiable, Hashable {
     let route: String
     /// Vehicle number for buses/trolleys, train number for Regional Rail.
     let label: String
-    let latitude: Double
-    let longitude: Double
+    var latitude: Double
+    var longitude: Double
     /// Degrees clockwise from north, when reported.
-    let heading: Double?
+    var heading: Double?
     let destination: String?
     let direction: String?
     let nextStop: String?
     /// Minutes behind schedule. Negative means early. Nil when SEPTA has no estimate.
     let minutesLate: Int?
-    /// When the vehicle last reported its position. TransitView sends this as the
-    /// `timestamp` field (Unix seconds); TrainView has no equivalent, so trains get nil.
-    let reportedAt: Date?
+    /// When the vehicle last reported the position shown. TransitView sends this as
+    /// `timestamp` (Unix seconds) and GTFS-realtime as `VehiclePosition.timestamp`.
+    /// TrainView has no equivalent.
+    var reportedAt: Date?
+    /// The trip the vehicle is serving, when known (TransitView `trip`, GTFS-RT `trip_id`).
+    var tripID: String? = nil
+    /// Which feed the position came from.
+    var positionSource: PositionSource = .septaJSON
+
+    enum PositionSource: String, Hashable {
+        /// TransitViewAll or TrainView.
+        case septaJSON
+        /// SEPTA's GTFS-realtime VehiclePositions feed.
+        case gtfsRealtime
+
+        var title: String {
+            switch self {
+            case .septaJSON: return "SEPTA TransitView/TrainView"
+            case .gtfsRealtime: return "SEPTA GTFS-realtime"
+            }
+        }
+    }
 
     var coordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)

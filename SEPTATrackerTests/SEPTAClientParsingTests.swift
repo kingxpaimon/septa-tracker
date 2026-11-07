@@ -47,11 +47,19 @@ final class SEPTAClientParsingTests: XCTestCase {
         XCTAssertEqual(bus.lateDescription, "No estimate")
     }
 
-    func testTransitViewAllDuplicateKeepsFirstEntry() throws {
+    /// Without GTFS-RT, the duplicate with non-zero lateness wins: in captured data the
+    /// `late: 0` entry was always the next, not-yet-started trip.
+    func testTransitViewAllDuplicatePrefersEntryWithLateness() throws {
         let vehicles = try SEPTAClient.parseTransitViewAll(fixture("TransitViewAll"))
         let trolley = try XCTUnwrap(vehicles.first { $0.id == "trolley-T1-8486" })
-        XCTAssertEqual(trolley.nextStop, "13th St")
-        XCTAssertEqual(trolley.minutesLate, 0)
+        XCTAssertEqual(trolley.nextStop, "Drexel Station at 30th St")
+        XCTAssertEqual(trolley.minutesLate, 15)
+        XCTAssertEqual(trolley.tripID, "968663")
+    }
+
+    func testTransitViewAllEntriesKeepsDuplicates() throws {
+        let entries = try SEPTAClient.parseTransitViewAllEntries(fixture("TransitViewAll"))
+        XCTAssertEqual(entries.count, 15)
     }
 
     func testTransitViewAllModeByRoute() throws {

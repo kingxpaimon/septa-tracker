@@ -21,6 +21,21 @@
 		B20000000000000000000400 /* SEPTAClientParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000300 /* SEPTAClientParsingTests.swift */; };
 		B20000000000000000000401 /* TransitViewAll.json in Resources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000301 /* TransitViewAll.json */; };
 		B20000000000000000000402 /* TrainView.json in Resources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000302 /* TrainView.json */; };
+		B2000000000000000000020A /* GTFSRealtime.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000010A /* GTFSRealtime.swift */; };
+		B2000000000000000000020B /* VehicleMerger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000010B /* VehicleMerger.swift */; };
+		B2000000000000000000020C /* TransitRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000010C /* TransitRoute.swift */; };
+		B2000000000000000000020D /* GoogleRoutesClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000010D /* GoogleRoutesClient.swift */; };
+		B2000000000000000000020E /* LiveLineMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000010E /* LiveLineMatcher.swift */; };
+		B2000000000000000000020F /* TripPlanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000010F /* TripPlanner.swift */; };
+		B20000000000000000000210 /* TripPlannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000110 /* TripPlannerView.swift */; };
+		B20000000000000000000211 /* RouteDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000111 /* RouteDetailView.swift */; };
+		B20000000000000000000403 /* VehicleMergerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000304 /* VehicleMergerTests.swift */; };
+		B20000000000000000000404 /* GoogleRoutesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000305 /* GoogleRoutesTests.swift */; };
+		B20000000000000000000405 /* Merge-TransitViewAll.json in Resources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000306 /* Merge-TransitViewAll.json */; };
+		B20000000000000000000406 /* Merge-TrainView.json in Resources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000307 /* Merge-TrainView.json */; };
+		B20000000000000000000407 /* Merge-BusVehiclePositions.pb in Resources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000308 /* Merge-BusVehiclePositions.pb */; };
+		B20000000000000000000408 /* Merge-RailVehiclePositions.pb in Resources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000309 /* Merge-RailVehiclePositions.pb */; };
+		B20000000000000000000409 /* GoogleRoutes-Synthetic.json in Resources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000030A /* GoogleRoutes-Synthetic.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +65,24 @@
 		B20000000000000000000301 /* TransitViewAll.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TransitViewAll.json; sourceTree = "<group>"; };
 		B20000000000000000000302 /* TrainView.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TrainView.json; sourceTree = "<group>"; };
 		B20000000000000000000303 /* SEPTATrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SEPTATrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2000000000000000000010A /* GTFSRealtime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTFSRealtime.swift; sourceTree = "<group>"; };
+		B2000000000000000000010B /* VehicleMerger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleMerger.swift; sourceTree = "<group>"; };
+		B2000000000000000000010C /* TransitRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitRoute.swift; sourceTree = "<group>"; };
+		B2000000000000000000010D /* GoogleRoutesClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleRoutesClient.swift; sourceTree = "<group>"; };
+		B2000000000000000000010E /* LiveLineMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveLineMatcher.swift; sourceTree = "<group>"; };
+		B2000000000000000000010F /* TripPlanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlanner.swift; sourceTree = "<group>"; };
+		B20000000000000000000110 /* TripPlannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlannerView.swift; sourceTree = "<group>"; };
+		B20000000000000000000111 /* RouteDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteDetailView.swift; sourceTree = "<group>"; };
+		B20000000000000000000304 /* VehicleMergerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleMergerTests.swift; sourceTree = "<group>"; };
+		B20000000000000000000305 /* GoogleRoutesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleRoutesTests.swift; sourceTree = "<group>"; };
+		B20000000000000000000306 /* Merge-TransitViewAll.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Merge-TransitViewAll.json"; sourceTree = "<group>"; };
+		B20000000000000000000307 /* Merge-TrainView.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Merge-TrainView.json"; sourceTree = "<group>"; };
+		B20000000000000000000308 /* Merge-BusVehiclePositions.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Merge-BusVehiclePositions.pb"; sourceTree = "<group>"; };
+		B20000000000000000000309 /* Merge-RailVehiclePositions.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Merge-RailVehiclePositions.pb"; sourceTree = "<group>"; };
+		B2000000000000000000030A /* GoogleRoutes-Synthetic.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "GoogleRoutes-Synthetic.json"; sourceTree = "<group>"; };
+		B20000000000000000000112 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B20000000000000000000113 /* App.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = App.xcconfig; sourceTree = "<group>"; };
+		B20000000000000000000114 /* Secrets.example.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.example.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +108,7 @@
 			children = (
 				B20000000000000000000004 /* SEPTATracker */,
 				B20000000000000000000500 /* SEPTATrackerTests */,
+				B20000000000000000000016 /* Config */,
 				B20000000000000000000005 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -88,6 +122,7 @@
 				B20000000000000000000012 /* Support */,
 				B20000000000000000000013 /* Views */,
 				B20000000000000000000014 /* Assets.xcassets */,
+				B20000000000000000000112 /* Info.plist */,
 			);
 			path = SEPTATracker;
 			sourceTree = "<group>";
@@ -106,6 +141,7 @@
 			children = (
 				B20000000000000000000101 /* TransitMode.swift */,
 				B20000000000000000000102 /* Vehicle.swift */,
+				B2000000000000000000010C /* TransitRoute.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -116,6 +152,11 @@
 				B20000000000000000000103 /* SEPTAClient.swift */,
 				B20000000000000000000104 /* VehicleStore.swift */,
 				B20000000000000000000105 /* LocationService.swift */,
+				B2000000000000000000010A /* GTFSRealtime.swift */,
+				B2000000000000000000010B /* VehicleMerger.swift */,
+				B2000000000000000000010D /* GoogleRoutesClient.swift */,
+				B2000000000000000000010E /* LiveLineMatcher.swift */,
+				B2000000000000000000010F /* TripPlanner.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -134,6 +175,8 @@
 				B20000000000000000000107 /* RootView.swift */,
 				B20000000000000000000108 /* VehicleDetailView.swift */,
 				B20000000000000000000109 /* FilterView.swift */,
+				B20000000000000000000110 /* TripPlannerView.swift */,
+				B20000000000000000000111 /* RouteDetailView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -142,6 +185,8 @@
 			isa = PBXGroup;
 			children = (
 				B20000000000000000000300 /* SEPTAClientParsingTests.swift */,
+				B20000000000000000000304 /* VehicleMergerTests.swift */,
+				B20000000000000000000305 /* GoogleRoutesTests.swift */,
 				B20000000000000000000501 /* Fixtures */,
 			);
 			path = SEPTATrackerTests;
@@ -152,8 +197,22 @@
 			children = (
 				B20000000000000000000301 /* TransitViewAll.json */,
 				B20000000000000000000302 /* TrainView.json */,
+				B20000000000000000000306 /* Merge-TransitViewAll.json */,
+				B20000000000000000000307 /* Merge-TrainView.json */,
+				B20000000000000000000308 /* Merge-BusVehiclePositions.pb */,
+				B20000000000000000000309 /* Merge-RailVehiclePositions.pb */,
+				B2000000000000000000030A /* GoogleRoutes-Synthetic.json */,
 			);
 			path = Fixtures;
+			sourceTree = "<group>";
+		};
+		B20000000000000000000016 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				B20000000000000000000113 /* App.xcconfig */,
+				B20000000000000000000114 /* Secrets.example.xcconfig */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -247,6 +306,11 @@
 			files = (
 				B20000000000000000000401 /* TransitViewAll.json in Resources */,
 				B20000000000000000000402 /* TrainView.json in Resources */,
+				B20000000000000000000405 /* Merge-TransitViewAll.json in Resources */,
+				B20000000000000000000406 /* Merge-TrainView.json in Resources */,
+				B20000000000000000000407 /* Merge-BusVehiclePositions.pb in Resources */,
+				B20000000000000000000408 /* Merge-RailVehiclePositions.pb in Resources */,
+				B20000000000000000000409 /* GoogleRoutes-Synthetic.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,6 +331,14 @@
 				B20000000000000000000207 /* RootView.swift in Sources */,
 				B20000000000000000000208 /* VehicleDetailView.swift in Sources */,
 				B20000000000000000000209 /* FilterView.swift in Sources */,
+				B2000000000000000000020A /* GTFSRealtime.swift in Sources */,
+				B2000000000000000000020B /* VehicleMerger.swift in Sources */,
+				B2000000000000000000020C /* TransitRoute.swift in Sources */,
+				B2000000000000000000020D /* GoogleRoutesClient.swift in Sources */,
+				B2000000000000000000020E /* LiveLineMatcher.swift in Sources */,
+				B2000000000000000000020F /* TripPlanner.swift in Sources */,
+				B20000000000000000000210 /* TripPlannerView.swift in Sources */,
+				B20000000000000000000211 /* RouteDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,6 +347,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B20000000000000000000400 /* SEPTAClientParsingTests.swift in Sources */,
+				B20000000000000000000403 /* VehicleMergerTests.swift in Sources */,
+				B20000000000000000000404 /* GoogleRoutesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +414,7 @@
 		};
 		B2000000000000000000000E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B20000000000000000000113 /* App.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -347,6 +422,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SEPTATracker/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "SEPTA Live";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "SEPTA Live shows your location on the map so you can find vehicles near you.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -369,6 +445,7 @@
 		};
 		B2000000000000000000000F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B20000000000000000000113 /* App.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -376,6 +453,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SEPTATracker/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "SEPTA Live";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "SEPTA Live shows your location on the map so you can find vehicles near you.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

@@ -26,20 +26,40 @@ struct SEPTAClient {
 
     var session: URLSession = .shared
 
-    /// All buses and trolleys currently reporting.
+    static let busRealtimeURL = URL(string: "https://www3.septa.org/gtfsrt/septa-pa-us/Vehicle/rtVehiclePosition.pb")!
+    static let railRealtimeURL = URL(string: "https://www3.septa.org/gtfsrt/septarail-pa-us/Vehicle/rtVehiclePosition.pb")!
+
+    /// All buses and trolleys currently reporting: TransitView merged with GTFS-realtime.
+    /// If only one of the two feeds fails, the other is used alone.
     func fetchSurfaceVehicles() async throws -> [Vehicle] {
-        let data = try await get("TransitViewAll/index.php")
-        return try Self.parseTransitViewAll(data)
+        async let json = Self.capture { try Self.parseTransitViewAllEntries(try await get(Self.baseURL.appendingPathComponent("TransitViewAll/index.php"))) }
+        async let realtime = Self.capture { try GTFSRealtime.parseVehiclePositions(try await get(Self.busRealtimeURL)) }
+        let (entries, positions) = await (json, realtime)
+        switch (entries, positions) {
+        case (.success(let e), .success(let p)): return VehicleMerger.mergeSurface(transitView: e, realtime: p)
+        case (.success(let e), .failure): return VehicleMerger.mergeSurface(transitView: e, realtime: [])
+        case (.failure, .success(let p)): return VehicleMerger.mergeSurface(transitView: [], realtime: p)
+        case (.failure(let error), .failure): throw error
+        }
     }
 
-    /// All Regional Rail trains currently reporting.
+    /// All Regional Rail trains currently reporting: TrainView, with GTFS-realtime
+    /// positions where a train matches. Trains only in GTFS-RT aren't added, because
+    /// its line codes ("PAO") don't map cleanly to TrainView line names.
     func fetchTrains() async throws -> [Vehicle] {
-        let data = try await get("TrainView/index.php")
-        return try Self.parseTrainView(data)
+        async let json = Self.capture { try Self.parseTrainView(try await get(Self.baseURL.appendingPathComponent("TrainView/index.php"))) }
+        async let realtime = Self.capture { try GTFSRealtime.parseVehiclePositions(try await get(Self.railRealtimeURL)) }
+        let (trains, positions) = await (json, realtime)
+        let base = try trains.get()
+        return VehicleMerger.mergeRail(trainView: base, realtime: (try? positions.get()) ?? [])
     }
 
-    private func get(_ path: String) async throws -> Data {
-        var request = URLRequest(url: Self.baseURL.appendingPathComponent(path))
+    private static func capture<T>(_ work: () async throws -> T) async -> Result<T, Error> {
+        do { return .success(try await work()) } catch { return .failure(error) }
+    }
+
+    private func get(_ url: URL) async throws -> Data {
+        var request = URLRequest(url: url)
         request.timeoutInterval = 15
         request.cachePolicy = .reloadIgnoringLocalCacheData
         let (data, response) = try await session.data(for: request)
@@ -62,10 +82,16 @@ struct SEPTAClient {
     /// `Offset_sec` (string, the same schedule deviation in seconds — NOT report age),
     /// `next_stop_name` (string or null), `timestamp` (int Unix seconds of the GPS fix).
     ///
-    /// The feed can list the same vehicle twice, at the same position, under two trip IDs
-    /// (apparently the trip it is finishing and the next one). Only the first entry per
-    /// vehicle is kept so IDs stay unique.
+    /// The feed can list the same vehicle twice, at the same position, under two trip IDs:
+    /// the trip it's running (usually late) and its next trip (`late: 0`). This collapses
+    /// them with `VehicleMerger.resolveDuplicates`; with GTFS-RT available,
+    /// `fetchSurfaceVehicles` resolves them by trip ID instead.
     static func parseTransitViewAll(_ data: Data) throws -> [Vehicle] {
+        VehicleMerger.resolveDuplicates(try parseTransitViewAllEntries(data))
+    }
+
+    /// Every TransitView entry, duplicates included.
+    static func parseTransitViewAllEntries(_ data: Data) throws -> [Vehicle] {
         let root = try JSONSerialization.jsonObject(with: data)
         guard let top = root as? [String: Any] else {
             throw SEPTAError.unexpectedFormat("TransitViewAll is not a JSON object")
@@ -92,7 +118,7 @@ struct SEPTAClient {
                 }
             }
         }
-        return uniqued(vehicles)
+        return vehicles
     }
 
     private static func surfaceVehicle(from entry: [String: Any], route: String, mode: TransitMode) -> Vehicle? {
@@ -118,7 +144,8 @@ struct SEPTAClient {
             direction: JSONValues.string(entry, "Direction"),
             nextStop: JSONValues.string(entry, "next_stop_name"),
             minutesLate: normalizedLateness(JSONValues.int(entry, "late")),
-            reportedAt: reportedAt
+            reportedAt: reportedAt,
+            tripID: JSONValues.string(entry, "trip")
         )
     }
 
@@ -157,19 +184,11 @@ struct SEPTAClient {
                 reportedAt: nil
             )
         }
-        return uniqued(trains)
+        return VehicleMerger.uniqued(trains)
     }
 
-    /// Keeps the first vehicle for each ID. SwiftUI's `ForEach` and map selection
-    /// both misbehave with duplicate IDs.
-    private static func uniqued(_ vehicles: [Vehicle]) -> [Vehicle] {
-        var seen = Set<Vehicle.ID>()
-        return vehicles.filter { seen.insert($0.id).inserted }
-    }
-
-    /// Drops (0, 0) and anything far outside the SEPTA region.
     private static func isPlausible(lat: Double, lon: Double) -> Bool {
-        (38.5...41.5).contains(lat) && (-77.0 ... -73.5).contains(lon)
+        VehicleMerger.isPlausible(lat: lat, lon: lon)
     }
 
     /// TransitView sends `late: 998` (with `Offset_sec: "0"`) when it has no estimate.

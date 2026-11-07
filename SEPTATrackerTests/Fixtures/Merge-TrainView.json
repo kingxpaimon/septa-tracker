@@ -1,0 +1,50 @@
+[
+  {
+    "lat": "39.95271957",
+    "lon": "-75.15887",
+    "trainno": "1727",
+    "service": "LOCAL",
+    "dest": "Trenton",
+    "currentstop": "Jefferson Station",
+    "nextstop": "Suburban Station",
+    "line": "Trenton",
+    "consist": "856,855,738,717",
+    "heading": "259.68809170302",
+    "late": 0,
+    "SOURCE": "Jefferson",
+    "TRACK": "3",
+    "TRACK_CHANGE": ""
+  },
+  {
+    "lat": "40.0037605",
+    "lon": "-75.165249166667",
+    "trainno": "2457",
+    "service": "LOCAL",
+    "dest": "Airport",
+    "currentstop": "Allegheny",
+    "nextstop": "North Broad",
+    "line": "Manayunk/Norristown",
+    "consist": "185,186,451,452",
+    "heading": "113.65352484496",
+    "late": 8,
+    "SOURCE": "Conshohocken",
+    "TRACK": "4",
+    "TRACK_CHANGE": ""
+  },
+  {
+    "lat": "40.0810125",
+    "lon": "-75.2076295",
+    "trainno": "4459",
+    "service": "LOCAL",
+    "dest": "Airport",
+    "currentstop": "Roslyn",
+    "nextstop": "Ardsley",
+    "line": "Warminster",
+    "consist": "110,109,126,125",
+    "heading": "230.98709278266",
+    "late": 3,
+    "SOURCE": "Warminster",
+    "TRACK": "1W",
+    "TRACK_CHANGE": ""
+  }
+]

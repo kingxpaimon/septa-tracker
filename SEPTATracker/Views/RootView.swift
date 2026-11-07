@@ -9,6 +9,7 @@ struct RootView: View {
     @State private var cameraPosition: MapCameraPosition = .region(Self.philadelphia)
     @State private var selectedVehicleID: Vehicle.ID?
     @State private var showingFilters = false
+    @State private var showingDirections = false
 
     static let philadelphia = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 39.9526, longitude: -75.1652),
@@ -47,6 +48,14 @@ struct RootView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
+                        selectedVehicleID = nil   // one presentation at a time
+                        showingDirections = true
+                    } label: {
+                        Label("Directions", systemImage: "arrow.triangle.turn.up.right.diamond")
+                    }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
                         showingFilters = true
                     } label: {
                         Label("Filter", systemImage: isFiltered
@@ -57,6 +66,13 @@ struct RootView: View {
             }
             .sheet(isPresented: $showingFilters) {
                 FilterView()
+            }
+            // Full screen, not a sheet over the map: Google route content must not be
+            // shown together with this (Apple) map.
+            .fullScreenCover(isPresented: $showingDirections) {
+                TripPlannerView()
+                    .environmentObject(store)
+                    .environmentObject(location)
             }
             .sheet(isPresented: detailBinding) {
                 if let id = selectedVehicleID {

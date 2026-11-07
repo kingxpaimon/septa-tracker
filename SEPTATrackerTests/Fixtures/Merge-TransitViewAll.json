@@ -1,0 +1,163 @@
+{
+  "routes": [
+    {
+      "T1": [
+        {
+          "lat": "39.960997",
+          "lng": "-75.198253",
+          "label": "8484",
+          "VehicleID": "8484",
+          "route_id": "T1",
+          "BlockID": "9557",
+          "Direction": "WestBound",
+          "destination": "63rd-Malvern",
+          "Offset": "-3",
+          "heading": 300,
+          "late": -3,
+          "original_late": -3,
+          "Offset_sec": "-174",
+          "trip": "968753",
+          "next_stop_id": "20664",
+          "next_stop_name": "36th St & Market St",
+          "next_stop_sequence": 8,
+          "estimated_seat_availability": "MANY_SEATS_AVAILABLE",
+          "timestamp": 1794093422
+        }
+      ],
+      "D1_BUS": [
+        {
+          "lat": "39.918472",
+          "lng": "-75.39372",
+          "label": "3084",
+          "VehicleID": "3084",
+          "route_id": "D1_BUS",
+          "BlockID": "4933",
+          "Direction": "SouthBound",
+          "destination": "Media",
+          "Offset": "0",
+          "heading": 100,
+          "late": 0,
+          "original_late": 0,
+          "Offset_sec": "0",
+          "trip": "940691",
+          "next_stop_id": "18609",
+          "next_stop_name": null,
+          "next_stop_sequence": 30,
+          "estimated_seat_availability": "NOT_AVAILABLE",
+          "timestamp": 1794093253
+        }
+      ],
+      "16": [
+        {
+          "lat": "39.97166",
+          "lng": "-75.159502",
+          "label": "8633",
+          "VehicleID": "8633",
+          "route_id": "16",
+          "BlockID": "3813",
+          "Direction": "NorthBound",
+          "destination": "Cheltenham-Ogontz",
+          "Offset": "0",
+          "heading": 191,
+          "late": 0,
+          "original_late": 0,
+          "Offset_sec": "0",
+          "trip": "869449",
+          "next_stop_id": "515",
+          "next_stop_name": "15th St & Market St",
+          "next_stop_sequence": 1,
+          "estimated_seat_availability": "TBD",
+          "timestamp": 1794093423
+        },
+        {
+          "lat": "39.97166",
+          "lng": "-75.159502",
+          "label": "8633",
+          "VehicleID": "8633",
+          "route_id": "16",
+          "BlockID": "3813",
+          "Direction": "SouthBound",
+          "destination": "15th-Market",
+          "Offset": "25",
+          "heading": 191,
+          "late": 25,
+          "original_late": 25,
+          "Offset_sec": "1476",
+          "trip": "869405",
+          "next_stop_id": "143",
+          "next_stop_name": "Broad St & Girard Av",
+          "next_stop_sequence": 67,
+          "estimated_seat_availability": "TBD",
+          "timestamp": 1794093423
+        }
+      ],
+      "33": [
+        {
+          "lat": "39.950948",
+          "lng": "-75.152227",
+          "label": "7373",
+          "VehicleID": "7373",
+          "route_id": "33",
+          "BlockID": "5163",
+          "Direction": "NorthBound",
+          "destination": "23rd-Venango",
+          "Offset": "0",
+          "heading": 99,
+          "late": 0,
+          "original_late": 0,
+          "Offset_sec": "0",
+          "trip": "876758",
+          "next_stop_id": "638",
+          "next_stop_name": "5th St & Market St - FS",
+          "next_stop_sequence": 1,
+          "estimated_seat_availability": "EMPTY",
+          "timestamp": 1794093424
+        },
+        {
+          "lat": "39.950948",
+          "lng": "-75.152227",
+          "label": "7373",
+          "VehicleID": "7373",
+          "route_id": "33",
+          "BlockID": "5163",
+          "Direction": "SouthBound",
+          "destination": "5th-Market",
+          "Offset": "20",
+          "heading": 99,
+          "late": 20,
+          "original_late": 20,
+          "Offset_sec": "1194",
+          "trip": "876678",
+          "next_stop_id": "10331",
+          "next_stop_name": "Market St & 7th St",
+          "next_stop_sequence": 50,
+          "estimated_seat_availability": "EMPTY",
+          "timestamp": 1794093424
+        }
+      ],
+      "5": [
+        {
+          "lat": "40.02541",
+          "lng": "-75.07663",
+          "label": "3513",
+          "VehicleID": "3513",
+          "route_id": "5",
+          "BlockID": "2183",
+          "Direction": "SouthBound",
+          "destination": "2nd-Market",
+          "Offset": "0",
+          "heading": 190,
+          "late": 0,
+          "original_late": 0,
+          "Offset_sec": "0",
+          "trip": "883386",
+          "next_stop_id": "20844",
+          "next_stop_name": "Frankford Transit Center - Rt 5",
+          "next_stop_sequence": 1,
+          "estimated_seat_availability": "MANY_SEATS_AVAILABLE",
+          "timestamp": 1794093421
+        }
+      ]
+    }
+  ]
+}

@@ -16,3 +16,6 @@ xcuserdata/
 .build/
 .swiftpm/
 Packages/
+
+# Secrets (Google Maps API key)
+Config/Secrets.xcconfig

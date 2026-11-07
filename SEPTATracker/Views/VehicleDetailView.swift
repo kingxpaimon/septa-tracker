@@ -18,6 +18,7 @@ struct VehicleDetailView: View {
                             if let reportedAt = vehicle.reportedAt {
                                 row("Last GPS report", Self.age(since: reportedAt))
                             }
+                            row("Position from", vehicle.positionSource.title)
                         }
                     }
                     .listStyle(.plain)
