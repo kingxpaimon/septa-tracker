@@ -18,7 +18,20 @@
 		B20000000000000000000208 /* VehicleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000108 /* VehicleDetailView.swift */; };
 		B20000000000000000000209 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000109 /* FilterView.swift */; };
 		B20000000000000000000015 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000014 /* Assets.xcassets */; };
+		B20000000000000000000400 /* SEPTAClientParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000300 /* SEPTAClientParsingTests.swift */; };
+		B20000000000000000000401 /* TransitViewAll.json in Resources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000301 /* TransitViewAll.json */; };
+		B20000000000000000000402 /* TrainView.json in Resources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000302 /* TrainView.json */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B20000000000000000000608 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B20000000000000000000002;
+			remoteInfo = SEPTATracker;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		B20000000000000000000100 /* SEPTATrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SEPTATrackerApp.swift; sourceTree = "<group>"; };
@@ -33,10 +46,21 @@
 		B20000000000000000000109 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		B20000000000000000000014 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B20000000000000000000006 /* SEPTATracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SEPTATracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B20000000000000000000300 /* SEPTAClientParsingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SEPTAClientParsingTests.swift; sourceTree = "<group>"; };
+		B20000000000000000000301 /* TransitViewAll.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TransitViewAll.json; sourceTree = "<group>"; };
+		B20000000000000000000302 /* TrainView.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TrainView.json; sourceTree = "<group>"; };
+		B20000000000000000000303 /* SEPTATrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SEPTATrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		B20000000000000000000008 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B20000000000000000000602 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -50,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				B20000000000000000000004 /* SEPTATracker */,
+				B20000000000000000000500 /* SEPTATrackerTests */,
 				B20000000000000000000005 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -71,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				B20000000000000000000006 /* SEPTATracker.app */,
+				B20000000000000000000303 /* SEPTATrackerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -112,6 +138,24 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		B20000000000000000000500 /* SEPTATrackerTests */ = {
+			isa = PBXGroup;
+			children = (
+				B20000000000000000000300 /* SEPTAClientParsingTests.swift */,
+				B20000000000000000000501 /* Fixtures */,
+			);
+			path = SEPTATrackerTests;
+			sourceTree = "<group>";
+		};
+		B20000000000000000000501 /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				B20000000000000000000301 /* TransitViewAll.json */,
+				B20000000000000000000302 /* TrainView.json */,
+			);
+			path = Fixtures;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -132,6 +176,24 @@
 			productReference = B20000000000000000000006 /* SEPTATracker.app */;
 			productType = "com.apple.product-type.application";
 		};
+		B20000000000000000000600 /* SEPTATrackerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B20000000000000000000604 /* Build configuration list for PBXNativeTarget "SEPTATrackerTests" */;
+			buildPhases = (
+				B20000000000000000000601 /* Sources */,
+				B20000000000000000000602 /* Frameworks */,
+				B20000000000000000000603 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B20000000000000000000607 /* PBXTargetDependency */,
+			);
+			name = SEPTATrackerTests;
+			productName = SEPTATrackerTests;
+			productReference = B20000000000000000000303 /* SEPTATrackerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -144,6 +206,10 @@
 				TargetAttributes = {
 					B20000000000000000000002 = {
 						CreatedOnToolsVersion = 15.0;
+					};
+					B20000000000000000000600 = {
+						CreatedOnToolsVersion = 15.0;
+						TestTargetID = B20000000000000000000002;
 					};
 				};
 			};
@@ -161,6 +227,7 @@
 			projectRoot = "";
 			targets = (
 				B20000000000000000000002 /* SEPTATracker */,
+				B20000000000000000000600 /* SEPTATrackerTests */,
 			);
 		};
 /* End PBXProject section */
@@ -171,6 +238,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				B20000000000000000000015 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B20000000000000000000603 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B20000000000000000000401 /* TransitViewAll.json in Resources */,
+				B20000000000000000000402 /* TrainView.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,7 +270,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B20000000000000000000601 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B20000000000000000000400 /* SEPTAClientParsingTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B20000000000000000000607 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B20000000000000000000002 /* SEPTATracker */;
+			targetProxy = B20000000000000000000608 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		B2000000000000000000000C /* Debug */ = {
@@ -304,6 +396,42 @@
 			};
 			name = Release;
 		};
+		B20000000000000000000605 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.SEPTATrackerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SEPTATracker.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SEPTATracker";
+			};
+			name = Debug;
+		};
+		B20000000000000000000606 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.SEPTATrackerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SEPTATracker.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SEPTATracker";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -321,6 +449,15 @@
 			buildConfigurations = (
 				B2000000000000000000000E /* Debug */,
 				B2000000000000000000000F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B20000000000000000000604 /* Build configuration list for PBXNativeTarget "SEPTATrackerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B20000000000000000000605 /* Debug */,
+				B20000000000000000000606 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -15,8 +15,8 @@ struct VehicleDetailView: View {
                             if let direction = vehicle.direction { row("Direction", direction) }
                             if let nextStop = vehicle.nextStop { row("Next stop", nextStop) }
                             row("Status", vehicle.lateDescription)
-                            if let seconds = vehicle.secondsSinceReport {
-                                row("Last GPS report", Self.age(seconds))
+                            if let reportedAt = vehicle.reportedAt {
+                                row("Last GPS report", Self.age(since: reportedAt))
                             }
                         }
                     }
@@ -45,7 +45,8 @@ struct VehicleDetailView: View {
         LabeledContent(label, value: value)
     }
 
-    private static func age(_ seconds: Int) -> String {
-        seconds < 60 ? "\(seconds)s ago" : "\(seconds / 60) min ago"
+    private static func age(since date: Date) -> String {
+        let seconds = max(0, Int(Date().timeIntervalSince(date)))
+        return seconds < 60 ? "\(seconds)s ago" : "\(seconds / 60) min ago"
     }
 }

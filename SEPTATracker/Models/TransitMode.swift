@@ -31,12 +31,15 @@ enum TransitMode: String, CaseIterable, Identifiable, Hashable {
         }
     }
 
-    /// TransitView reports buses and trolleys together, keyed by route. These are the
-    /// trolley routes under both the old numbering and the 2025 metro renaming. The list
-    /// is maintained by hand; an unknown trolley route shows up as a bus.
+    /// TransitView reports buses and trolleys together, keyed by route, with no mode field.
+    /// Route keys seen in a live response (Nov 2026): T1–T5, G1, M1, plus `D1_BUS` and
+    /// `D2_BUS` (bus substitutes on the Media/Sharon Hill lines, so they stay buses).
+    /// Old numeric trolley routes and plain D1/D2 are kept in case they reappear.
+    /// M1 (Norristown High Speed Line) is light rail; it's grouped with trolleys because
+    /// the app has no separate mode for it. An unknown rail route shows up as a bus.
     static let trolleyRoutes: Set<String> = [
         "10", "11", "13", "15", "34", "36", "101", "102",
-        "T1", "T2", "T3", "T4", "T5", "D1", "D2", "G1",
+        "T1", "T2", "T3", "T4", "T5", "D1", "D2", "G1", "M1",
     ]
 
     static func forSurfaceRoute(_ route: String) -> TransitMode {

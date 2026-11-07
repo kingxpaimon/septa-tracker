@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking // Linux only; lets the parser tests run off-Mac.
+#endif
 
 enum SEPTAError: LocalizedError {
     case badStatus(Int)
@@ -14,10 +17,10 @@ enum SEPTAError: LocalizedError {
 
 /// Reads SEPTA's public real-time JSON endpoints. No API key is needed.
 ///
-/// Field names below come from SEPTA's published examples and community clients,
-/// not a formal spec; SEPTA changed these feeds in 2024. Parsing is deliberately
-/// lenient: a vehicle with no usable coordinates is skipped rather than failing
-/// the whole response.
+/// SEPTA publishes no formal spec for these feeds. The field names and types below
+/// were checked against live responses captured in November 2026 (see the fixtures
+/// in SEPTATrackerTests/Fixtures). Parsing is still lenient: a vehicle with no usable
+/// coordinates is skipped rather than failing the whole response.
 struct SEPTAClient {
     static let baseURL = URL(string: "https://www3.septa.org/api/")!
 
@@ -48,8 +51,20 @@ struct SEPTAClient {
 
     // MARK: - Parsing
 
-    /// Expected shape: `{"routes": [{"17": [{vehicle}, ...], "33": [...]}]}`.
-    /// `routes` as a single object (not wrapped in an array) is also accepted.
+    /// Observed shape: `{"routes": [{"17": [{vehicle}, ...], "33": [...]}]}`, i.e. an
+    /// array holding a single object keyed by route. `routes` as a bare object is also
+    /// accepted.
+    ///
+    /// Observed vehicle fields (types as sent):
+    /// `lat`/`lng` (string), `label`/`VehicleID` (string, always equal), `route_id`,
+    /// `Direction` ("NorthBound", "Loop", ...), `destination`, `heading` (int),
+    /// `late` (int minutes, 998 = no estimate), `Offset` (string minutes, same as `late`),
+    /// `Offset_sec` (string, the same schedule deviation in seconds — NOT report age),
+    /// `next_stop_name` (string or null), `timestamp` (int Unix seconds of the GPS fix).
+    ///
+    /// The feed can list the same vehicle twice, at the same position, under two trip IDs
+    /// (apparently the trip it is finishing and the next one). Only the first entry per
+    /// vehicle is kept so IDs stay unique.
     static func parseTransitViewAll(_ data: Data) throws -> [Vehicle] {
         let root = try JSONSerialization.jsonObject(with: data)
         guard let top = root as? [String: Any] else {
@@ -77,7 +92,7 @@ struct SEPTAClient {
                 }
             }
         }
-        return vehicles
+        return uniqued(vehicles)
     }
 
     private static func surfaceVehicle(from entry: [String: Any], route: String, mode: TransitMode) -> Vehicle? {
@@ -87,9 +102,9 @@ struct SEPTAClient {
             isPlausible(lat: lat, lon: lon)
         else { return nil }
 
-        let label = JSONValues.string(entry, "label", "VehicleID", "vehicle_id") ?? "?"
-        let secondsSinceReport = JSONValues.int(entry, "Offset_sec")
-            ?? JSONValues.int(entry, "Offset").map { $0 * 60 }
+        let label = JSONValues.string(entry, "label", "VehicleID") ?? "?"
+        let reportedAt = JSONValues.double(entry, "timestamp")
+            .flatMap { $0 > 0 ? Date(timeIntervalSince1970: $0) : nil }
 
         return Vehicle(
             id: "\(mode.rawValue)-\(route)-\(label)",
@@ -100,24 +115,27 @@ struct SEPTAClient {
             longitude: lon,
             heading: JSONValues.double(entry, "heading"),
             destination: JSONValues.string(entry, "destination"),
-            direction: JSONValues.string(entry, "Direction", "direction"),
+            direction: JSONValues.string(entry, "Direction"),
             nextStop: JSONValues.string(entry, "next_stop_name"),
             minutesLate: normalizedLateness(JSONValues.int(entry, "late")),
-            secondsSinceReport: secondsSinceReport
+            reportedAt: reportedAt
         )
     }
 
-    /// Expected shape: `[{"trainno": "9230", "line": "...", "lat": "...", "lon": "...", ...}]`.
+    /// Observed shape: a bare array of trains. Fields as sent: `lat`/`lon` (string),
+    /// `trainno`, `line`, `dest`, `currentstop`, `nextstop`, `service`, `consist`, `SOURCE`,
+    /// `TRACK`, `TRACK_CHANGE` (strings), `heading` (string, fractional degrees),
+    /// `late` (int minutes). There is no report timestamp.
     static func parseTrainView(_ data: Data) throws -> [Vehicle] {
         let root = try JSONSerialization.jsonObject(with: data)
         guard let entries = root as? [[String: Any]] else {
             throw SEPTAError.unexpectedFormat("TrainView is not a JSON array")
         }
 
-        return entries.compactMap { entry in
+        let trains: [Vehicle] = entries.compactMap { entry in
             guard
                 let lat = JSONValues.double(entry, "lat"),
-                let lon = JSONValues.double(entry, "lon", "lng"),
+                let lon = JSONValues.double(entry, "lon"),
                 isPlausible(lat: lat, lon: lon)
             else { return nil }
 
@@ -136,9 +154,17 @@ struct SEPTAClient {
                 direction: nil,
                 nextStop: JSONValues.string(entry, "nextstop"),
                 minutesLate: normalizedLateness(JSONValues.int(entry, "late")),
-                secondsSinceReport: nil
+                reportedAt: nil
             )
         }
+        return uniqued(trains)
+    }
+
+    /// Keeps the first vehicle for each ID. SwiftUI's `ForEach` and map selection
+    /// both misbehave with duplicate IDs.
+    private static func uniqued(_ vehicles: [Vehicle]) -> [Vehicle] {
+        var seen = Set<Vehicle.ID>()
+        return vehicles.filter { seen.insert($0.id).inserted }
     }
 
     /// Drops (0, 0) and anything far outside the SEPTA region.
@@ -146,7 +172,9 @@ struct SEPTAClient {
         (38.5...41.5).contains(lat) && (-77.0 ... -73.5).contains(lon)
     }
 
-    /// SEPTA uses large sentinel values (e.g. 998/999) for "no estimate".
+    /// TransitView sends `late: 998` (with `Offset_sec: "0"`) when it has no estimate.
+    /// 999 is the value older clients report for the same thing; it wasn't seen in the
+    /// captured responses. Anything 900+ is treated as a sentinel.
     private static func normalizedLateness(_ minutes: Int?) -> Int? {
         guard let minutes, abs(minutes) < 900 else { return nil }
         return minutes

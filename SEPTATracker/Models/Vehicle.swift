@@ -17,8 +17,9 @@ struct Vehicle: Identifiable, Hashable {
     let nextStop: String?
     /// Minutes behind schedule. Negative means early. Nil when SEPTA has no estimate.
     let minutesLate: Int?
-    /// Seconds between the vehicle's last GPS report and the API response, when reported.
-    let secondsSinceReport: Int?
+    /// When the vehicle last reported its position. TransitView sends this as the
+    /// `timestamp` field (Unix seconds); TrainView has no equivalent, so trains get nil.
+    let reportedAt: Date?
 
     var coordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
