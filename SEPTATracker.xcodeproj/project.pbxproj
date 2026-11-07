@@ -1,0 +1,331 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B20000000000000000000200 /* SEPTATrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000100 /* SEPTATrackerApp.swift */; };
+		B20000000000000000000201 /* TransitMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000101 /* TransitMode.swift */; };
+		B20000000000000000000202 /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000102 /* Vehicle.swift */; };
+		B20000000000000000000203 /* SEPTAClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000103 /* SEPTAClient.swift */; };
+		B20000000000000000000204 /* VehicleStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000104 /* VehicleStore.swift */; };
+		B20000000000000000000205 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000105 /* LocationService.swift */; };
+		B20000000000000000000206 /* JSONValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000106 /* JSONValues.swift */; };
+		B20000000000000000000207 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000107 /* RootView.swift */; };
+		B20000000000000000000208 /* VehicleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000108 /* VehicleDetailView.swift */; };
+		B20000000000000000000209 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000109 /* FilterView.swift */; };
+		B20000000000000000000015 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000014 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		B20000000000000000000100 /* SEPTATrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SEPTATrackerApp.swift; sourceTree = "<group>"; };
+		B20000000000000000000101 /* TransitMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitMode.swift; sourceTree = "<group>"; };
+		B20000000000000000000102 /* Vehicle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vehicle.swift; sourceTree = "<group>"; };
+		B20000000000000000000103 /* SEPTAClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SEPTAClient.swift; sourceTree = "<group>"; };
+		B20000000000000000000104 /* VehicleStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleStore.swift; sourceTree = "<group>"; };
+		B20000000000000000000105 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		B20000000000000000000106 /* JSONValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONValues.swift; sourceTree = "<group>"; };
+		B20000000000000000000107 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		B20000000000000000000108 /* VehicleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDetailView.swift; sourceTree = "<group>"; };
+		B20000000000000000000109 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
+		B20000000000000000000014 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B20000000000000000000006 /* SEPTATracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SEPTATracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B20000000000000000000008 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B20000000000000000000003 = {
+			isa = PBXGroup;
+			children = (
+				B20000000000000000000004 /* SEPTATracker */,
+				B20000000000000000000005 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B20000000000000000000004 /* SEPTATracker */ = {
+			isa = PBXGroup;
+			children = (
+				B20000000000000000000100 /* SEPTATrackerApp.swift */,
+				B20000000000000000000010 /* Models */,
+				B20000000000000000000011 /* Services */,
+				B20000000000000000000012 /* Support */,
+				B20000000000000000000013 /* Views */,
+				B20000000000000000000014 /* Assets.xcassets */,
+			);
+			path = SEPTATracker;
+			sourceTree = "<group>";
+		};
+		B20000000000000000000005 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B20000000000000000000006 /* SEPTATracker.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B20000000000000000000010 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B20000000000000000000101 /* TransitMode.swift */,
+				B20000000000000000000102 /* Vehicle.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B20000000000000000000011 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B20000000000000000000103 /* SEPTAClient.swift */,
+				B20000000000000000000104 /* VehicleStore.swift */,
+				B20000000000000000000105 /* LocationService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		B20000000000000000000012 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				B20000000000000000000106 /* JSONValues.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		B20000000000000000000013 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B20000000000000000000107 /* RootView.swift */,
+				B20000000000000000000108 /* VehicleDetailView.swift */,
+				B20000000000000000000109 /* FilterView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B20000000000000000000002 /* SEPTATracker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B2000000000000000000000B /* Build configuration list for PBXNativeTarget "SEPTATracker" */;
+			buildPhases = (
+				B20000000000000000000007 /* Sources */,
+				B20000000000000000000008 /* Frameworks */,
+				B20000000000000000000009 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SEPTATracker;
+			productName = SEPTATracker;
+			productReference = B20000000000000000000006 /* SEPTATracker.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B20000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					B20000000000000000000002 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = B2000000000000000000000A /* Build configuration list for PBXProject "SEPTATracker" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = B20000000000000000000003;
+			productRefGroup = B20000000000000000000005 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B20000000000000000000002 /* SEPTATracker */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B20000000000000000000009 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B20000000000000000000015 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B20000000000000000000007 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B20000000000000000000200 /* SEPTATrackerApp.swift in Sources */,
+				B20000000000000000000201 /* TransitMode.swift in Sources */,
+				B20000000000000000000202 /* Vehicle.swift in Sources */,
+				B20000000000000000000203 /* SEPTAClient.swift in Sources */,
+				B20000000000000000000204 /* VehicleStore.swift in Sources */,
+				B20000000000000000000205 /* LocationService.swift in Sources */,
+				B20000000000000000000206 /* JSONValues.swift in Sources */,
+				B20000000000000000000207 /* RootView.swift in Sources */,
+				B20000000000000000000208 /* VehicleDetailView.swift in Sources */,
+				B20000000000000000000209 /* FilterView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		B2000000000000000000000C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		B2000000000000000000000D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 5.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B2000000000000000000000E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "SEPTA Live";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "SEPTA Live shows your location on the map so you can find vehicles near you.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.SEPTATracker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B2000000000000000000000F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "SEPTA Live";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "SEPTA Live shows your location on the map so you can find vehicles near you.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.SEPTATracker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B2000000000000000000000A /* Build configuration list for PBXProject "SEPTATracker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B2000000000000000000000C /* Debug */,
+				B2000000000000000000000D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B2000000000000000000000B /* Build configuration list for PBXNativeTarget "SEPTATracker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B2000000000000000000000E /* Debug */,
+				B2000000000000000000000F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B20000000000000000000001 /* Project object */;
+}
