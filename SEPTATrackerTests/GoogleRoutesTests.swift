@@ -67,7 +67,7 @@ final class GoogleRoutesTests: XCTestCase {
         let data = try GoogleRoutesClient.requestBody(
             from: GeoPoint(latitude: 39.95, longitude: -75.16),
             to: GeoPoint(latitude: 40.0, longitude: -75.2),
-            departure: Date(timeIntervalSince1970: 1_794_093_540),
+            time: Date(timeIntervalSince1970: 1_794_093_540),
             preference: .lessWalking
         )
         let body = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
@@ -81,9 +81,15 @@ final class GoogleRoutesTests: XCTestCase {
 
         let fastest = try JSONSerialization.jsonObject(with: GoogleRoutesClient.requestBody(
             from: GeoPoint(latitude: 0, longitude: 0), to: GeoPoint(latitude: 0, longitude: 0),
-            departure: nil, preference: .fastest)) as? [String: Any]
+            time: nil, preference: .fastest)) as? [String: Any]
         XCTAssertNil(fastest?["transitPreferences"])
         XCTAssertNil(fastest?["departureTime"])
+
+        let arrive = try JSONSerialization.jsonObject(with: GoogleRoutesClient.requestBody(
+            from: GeoPoint(latitude: 0, longitude: 0), to: GeoPoint(latitude: 0, longitude: 0),
+            time: Date(timeIntervalSince1970: 1_794_093_540), arriveBy: true, preference: .fastest)) as? [String: Any]
+        XCTAssertEqual(arrive?["arrivalTime"] as? String, "2026-11-07T23:19:00Z")
+        XCTAssertNil(arrive?["departureTime"], "transit accepts one or the other")
     }
 
     func testFieldMaskHasNoPolylines() {

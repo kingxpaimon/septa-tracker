@@ -9,10 +9,15 @@ An iOS app that shows where SEPTA buses, trolleys and Regional Rail trains are r
 - **Filters.** Turn modes on or off, and narrow the map to specific routes or lines. Routes are searchable.
 - **Your location.** The app asks for "when in use" location so the map can show where you are, with a button to center on it.
 - **Two SEPTA feeds, merged.** Vehicle positions come from SEPTA's JSON feeds (TransitView/TrainView) and its GTFS-realtime feed. For each vehicle the app uses the newest report, picks the right trip when TransitView lists a vehicle twice, and adds in-service buses that only GTFS-realtime reports. Positions are never averaged. See "Position accuracy" below.
-- **Directions, planned on the phone.** Search for a destination (Apple's place search). The app plans transit routes itself from SEPTA's published schedule (bus, trolley, subway, Regional Rail) and adjusts them with SEPTA's live predictions: delayed and early trips, canceled trips, skipped stops. Each option lists lines, times, walking and transfers. Each ride knows the exact SEPTA trip, so the app can point out *your* bus or train on the live map, or the line's vehicles. Free, no key, no server. "Open in Google Maps" hands the trip to Google Maps. Two other planners are one tap away: **Transitous** (free, no key: street-level walking and SEPTA service alerts, but no live train data) and Google's Routes API (needs a key).
+- **Directions.** Search for a destination (Apple's place search) or pick a saved place. Choose **Leave now**, **Leave at** a time, or **Arrive by** a time; arrive-by results list the latest departure first. Each option lists lines, times, walking, transfers and live status, and the app can point out *your* bus or train on the live map. Three planners, switchable per search:
+  - **Transitous** (default): free community service. Answers in about a second, routes walking along real streets, and includes SEPTA service alerts. Has live bus and trolley data but no live train data.
+  - **SEPTA, on the phone:** plans from SEPTA's own schedule with SEPTA's live feed, including train delays. Free and needs no outside service, but the first search downloads and compiles the schedule (about 27 MB, several seconds).
+  - **Google** (optional): needs your own API key.
+- **Saved places.** Set Home and Work, and star any other place. Saved places show up as one-tap destinations and as starting points ("From: Work"). Long-press or swipe to change or remove them. Stored on the device only.
+- "Open in Google Maps" hands the trip to Google Maps. Its URL can't carry a time, so Google Maps plans for "now".
 - **Partial failures.** Bus/trolley data and train data come from separate feeds. If one fails, the other keeps working, and the failing feed shows its last good data plus a warning. If only the GTFS-realtime half of a pair fails, the JSON feed is used alone, and vice versa for buses.
 
-There's no backend and nothing needs a key unless you turn on the optional Google planner. The first directions search downloads SEPTA's schedule (about 27 MB) and compiles it on the phone (a few seconds). After that it's cached and refreshed weekly.
+There's no backend and nothing needs a key unless you turn on the optional Google planner. If you use the SEPTA planner, its first search downloads SEPTA's schedule (about 27 MB) and compiles it on the phone. After that it's cached and refreshed weekly.
 
 ## Requirements
 
@@ -125,7 +130,7 @@ So the freshness gain for buses is small. The real wins are coverage, choosing t
 ## Known gaps and risks
 
 - **Built and tested in Xcode, but not yet used.** On 2026-11-08 the project built with `xcodebuild` for the iOS Simulator (`generic/platform=iOS Simulator`), and `xcodebuild test` passed on an iOS 27.2 "iPhone Duo" simulator. Nobody has opened the app and used it yet: the map, location permission, directions screen and first-run schedule download are unchecked in practice, and it hasn't run on a physical iPhone.
-- **What was verified, and how.** SEPTA's JSON feeds and GTFS-realtime feeds were captured live on 2026-11-07, and SEPTA's GTFS schedule (v202611010) was downloaded the same evening. Trimmed copies of the live responses are in `SEPTATrackerTests/Fixtures/`; entries were dropped, nothing edited. `MiniSEPTA.zip` and `MiniTripUpdates-*.pb` are hand-made. All non-UI code (the planner, zip reader, parsers, merger, Google client) was compiled with Swift 6.0.3 on Linux, using stub `CoreLocation`/`SwiftUI` modules. All 53 tests passed there. Disabling live delays or cancellations in the router makes tests fail, so they do check those paths. The planner also ran end to end against the real schedule and live feeds (see "On-device planner"). The tests also pass in Xcode (see above).
+- **What was verified, and how.** SEPTA's JSON feeds and GTFS-realtime feeds were captured live on 2026-11-07, and SEPTA's GTFS schedule (v202611010) was downloaded the same evening. Trimmed copies of the live responses are in `SEPTATrackerTests/Fixtures/`; entries were dropped, nothing edited. `MiniSEPTA.zip` and `MiniTripUpdates-*.pb` are hand-made. All non-UI code (the planner, zip reader, parsers, merger, Google client) was compiled with Swift 6.0.3 on Linux, using stub `CoreLocation`/`SwiftUI` modules. All 59 tests passed there. Disabling live delays or cancellations in the router makes tests fail, so they do check those paths. The planner also ran end to end against the real schedule and live feeds (see "On-device planner"). The tests also pass in Xcode (see above).
 - **The optional Google planner has never made a real request.** No API key was available. `GoogleRoutes-Synthetic.json` was written by hand from Google's documentation, and how Google names SEPTA lines is a guess.
 - **Live-vehicle matching.** For SEPTA-planned rides, *your* bus is found by trip ID (TransitView's `trip` equals the schedule's `trip_id`) and your train by train number. It's shown only when that vehicle is currently reporting. Otherwise the app falls back to the line's closest vehicle by straight-line distance, which ignores direction.
 - **The planner hasn't been checked against reality.** Its routes match an independent planner on one sample trip and look plausible on others, but nobody has ridden them. Known simplifications:
@@ -137,7 +142,8 @@ So the freshness gain for buses is small. The real wins are coverage, choosing t
   - One live train carried a weekday trip ID on a Saturday. Predictions for trips the schedule doesn't run that day are ignored.
 - **First directions search needs a download.** About 27 MB, on any network (there's no Wi-Fi-only setting), then a few seconds of compiling. Peak memory while compiling is roughly 300 MB (estimated, not measured on a phone), which could be a problem on older iPhones.
 - **The schedule URL is SEPTA's GitHub "latest release".** If SEPTA renames the asset or stops publishing there, refreshes fail and the app keeps using its last copy until the calendars run out.
-- **Directions always start from your current location.** There's no way to pick a different starting point, and no departure-time picker. The router already accepts any departure time.
+- **Arrive-by on the SEPTA planner is a binary search over departure times**, about 8–12 forward searches (0.16–0.27 s on Linux for real trips). It returns the latest departure that makes it plus up to two earlier ones. It looks back 2 hours, then 4 hours. Longer trips report "no routes".
+- **Picking a future time with live data:** live predictions are applied to future searches too, but they only affect trips currently in SEPTA's feed. A trip hours away is effectively schedule-only.
 - **Field names now match a live response, but there's still no spec.** TransitViewAll returns `{"routes":[{"<route>":[…]}]}`. TrainView returns a bare array. Field names and types are documented in `SEPTAClient.swift`. A single weekend-evening capture won't show every variant (for example, null coordinates, or a train with no next stop), so parsing stays lenient.
 - **`Offset_sec` was misread before.** It is the schedule deviation in seconds (`Offset_sec / 60 ≈ late`), not how old the GPS report is. Report age now comes from TransitView's `timestamp` field (Unix seconds). TrainView has no timestamp, so trains show no report age.
 - **TransitView lists some vehicles twice.** The duplicates have the same vehicle number and position but different trip IDs (10 of 433 entries in one capture, 6 of 399 in another). GTFS-realtime's `trip_id` says which trip is active, and that's used when available. It was always the entry with non-zero lateness; the `late: 0` entry is the next trip. When GTFS-realtime is unavailable, the app falls back to preferring the late entry. (The previous "keep the first entry" rule was wrong in every observed case.)
@@ -167,7 +173,8 @@ SEPTATrackerTests/
   SEPTAClientParsingTests.swift  Parser tests (run with ⌘U)
   VehicleMergerTests.swift   GTFS-realtime decoding and merging
   GoogleRoutesTests.swift    Routes request/parse, live line matching
-  PlannerTests.swift         Zip, timetable compile, RAPTOR, live delays, exact-vehicle matching
+  PlannerTests.swift         Zip, timetable compile, RAPTOR (leave at / arrive by), live delays, exact-vehicle matching
+  SavedPlacesTests.swift     Home/Work/starred storage
   TransitousTests.swift      Transitous request/parse (real response fixture)
   Fixtures/                  Trimmed live SEPTA responses; MiniSEPTA.zip, MiniTripUpdates-*.pb and
                              GoogleRoutes-Synthetic.json are hand-made
@@ -177,15 +184,14 @@ Config/
 
 ## Next steps
 
-1. Run the app (⌘R): check the live map, location permission, and a directions search with each planner.
-2. Try directions on a real phone: first-run download time, memory while compiling, and whether the suggested routes make sense.
-3. Add a departure-time picker and a custom starting point (the router already supports any time).
-4. Draw the chosen SEPTA route on the live map (allowed for SEPTA data, unlike Google's).
-5. Use street-network walking times (e.g. MapKit walking ETAs for the first and last legs).
-6. Show service alerts (GTFS-realtime Alerts).
-7. Save favorite routes and use them as the default filter.
-8. If keeping Google: capture a real Routes API response and check the current Google terms.
-9. Merge this branch into the default branch so the public repo shows the app, and consider linking Transitous's donation page.
+1. Run the app (⌘R): check the live map, saved places, leave-at/arrive-by, and a search with each planner.
+2. Try directions on a real phone: whether the suggested routes make sense, and the SEPTA planner's first-run download time and memory use.
+3. Draw the chosen route on the live map (allowed for SEPTA and Transitous data, not Google's).
+4. Use street-network walking times in the SEPTA planner (e.g. MapKit walking ETAs for the first and last legs).
+5. Show SEPTA service alerts outside Transitous results (GTFS-realtime Alerts).
+6. Save favorite routes and use them as the default map filter.
+7. If keeping Google: capture a real Routes API response and check the current Google terms.
+8. Consider linking Transitous's donation page.
 
 ## License
 

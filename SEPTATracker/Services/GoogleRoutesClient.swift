@@ -78,7 +78,8 @@ struct GoogleRoutesClient {
     func transitRoutes(
         from origin: GeoPoint,
         to destination: GeoPoint,
-        departure: Date? = nil,
+        time: Date? = nil,
+        arriveBy: Bool = false,
         preference: Preference = .fastest
     ) async throws -> [TransitRoute] {
         var request = URLRequest(url: Self.endpoint)
@@ -89,7 +90,7 @@ struct GoogleRoutesClient {
         request.setValue(Self.fieldMask, forHTTPHeaderField: "X-Goog-FieldMask")
         // Needed when the key is restricted to iOS apps.
         if let bundleIdentifier { request.setValue(bundleIdentifier, forHTTPHeaderField: "X-Ios-Bundle-Identifier") }
-        request.httpBody = try Self.requestBody(from: origin, to: destination, departure: departure, preference: preference)
+        request.httpBody = try Self.requestBody(from: origin, to: destination, time: time, arriveBy: arriveBy, preference: preference)
 
         let (data, response) = try await session.data(for: request)
         if let http = response as? HTTPURLResponse, !(200..<300).contains(http.statusCode) {
@@ -100,7 +101,8 @@ struct GoogleRoutesClient {
 
     // MARK: - Request
 
-    static func requestBody(from origin: GeoPoint, to destination: GeoPoint, departure: Date?, preference: Preference) throws -> Data {
+    static func requestBody(from origin: GeoPoint, to destination: GeoPoint, time: Date?, arriveBy: Bool = false,
+                            preference: Preference) throws -> Data {
         func waypoint(_ p: GeoPoint) -> [String: Any] {
             ["location": ["latLng": ["latitude": p.latitude, "longitude": p.longitude]]]
         }
@@ -112,10 +114,11 @@ struct GoogleRoutesClient {
             "languageCode": "en-US",
             "units": "IMPERIAL",
         ]
-        if let departure {
+        if let time {
             let formatter = ISO8601DateFormatter()
             formatter.formatOptions = [.withInternetDateTime]
-            body["departureTime"] = formatter.string(from: departure)
+            // Transit routes accept either departureTime or arrivalTime, not both.
+            body[arriveBy ? "arrivalTime" : "departureTime"] = formatter.string(from: time)
         }
         if let value = preference.apiValue {
             body["transitPreferences"] = ["routingPreference": value]

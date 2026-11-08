@@ -1,7 +1,7 @@
 import Foundation
 
 /// A latitude/longitude pair without CoreLocation, so routing code stays testable off-device.
-struct GeoPoint: Hashable {
+struct GeoPoint: Hashable, Codable {
     var latitude: Double
     var longitude: Double
 

@@ -26,8 +26,10 @@ struct TransitousClient {
 
     var session: URLSession = .shared
 
-    func transitRoutes(from origin: GeoPoint, to destination: GeoPoint, departure: Date? = nil) async throws -> [TransitRoute] {
-        var request = URLRequest(url: Self.url(from: origin, to: destination, departure: departure))
+    /// - Parameters:
+    ///   - time: departure time, or the arrival deadline when `arriveBy` is true. Nil = now.
+    func transitRoutes(from origin: GeoPoint, to destination: GeoPoint, time: Date? = nil, arriveBy: Bool = false) async throws -> [TransitRoute] {
+        var request = URLRequest(url: Self.url(from: origin, to: destination, time: time, arriveBy: arriveBy))
         request.timeoutInterval = 20
         request.setValue(Self.userAgent, forHTTPHeaderField: "User-Agent")
         let (data, response) = try await session.data(for: request)
@@ -37,17 +39,19 @@ struct TransitousClient {
         return try Self.parseRoutes(data)
     }
 
-    static func url(from origin: GeoPoint, to destination: GeoPoint, departure: Date?) -> URL {
+    static func url(from origin: GeoPoint, to destination: GeoPoint, time: Date?, arriveBy: Bool = false) -> URL {
         var c = URLComponents(url: endpoint, resolvingAgainstBaseURL: false)!
         var items = [
             URLQueryItem(name: "fromPlace", value: "\(origin.latitude),\(origin.longitude)"),
             URLQueryItem(name: "toPlace", value: "\(destination.latitude),\(destination.longitude)"),
         ]
-        if let departure {
+        if let time {
             let f = ISO8601DateFormatter()
             f.formatOptions = [.withInternetDateTime]
-            items.append(URLQueryItem(name: "time", value: f.string(from: departure)))
+            items.append(URLQueryItem(name: "time", value: f.string(from: time)))
         }
+        // Checked against the live API: with arriveBy=true every itinerary ends by `time`.
+        if arriveBy { items.append(URLQueryItem(name: "arriveBy", value: "true")) }
         c.queryItems = items
         return c.url!
     }

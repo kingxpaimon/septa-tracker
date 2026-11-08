@@ -71,6 +71,53 @@ struct TripRouter {
         return routes
     }
 
+    /// "Arrive by": the latest-leaving itineraries that still arrive by `deadline`.
+    ///
+    /// Earliest arrival never gets earlier when you leave later, so this binary-searches
+    /// the departure time (forward RAPTOR at each probe) for the latest start that still
+    /// arrives in time. Every in-time itinerary seen along the way is a candidate.
+    func plan(from origin: GeoPoint, to destination: GeoPoint, arriveBy deadline: Date,
+              live: LiveDelays? = nil, options: Options = Options(), count: Int = 4,
+              window: TimeInterval = 2 * 3600, precision: TimeInterval = 60) -> [TransitRoute] {
+        var results: [Journey] = []
+        var seen = Set<[Int32]>()
+        func probe(_ start: Date) -> Bool {
+            let inTime = search(from: origin, to: destination, departAt: start, live: live, options: options)
+                .filter { $0.arrival <= deadline }
+            for j in inTime where seen.insert(j.signature).inserted { results.append(j) }
+            return !inTime.isEmpty
+        }
+
+        // Find a start that works: 2 h before, then 4 h before for long trips.
+        var lo = deadline.addingTimeInterval(-window)
+        if !probe(lo) {
+            lo = deadline.addingTimeInterval(-2 * window)
+            if !probe(lo) { lo = deadline }
+        }
+        var hi = deadline
+        while lo < deadline && hi.timeIntervalSince(lo) > precision {
+            let mid = lo.addingTimeInterval(hi.timeIntervalSince(lo) / 2)
+            if probe(mid) { lo = mid } else { hi = mid }
+        }
+        // A couple of earlier alternatives.
+        for minutes in [15.0, 35.0] where results.count < count && lo < deadline {
+            _ = probe(lo.addingTimeInterval(-minutes * 60))
+        }
+
+        // Latest departure first; among equal departures, fewer rides.
+        results.sort { ($0.leaveTime, -$0.rideCount) > ($1.leaveTime, -$1.rideCount) }
+        var routes = results.prefix(count).enumerated().map { i, j in j.route(id: i) }
+        let straight = origin.distance(to: destination)
+        if straight <= options.walkOnlyMeters {
+            let seconds = Walking.seconds(meters: straight)
+            routes.append(TransitRoute(id: routes.count, duration: seconds, durationText: minutesText(seconds),
+                                       distanceText: nil, fareText: nil,
+                                       segments: [.walk(.init(duration: seconds, distanceMeters: Int(Walking.meters(straightLine: straight))))],
+                                       warnings: []))
+        }
+        return routes
+    }
+
     // MARK: - RAPTOR
 
     private struct Instance: Equatable {
@@ -270,6 +317,11 @@ private struct Journey {
     var arrival: Date { today.start.addingTimeInterval(TimeInterval(arrivalSeconds)) }
     var rideCount: Int { legs.filter { if case .ride = $0 { return true } else { return false } }.count }
     var signature: [Int32] { legs.compactMap { if case .ride(let t, _, _, _, _, _, _) = $0 { return t } else { return nil } } }
+
+    /// When you leave the origin.
+    var leaveTime: Date {
+        firstRideDeparture.map { $0.addingTimeInterval(-accessSeconds) } ?? departAt
+    }
 
     var accessSeconds: TimeInterval {
         if case .walk(_, _, let s)? = legs.first { return TimeInterval(s) }

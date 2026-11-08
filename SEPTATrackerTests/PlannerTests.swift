@@ -144,6 +144,31 @@ final class PlannerTests: XCTestCase {
         XCTAssertGreaterThanOrEqual(firstBus, wednesday.adding(days: 1).start, "no 10X on 11/11; next is Thursday")
     }
 
+    func testArriveByPicksLatestDeparture() throws {
+        let router = TripRouter(timetable: try timetable())
+        // Arrive by 08:55: the 08:10 bus + 08:40 train (arrives 08:50) leaves latest.
+        let late = router.plan(from: A, to: E, arriveBy: at(monday, 8, 55))
+        XCTAssertEqual(late.first?.rides.map(\.tripID), ["B810", "TST103_X"])
+        XCTAssertTrue(late.allSatisfy { ($0.lastArrival ?? .distantPast) <= at(monday, 8, 55) })
+        XCTAssertEqual(late.count, 2, "both in-time itineraries, latest first")
+        XCTAssertEqual(late.last?.rides.first?.tripID, "B800")
+
+        // Arrive by 08:35: only the 08:00 bus + 08:20 train makes it.
+        let early = router.plan(from: A, to: E, arriveBy: at(monday, 8, 35))
+        XCTAssertEqual(early.map { $0.rides.map(\.tripID) }, [["B800", "TST101_X"]])
+
+        // Arrive by 08:25: nothing arrives in time (the first train reaches E at 08:30).
+        XCTAssertTrue(router.plan(from: A, to: E, arriveBy: at(monday, 8, 25)).isEmpty)
+    }
+
+    func testArriveByRespectsLiveDelays() throws {
+        let router = TripRouter(timetable: try timetable())
+        let rail = try GTFSRealtime.parseTripUpdates(fixture("MiniTripUpdates-Rail", "pb"))
+        let live = router.liveDelays(bus: [], rail: rail, now: at(monday, 7, 50))
+        // TST101 is 25 min late, so nothing arrives by 08:35 any more.
+        XCTAssertTrue(router.plan(from: A, to: E, arriveBy: at(monday, 8, 35), live: live).isEmpty)
+    }
+
     // MARK: Live data
 
     func testRailDelayShiftsChoiceToNextTrain() throws {

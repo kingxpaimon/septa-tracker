@@ -52,12 +52,17 @@ final class TransitousTests: XCTestCase {
     func testRequestURLAndUserAgent() {
         let url = TransitousClient.url(from: GeoPoint(latitude: 39.9781, longitude: -75.2468),
                                        to: GeoPoint(latitude: 39.9814, longitude: -75.1495),
-                                       departure: Date(timeIntervalSince1970: 1_794_200_400))
+                                       time: Date(timeIntervalSince1970: 1_794_200_400))
         XCTAssertEqual(url.host, "api.transitous.org")
         XCTAssertEqual(url.path, "/api/v1/plan")
         let query = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems ?? []
         XCTAssertEqual(query.first { $0.name == "fromPlace" }?.value, "39.9781,-75.2468")
         XCTAssertEqual(query.first { $0.name == "time" }?.value, "2026-11-09T05:00:00Z")
+        XCTAssertNil(query.first { $0.name == "arriveBy" })
+        let arriveURL = TransitousClient.url(from: GeoPoint(latitude: 0, longitude: 0), to: GeoPoint(latitude: 0, longitude: 0),
+                                             time: Date(timeIntervalSince1970: 1_794_200_400), arriveBy: true)
+        let arriveQuery = URLComponents(url: arriveURL, resolvingAgainstBaseURL: false)?.queryItems ?? []
+        XCTAssertEqual(arriveQuery.first { $0.name == "arriveBy" }?.value, "true")
         XCTAssertTrue(TransitousClient.userAgent.hasPrefix("SEPTA-Live/"))
         XCTAssertTrue(TransitousClient.userAgent.contains("https://github.com/kingxpaimon/septa-tracker"))
     }

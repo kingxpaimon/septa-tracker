@@ -51,12 +51,16 @@ actor ScheduleStore {
         self.session = session
     }
 
-    func plan(from origin: GeoPoint, to destination: GeoPoint, departAt: Date = Date(),
+    /// - Parameters:
+    ///   - time: departure time, or the arrival deadline when `arriveBy` is true. Nil = now.
+    func plan(from origin: GeoPoint, to destination: GeoPoint, time: Date? = nil, arriveBy: Bool = false,
               progress: @escaping @Sendable (Phase) -> Void = { _ in }) async throws -> PlanResult {
         let router = try await loadRouter(progress: progress)
         progress(.ready)
         let live = await fetchLive(router: router, now: Date())
-        let routes = router.plan(from: origin, to: destination, departAt: departAt, live: live)
+        let routes = arriveBy
+            ? router.plan(from: origin, to: destination, arriveBy: time ?? Date(), live: live)
+            : router.plan(from: origin, to: destination, departAt: time ?? Date(), live: live)
         return PlanResult(routes: routes, feedVersion: router.timetable.feedVersion,
                           liveTrips: live?.matchedTrips, staleScheduleWarning: staleWarning)
     }

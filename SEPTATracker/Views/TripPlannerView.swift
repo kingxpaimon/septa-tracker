@@ -1,7 +1,7 @@
 import SwiftUI
 import MapKit
 
-/// Destination search and transit route recommendations.
+/// Destination search, saved places, departure/arrival time, and route recommendations.
 ///
 /// Presented full screen, never over the live map: Google's terms forbid using Routes API
 /// content with a non-Google map, and the live map is MapKit. Route results are lists only.
@@ -14,19 +14,50 @@ struct TripPlannerView: View {
     @StateObject private var search = PlaceSearch()
     @StateObject private var planner = TripPlanner()
     @State private var resolveError: String?
+    /// Set while the user is searching for a place to save as Home/Work, or to start from.
+    @State private var picking: Picking?
+
+    enum Picking: Equatable {
+        case save(SavedPlaces.Kind)
+        case start
+        var prompt: String {
+            switch self {
+            case .save(.home): return "Search for your home address"
+            case .save(.work): return "Search for your work address"
+            case .save(.starred): return "Search for a place to star"
+            case .start: return "Search for where you're starting from"
+            }
+        }
+    }
 
     var body: some View {
         NavigationStack {
             List {
-                if let destination = planner.destination {
+                if let picking {
+                    Section {
+                        HStack {
+                            Text(picking.prompt).foregroundStyle(.secondary)
+                            Spacer()
+                            Button("Cancel") { self.picking = nil; search.query = "" }.buttonStyle(.borderless)
+                        }
+                    }
+                }
+                if let destination = planner.destination, picking == nil {
                     destinationSection(destination)
+                    timeSection
                     resultsSection
+                } else if search.query.isEmpty {
+                    if let resolveError { errorSection(resolveError) }
+                    if picking == nil { startSection }
+                    savedSection
                 } else {
+                    if let resolveError { errorSection(resolveError) }
                     suggestionsSection
                 }
             }
             .listStyle(.insetGrouped)
-            .searchable(text: $search.query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Where to?")
+            .searchable(text: $search.query, placement: .navigationBarDrawer(displayMode: .always),
+                        prompt: picking?.prompt ?? "Where to?")
             .navigationTitle("Directions")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -37,38 +68,123 @@ struct TripPlannerView: View {
             .navigationDestination(for: TransitRoute.self) { route in
                 RouteDetailView(route: route, source: planner.engine, showOnMap: showOnMap)
             }
-            .onChange(of: planner.preference) {
-                Task { await planner.plan(using: location) }
-            }
-            .onChange(of: planner.engine) {
-                Task { await planner.plan(using: location) }
+            // Re-plan whenever the request changes. The short delay coalesces rapid changes
+            // (e.g. scrolling the time picker) into one request; `.task(id:)` cancels the old one.
+            .task(id: planner.request) {
+                guard planner.destination != nil, picking == nil else { return }
+                try? await Task.sleep(for: .milliseconds(400))
+                guard !Task.isCancelled else { return }
+                await planner.plan(using: location)
             }
         }
     }
 
     // MARK: Sections
 
-    @ViewBuilder
-    private var suggestionsSection: some View {
-        if let resolveError {
-            Section { Label(resolveError, systemImage: "exclamationmark.triangle").foregroundStyle(.orange) }
+    private func errorSection(_ message: String) -> some View {
+        Section { Label(message, systemImage: "exclamationmark.triangle").foregroundStyle(.orange) }
+    }
+
+    private var startSection: some View {
+        Section {
+            startMenu
+        } header: {
+            Text("From")
         }
-        if search.query.isEmpty {
-            Section {
-                Text("Search for an address or place to get transit directions from your current location.")
-                    .foregroundStyle(.secondary)
+    }
+
+    /// "From: Current location ▾" with saved places and "Choose a place…".
+    private var startMenu: some View {
+        Menu {
+            Button { planner.start = nil } label: {
+                Label("Current location", systemImage: "location.fill")
+            }
+            ForEach(planner.saved.all) { entry in
+                Button { planner.start = entry.place } label: {
+                    Label(entry.displayName, systemImage: entry.kind.systemImage)
+                }
+            }
+            Button { picking = .start } label: {
+                Label("Choose a place…", systemImage: "magnifyingglass")
+            }
+        } label: {
+            HStack {
+                Label(startTitle, systemImage: planner.start == nil ? "location.fill" : "mappin")
+                Spacer()
+                Image(systemName: "chevron.up.chevron.down").font(.caption).foregroundStyle(.secondary)
+            }
+        }
+    }
+
+    private var startTitle: String {
+        guard let start = planner.start else { return "Current location" }
+        return planner.saved.entry(at: start)?.displayName ?? start.name
+    }
+
+    private var savedSection: some View {
+        Section {
+            savedRow(.home, planner.saved.home)
+            savedRow(.work, planner.saved.work)
+            ForEach(planner.saved.starred) { entry in
+                Button { go(to: entry.place) } label: {
+                    placeLabel(entry.displayName, subtitle: entry.place.subtitle ?? entry.place.name, icon: "star.fill", tint: .yellow)
+                }
+                .swipeActions {
+                    Button(role: .destructive) { planner.saved.remove(id: entry.id) } label: { Label("Remove", systemImage: "trash") }
+                }
+            }
+            Button { picking = .save(.starred) } label: {
+                Label("Add a place", systemImage: "plus")
+            }
+        } header: {
+            Text("Saved places")
+        } footer: {
+            Text("Saved on this device only.")
+        }
+    }
+
+    @ViewBuilder
+    private func savedRow(_ kind: SavedPlaces.Kind, _ entry: SavedPlaces.Entry?) -> some View {
+        if let entry {
+            Button { go(to: entry.place) } label: {
+                placeLabel(kind.title, subtitle: entry.place.subtitle ?? entry.place.name, icon: kind.systemImage, tint: .blue)
+            }
+            .contextMenu {
+                Button { picking = .save(kind) } label: { Label("Change \(kind.title)", systemImage: "pencil") }
+                Button(role: .destructive) { planner.saved.remove(id: entry.id) } label: { Label("Remove", systemImage: "trash") }
+            }
+            .swipeActions {
+                Button(role: .destructive) { planner.saved.remove(id: entry.id) } label: { Label("Remove", systemImage: "trash") }
+                Button { picking = .save(kind) } label: { Label("Change", systemImage: "pencil") }.tint(.gray)
             }
         } else {
-            Section {
-                ForEach(search.suggestions, id: \.self) { suggestion in
-                    Button {
-                        Task { await choose(suggestion) }
-                    } label: {
-                        VStack(alignment: .leading) {
-                            Text(suggestion.title).foregroundStyle(.primary)
-                            if !suggestion.subtitle.isEmpty {
-                                Text(suggestion.subtitle).font(.caption).foregroundStyle(.secondary)
-                            }
+            Button { picking = .save(kind) } label: {
+                placeLabel("Set \(kind.title)", subtitle: nil, icon: kind.systemImage, tint: .secondary)
+            }
+        }
+    }
+
+    private func placeLabel(_ title: String, subtitle: String?, icon: String, tint: Color) -> some View {
+        Label {
+            VStack(alignment: .leading) {
+                Text(title).foregroundStyle(.primary)
+                if let subtitle { Text(subtitle).font(.caption).foregroundStyle(.secondary).lineLimit(1) }
+            }
+        } icon: {
+            Image(systemName: icon).foregroundStyle(tint)
+        }
+    }
+
+    private var suggestionsSection: some View {
+        Section {
+            ForEach(search.suggestions, id: \.self) { suggestion in
+                Button {
+                    Task { await choose(suggestion) }
+                } label: {
+                    VStack(alignment: .leading) {
+                        Text(suggestion.title).foregroundStyle(.primary)
+                        if !suggestion.subtitle.isEmpty {
+                            Text(suggestion.subtitle).font(.caption).foregroundStyle(.secondary)
                         }
                     }
                 }
@@ -78,14 +194,17 @@ struct TripPlannerView: View {
 
     private func destinationSection(_ destination: Place) -> some View {
         Section {
+            startMenu
             HStack {
+                Image(systemName: "mappin.circle.fill").foregroundStyle(.red)
                 VStack(alignment: .leading) {
-                    Text(destination.name).font(.headline)
+                    Text(planner.saved.entry(at: destination)?.displayName ?? destination.name).font(.headline)
                     if let subtitle = destination.subtitle {
                         Text(subtitle).font(.caption).foregroundStyle(.secondary)
                     }
                 }
                 Spacer()
+                saveMenu(destination)
                 Button("Change") { planner.clear() }
                     .buttonStyle(.borderless)
             }
@@ -107,7 +226,40 @@ struct TripPlannerView: View {
                 }
             }
         } header: {
-            Text("To")
+            Text("Trip")
+        }
+    }
+
+    /// Star toggle plus "Save as Home / Work".
+    private func saveMenu(_ place: Place) -> some View {
+        Menu {
+            if planner.saved.isStarred(place) {
+                Button { planner.saved.unstar(place) } label: { Label("Remove star", systemImage: "star.slash") }
+            } else {
+                Button { planner.saved.save(place, as: .starred) } label: { Label("Star this place", systemImage: "star") }
+            }
+            Button { planner.saved.save(place, as: .home) } label: { Label("Set as Home", systemImage: "house") }
+            Button { planner.saved.save(place, as: .work) } label: { Label("Set as Work", systemImage: "briefcase") }
+        } label: {
+            Image(systemName: planner.saved.entry(at: place) == nil ? "star" : "star.fill")
+                .foregroundStyle(.yellow)
+                .imageScale(.large)
+        }
+        .accessibilityLabel("Save place")
+    }
+
+    private var timeSection: some View {
+        Section {
+            Picker("When", selection: $planner.timeMode) {
+                ForEach(TripPlanner.TimeMode.allCases) { Text($0.title).tag($0) }
+            }
+            .pickerStyle(.segmented)
+            if planner.timeMode != .now {
+                DatePicker(planner.timeMode == .arriveBy ? "Arrive by" : "Leave at",
+                           selection: $planner.time,
+                           in: Date().addingTimeInterval(-6 * 3600)...,
+                           displayedComponents: [.date, .hourAndMinute])
+            }
         }
     }
 
@@ -123,9 +275,12 @@ struct TripPlannerView: View {
                 }
             }
         } else if let message = planner.errorMessage {
-            Section { Label(message, systemImage: "exclamationmark.triangle").foregroundStyle(.orange) }
+            errorSection(message)
         } else if planner.hasResults && planner.routes.isEmpty {
-            Section { Text("No transit routes found.").foregroundStyle(.secondary) }
+            Section {
+                Text(planner.timeMode == .arriveBy ? "No transit routes arrive by then." : "No transit routes found.")
+                    .foregroundStyle(.secondary)
+            }
         } else if !planner.routes.isEmpty {
             Section {
                 ForEach(planner.routes) { route in
@@ -150,12 +305,26 @@ struct TripPlannerView: View {
 
     // MARK: Actions
 
+    private func go(to place: Place) {
+        resolveError = nil
+        planner.destination = place   // the .task(id:) above plans it
+    }
+
     private func choose(_ suggestion: MKLocalSearchCompletion) async {
         resolveError = nil
         do {
-            planner.destination = try await search.resolve(suggestion)
+            let place = try await search.resolve(suggestion)
             search.query = ""
-            await planner.plan(using: location)
+            switch picking {
+            case .save(let kind):
+                planner.saved.save(place, as: kind)
+                picking = nil
+            case .start:
+                planner.start = place
+                picking = nil
+            case nil:
+                go(to: place)
+            }
         } catch {
             resolveError = error.localizedDescription
         }
