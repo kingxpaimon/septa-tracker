@@ -1,0 +1,8 @@
+// Base build settings for the SEPTATracker app target.
+//
+// The Google Maps API key comes from Config/Secrets.xcconfig, which is gitignored.
+// Copy Config/Secrets.example.xcconfig to Config/Secrets.xcconfig and fill it in.
+// Without it the app builds and runs; directions fall back to opening Google Maps.
+
+GOOGLE_MAPS_API_KEY =
+#include? "Secrets.xcconfig"

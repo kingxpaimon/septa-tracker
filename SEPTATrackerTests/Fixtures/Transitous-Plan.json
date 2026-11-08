@@ -1,0 +1,2329 @@
+{
+ "requestParameters": {},
+ "from": {
+  "name": "START",
+  "lat": 39.9781,
+  "lon": -75.2468,
+  "level": 0.0,
+  "vertexType": "NORMAL"
+ },
+ "to": {
+  "name": "END",
+  "lat": 39.9814,
+  "lon": -75.1495,
+  "level": 0.0,
+  "vertexType": "NORMAL"
+ },
+ "direct": [],
+ "nextPageCursor": "LATER|1794102720",
+ "previousPageCursor": "EARLIER|1794100020",
+ "itineraries": [
+  {
+   "duration": 2580,
+   "startTime": "2026-11-08T01:10:00Z",
+   "endTime": "2026-11-08T01:53:00Z",
+   "transfers": 1,
+   "id": "Ck8h2ht8YTL9Q0Apxyk6ksvPUsAyFXVzLXBhLVNFUFRBLUJ1c18yMDYxMjlUBaOSOv1DQEED8bp+wc9SwEjol7/XBlDgmL/XBloEV0FMS2ABCo8BCgJUMRIlMjAyNjExMDdfMjA6MDhfdXMtcGEtU0VQVEEtQnVzXzk2ODY5ORoVdXMtcGEtU0VQVEEtQnVzXzIwNjEyIVQFo5I6/UNAKQPxun7Bz1LAMhN1cy1wYS1TRVBUQS1CdXNfMjgzOf4pVaLs+UNAQdHoDmJnylLASOiXv9cGUKSnv9cGWgRUUkFNYAEKZRoTdXMtcGEtU0VQVEEtQnVzXzI4MyH+KVWi7PlDQCnR6A5iZ8pSwDIWdXMtcGEtU0VQVEEtUmFpbF85MDAwNjlSuB6F6/lDQEGRs7CnHcpSwEikp7/XBlCUqb/XBloEV0FMS2ABCrIBCgNMQU4SOjIwMjYxMTA3XzIwOjQyX3VzLXBhLVNFUFRBLVJhaWxfTEFOMzU2Ml8yMDI2MTAxOF9TSUQxODk4MDAaFnVzLXBhLVNFUFRBLVJhaWxfOTAwMDYhUrgehev5Q0ApkbOwpx3KUsAyFnVzLXBhLVNFUFRBLVJhaWxfOTAwMDc5i08BMJ79Q0BBti3KbJDJUsBIlKm/1wZQwKu/1wZaDVJFR0lPTkFMX1JBSUxgAQpQGhZ1cy1wYS1TRVBUQS1SYWlsXzkwMDA3IYtPATCe/UNAKbYtymyQyVLAOa8l5IOe/UNAQSGwcmiRyVLASMCrv9cGUPyrv9cGWgRXQUxLYAE=",
+   "legs": [
+    {
+     "mode": "WALK",
+     "from": {
+      "name": "START",
+      "lat": 39.9781,
+      "lon": -75.2468,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "departure": "2026-11-08T01:10:00Z",
+      "scheduledDeparture": "2026-11-08T01:10:00Z",
+      "vertexType": "NORMAL"
+     },
+     "to": {
+      "name": "63rd St & Jefferson St",
+      "stopId": "us-pa-SEPTA-Bus_20612",
+      "importance": 8.026272553252056e-06,
+      "lat": 39.978350000000006,
+      "lon": -75.24618500000001,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "arrival": "2026-11-08T01:12:00Z",
+      "scheduledArrival": "2026-11-08T01:12:00Z",
+      "stopCode": "20612",
+      "vertexType": "TRANSIT",
+      "modes": [
+       "TRAM"
+      ]
+     },
+     "duration": 120,
+     "startTime": "2026-11-08T01:10:00Z",
+     "endTime": "2026-11-08T01:12:00Z",
+     "scheduledStartTime": "2026-11-08T01:10:00Z",
+     "scheduledEndTime": "2026-11-08T01:12:00Z",
+     "realTime": false,
+     "scheduled": false,
+     "distance": 56.0,
+     "legGeometry": {
+      "points": "eqwoyV`o_fzk@ol@otK",
+      "precision": 7,
+      "length": 2
+     }
+    },
+    {
+     "mode": "TRAM",
+     "from": {
+      "name": "63rd St & Jefferson St",
+      "stopId": "us-pa-SEPTA-Bus_20612",
+      "importance": 8.026272553252056e-06,
+      "lat": 39.978350000000006,
+      "lon": -75.24618500000001,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "departure": "2026-11-08T01:12:00Z",
+      "scheduledDeparture": "2026-11-08T01:10:00Z",
+      "stopCode": "20612",
+      "vertexType": "TRANSIT",
+      "pickupType": "NORMAL",
+      "dropoffType": "NORMAL",
+      "cancelled": false,
+      "arrivalTimestampReason": "PREDICTED",
+      "departureTimestampReason": "PROPAGATED",
+      "modes": [
+       "TRAM"
+      ]
+     },
+     "to": {
+      "name": "13th St",
+      "stopId": "us-pa-SEPTA-Bus_283",
+      "importance": 0.0019424051279202104,
+      "lat": 39.952534,
+      "lon": -75.16256,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "arrival": "2026-11-08T01:43:00Z",
+      "scheduledArrival": "2026-11-08T01:43:00Z",
+      "stopCode": "283",
+      "vertexType": "TRANSIT",
+      "pickupType": "NORMAL",
+      "dropoffType": "NORMAL",
+      "cancelled": false,
+      "arrivalTimestampReason": "PREDICTED",
+      "departureTimestampReason": "PREDICTED",
+      "modes": [
+       "SUBWAY",
+       "TRAM"
+      ]
+     },
+     "duration": 1860,
+     "startTime": "2026-11-08T01:12:00Z",
+     "endTime": "2026-11-08T01:43:00Z",
+     "scheduledStartTime": "2026-11-08T01:10:00Z",
+     "scheduledEndTime": "2026-11-08T01:43:00Z",
+     "realTime": true,
+     "scheduled": true,
+     "interlineWithPreviousLeg": false,
+     "headsign": "13th St",
+     "tripFrom": {
+      "name": "63rd-Malvern",
+      "stopId": "us-pa-SEPTA-Bus_31294",
+      "importance": 5.2341160881042015e-06,
+      "lat": 39.983836999999994,
+      "lon": -75.24596000000001,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "departure": "2026-11-08T01:08:00Z",
+      "scheduledDeparture": "2026-11-08T01:08:00Z",
+      "stopCode": "31294",
+      "vertexType": "TRANSIT",
+      "pickupType": "NORMAL",
+      "dropoffType": "NORMAL",
+      "cancelled": false,
+      "arrivalTimestampReason": "NO_RT_DATA",
+      "departureTimestampReason": "PREDICTED",
+      "modes": [
+       "TRAM",
+       "BUS"
+      ]
+     },
+     "tripTo": {
+      "name": "13th St",
+      "stopId": "us-pa-SEPTA-Bus_283",
+      "importance": 0.0019424051279202104,
+      "lat": 39.952534,
+      "lon": -75.16256,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "arrival": "2026-11-08T01:43:00Z",
+      "scheduledArrival": "2026-11-08T01:43:00Z",
+      "stopCode": "283",
+      "vertexType": "TRANSIT",
+      "pickupType": "NORMAL",
+      "dropoffType": "NORMAL",
+      "cancelled": false,
+      "arrivalTimestampReason": "PREDICTED",
+      "departureTimestampReason": "PREDICTED",
+      "modes": [
+       "SUBWAY",
+       "TRAM"
+      ]
+     },
+     "routeId": "us-pa-SEPTA-Bus_T1",
+     "routeUrl": "https://www.septa.org/schedules/T1",
+     "directionId": "0",
+     "routeColor": "5a960a",
+     "routeTextColor": "ffffff",
+     "routeType": 0,
+     "agencyName": "SEPTA",
+     "agencyUrl": "https://septa.org/",
+     "agencyFareUrl": "https://www.septa.org/fares/",
+     "agencyId": "1",
+     "tripId": "20261107_20:08_us-pa-SEPTA-Bus_968699",
+     "routeShortName": "T1",
+     "routeLongName": "13th St to 63rd-Malvern/Overbrook",
+     "tripShortName": "",
+     "displayName": "T1",
+     "cancelled": false,
+     "source": "us-pa_SEPTA-Bus.gtfs.zip/stop_times.txt:22516:22553",
+     "intermediateStops": [
+      {
+       "name": "Lansdowne Av & 63rd - FS",
+       "stopId": "us-pa-SEPTA-Bus_20613",
+       "importance": 1.2718778634734917e-05,
+       "lat": 39.97533000000001,
+       "lon": -75.24499000000002,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:13:00Z",
+       "departure": "2026-11-08T01:13:00Z",
+       "scheduledArrival": "2026-11-08T01:12:00Z",
+       "scheduledDeparture": "2026-11-08T01:12:00Z",
+       "stopCode": "20613",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM",
+        "BUS"
+       ]
+      },
+      {
+       "name": "Lansdowne Av & 62nd St",
+       "stopId": "us-pa-SEPTA-Bus_20614",
+       "importance": 8.026272553252056e-06,
+       "lat": 39.975500000000004,
+       "lon": -75.24365000000002,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:14:00Z",
+       "departure": "2026-11-08T01:14:00Z",
+       "scheduledArrival": "2026-11-08T01:12:00Z",
+       "scheduledDeparture": "2026-11-08T01:12:00Z",
+       "stopCode": "20614",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM"
+       ]
+      },
+      {
+       "name": "Lansdowne Av & 61st St",
+       "stopId": "us-pa-SEPTA-Bus_20615",
+       "importance": 8.026272553252056e-06,
+       "lat": 39.975693,
+       "lon": -75.24188000000001,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:14:00Z",
+       "departure": "2026-11-08T01:14:00Z",
+       "scheduledArrival": "2026-11-08T01:13:00Z",
+       "scheduledDeparture": "2026-11-08T01:13:00Z",
+       "stopCode": "20615",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM"
+       ]
+      },
+      {
+       "name": "Lansdowne Av & 60th St",
+       "stopId": "us-pa-SEPTA-Bus_15271",
+       "importance": 1.0468232176208403e-05,
+       "lat": 39.97585,
+       "lon": -75.24038,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:14:00Z",
+       "departure": "2026-11-08T01:14:00Z",
+       "scheduledArrival": "2026-11-08T01:14:00Z",
+       "scheduledDeparture": "2026-11-08T01:14:00Z",
+       "stopCode": "15271",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM",
+        "BUS"
+       ]
+      },
+      {
+       "name": "Lansdowne Av & 59th St",
+       "stopId": "us-pa-SEPTA-Bus_20616",
+       "importance": 8.026272553252056e-06,
+       "lat": 39.976055,
+       "lon": -75.23865500000001,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:15:00Z",
+       "departure": "2026-11-08T01:15:00Z",
+       "scheduledArrival": "2026-11-08T01:14:00Z",
+       "scheduledDeparture": "2026-11-08T01:14:00Z",
+       "stopCode": "20616",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM"
+       ]
+      },
+      {
+       "name": "Lansdowne Av & 58th St",
+       "stopId": "us-pa-SEPTA-Bus_20617",
+       "importance": 8.026272553252056e-06,
+       "lat": 39.97625,
+       "lon": -75.2369,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:16:00Z",
+       "departure": "2026-11-08T01:16:00Z",
+       "scheduledArrival": "2026-11-08T01:15:00Z",
+       "scheduledDeparture": "2026-11-08T01:15:00Z",
+       "stopCode": "20617",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM"
+       ]
+      },
+      {
+       "name": "Lansdowne Av & 57th St",
+       "stopId": "us-pa-SEPTA-Bus_20618",
+       "importance": 1.3472827959049027e-05,
+       "lat": 39.976406,
+       "lon": -75.235405,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:16:00Z",
+       "departure": "2026-11-08T01:16:00Z",
+       "scheduledArrival": "2026-11-08T01:15:00Z",
+       "scheduledDeparture": "2026-11-08T01:15:00Z",
+       "stopCode": "20618",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM",
+        "BUS"
+       ]
+      },
+      {
+       "name": "Lansdowne Av & 56th St",
+       "stopId": "us-pa-SEPTA-Bus_20619",
+       "importance": 1.3781697816739324e-05,
+       "lat": 39.97659,
+       "lon": -75.233765,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:17:00Z",
+       "departure": "2026-11-08T01:17:00Z",
+       "scheduledArrival": "2026-11-08T01:16:00Z",
+       "scheduledDeparture": "2026-11-08T01:16:00Z",
+       "stopCode": "20619",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM",
+        "BUS"
+       ]
+      },
+      {
+       "name": "Lansdowne Av & 55th St",
+       "stopId": "us-pa-SEPTA-Bus_20622",
+       "importance": 8.026272553252056e-06,
+       "lat": 39.97681,
+       "lon": -75.23186000000001,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:18:00Z",
+       "departure": "2026-11-08T01:18:00Z",
+       "scheduledArrival": "2026-11-08T01:16:00Z",
+       "scheduledDeparture": "2026-11-08T01:16:00Z",
+       "stopCode": "20622",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM"
+       ]
+      },
+      {
+       "name": "Lansdowne Av & 54th St",
+       "stopId": "us-pa-SEPTA-Bus_20623",
+       "importance": 8.026272553252056e-06,
+       "lat": 39.977013,
+       "lon": -75.22991,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:18:00Z",
+       "departure": "2026-11-08T01:18:00Z",
+       "scheduledArrival": "2026-11-08T01:17:00Z",
+       "scheduledDeparture": "2026-11-08T01:17:00Z",
+       "stopCode": "20623",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM"
+       ]
+      },
+      {
+       "name": "Lansdowne Av & Lancaster Av",
+       "stopId": "us-pa-SEPTA-Bus_20624",
+       "importance": 8.026272553252056e-06,
+       "lat": 39.977295,
+       "lon": -75.22745,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:19:00Z",
+       "departure": "2026-11-08T01:19:00Z",
+       "scheduledArrival": "2026-11-08T01:18:00Z",
+       "scheduledDeparture": "2026-11-08T01:18:00Z",
+       "stopCode": "20624",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM"
+       ]
+      },
+      {
+       "name": "Lancaster Av & Bible Way",
+       "stopId": "us-pa-SEPTA-Bus_20625",
+       "importance": 4.013136276626028e-06,
+       "lat": 39.976856,
+       "lon": -75.22617,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:20:00Z",
+       "departure": "2026-11-08T01:20:00Z",
+       "scheduledArrival": "2026-11-08T01:18:00Z",
+       "scheduledDeparture": "2026-11-08T01:18:00Z",
+       "stopCode": "20625",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM"
+       ]
+      },
+      {
+       "name": "Lancaster Av & 50th St",
+       "stopId": "us-pa-SEPTA-Bus_20626",
+       "importance": 8.026272553252056e-06,
+       "lat": 39.975210000000004,
+       "lon": -75.22259,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:21:00Z",
+       "departure": "2026-11-08T01:21:00Z",
+       "scheduledArrival": "2026-11-08T01:20:00Z",
+       "scheduledDeparture": "2026-11-08T01:20:00Z",
+       "stopCode": "20626",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM"
+       ]
+      },
+      {
+       "name": "Lancaster Av & Thompson St",
+       "stopId": "us-pa-SEPTA-Bus_20627",
+       "importance": 8.026272553252056e-06,
+       "lat": 39.973746999999996,
+       "lon": -75.21975,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:21:00Z",
+       "departure": "2026-11-08T01:21:00Z",
+       "scheduledArrival": "2026-11-08T01:21:00Z",
+       "scheduledDeparture": "2026-11-08T01:21:00Z",
+       "stopCode": "20627",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM"
+       ]
+      },
+      {
+       "name": "Lancaster Av & Girard Av",
+       "stopId": "us-pa-SEPTA-Bus_277",
+       "importance": 1.546308158140164e-05,
+       "lat": 39.97306,
+       "lon": -75.21861000000001,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:22:00Z",
+       "departure": "2026-11-08T01:22:00Z",
+       "scheduledArrival": "2026-11-08T01:22:00Z",
+       "scheduledDeparture": "2026-11-08T01:22:00Z",
+       "stopCode": "277",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PREDICTED",
+       "modes": [
+        "TRAM"
+       ]
+      },
+      {
+       "name": "Lancaster Av & 47th St",
+       "stopId": "us-pa-SEPTA-Bus_20628",
+       "importance": 8.026272553252056e-06,
+       "lat": 39.971554,
+       "lon": -75.21612000000002,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:23:00Z",
+       "departure": "2026-11-08T01:23:00Z",
+       "scheduledArrival": "2026-11-08T01:22:00Z",
+       "scheduledDeparture": "2026-11-08T01:22:00Z",
+       "stopCode": "20628",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM"
+       ]
+      },
+      {
+       "name": "Lancaster Av & 45th St",
+       "stopId": "us-pa-SEPTA-Bus_20630",
+       "importance": 2.163976023439318e-05,
+       "lat": 39.969666,
+       "lon": -75.21299,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:24:00Z",
+       "departure": "2026-11-08T01:24:00Z",
+       "scheduledArrival": "2026-11-08T01:24:00Z",
+       "scheduledDeparture": "2026-11-08T01:24:00Z",
+       "stopCode": "20630",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM",
+        "BUS"
+       ]
+      },
+      {
+       "name": "Lancaster Av & 44th St",
+       "stopId": "us-pa-SEPTA-Bus_20631",
+       "importance": 2.163976023439318e-05,
+       "lat": 39.968773000000006,
+       "lon": -75.21154000000001,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:25:00Z",
+       "departure": "2026-11-08T01:25:00Z",
+       "scheduledArrival": "2026-11-08T01:24:00Z",
+       "scheduledDeparture": "2026-11-08T01:24:00Z",
+       "stopCode": "20631",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM",
+        "BUS"
+       ]
+      },
+      {
+       "name": "Lancaster Av & 43rd St",
+       "stopId": "us-pa-SEPTA-Bus_20632",
+       "importance": 1.229390090884408e-05,
+       "lat": 39.967724,
+       "lon": -75.20988,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:26:00Z",
+       "departure": "2026-11-08T01:26:00Z",
+       "scheduledArrival": "2026-11-08T01:25:00Z",
+       "scheduledDeparture": "2026-11-08T01:25:00Z",
+       "stopCode": "20632",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM",
+        "BUS"
+       ]
+      },
+      {
+       "name": "Lancaster Av & 42nd St",
+       "stopId": "us-pa-SEPTA-Bus_20633",
+       "importance": 1.229390090884408e-05,
+       "lat": 39.966393000000004,
+       "lon": -75.20766400000002,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:26:00Z",
+       "departure": "2026-11-08T01:26:00Z",
+       "scheduledArrival": "2026-11-08T01:26:00Z",
+       "scheduledDeparture": "2026-11-08T01:26:00Z",
+       "stopCode": "20633",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM",
+        "BUS"
+       ]
+      },
+      {
+       "name": "Lancaster Av & 41st St",
+       "stopId": "us-pa-SEPTA-Bus_20634",
+       "importance": 1.937326305778697e-05,
+       "lat": 39.965090000000004,
+       "lon": -75.20557,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:27:00Z",
+       "departure": "2026-11-08T01:27:00Z",
+       "scheduledArrival": "2026-11-08T01:26:00Z",
+       "scheduledDeparture": "2026-11-08T01:26:00Z",
+       "stopCode": "20634",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM",
+        "BUS"
+       ]
+      },
+      {
+       "name": "Lancaster Av & 40th St",
+       "stopId": "us-pa-SEPTA-Bus_20635",
+       "importance": 1.2486038940551225e-05,
+       "lat": 39.963150000000006,
+       "lon": -75.20244,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:29:00Z",
+       "departure": "2026-11-08T01:29:00Z",
+       "scheduledArrival": "2026-11-08T01:28:00Z",
+       "scheduledDeparture": "2026-11-08T01:28:00Z",
+       "stopCode": "20635",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM",
+        "BUS"
+       ]
+      },
+      {
+       "name": "Lancaster Av & Spring Garden St",
+       "stopId": "us-pa-SEPTA-Bus_20636",
+       "importance": 8.026272553252056e-06,
+       "lat": 39.962006,
+       "lon": -75.200356,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:29:00Z",
+       "departure": "2026-11-08T01:29:00Z",
+       "scheduledArrival": "2026-11-08T01:29:00Z",
+       "scheduledDeparture": "2026-11-08T01:29:00Z",
+       "stopCode": "20636",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM"
+       ]
+      },
+      {
+       "name": "Lancaster Av & 38th St",
+       "stopId": "us-pa-SEPTA-Bus_20638",
+       "importance": 1.2039409739372786e-05,
+       "lat": 39.960266,
+       "lon": -75.19701400000001,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:30:00Z",
+       "departure": "2026-11-08T01:30:00Z",
+       "scheduledArrival": "2026-11-08T01:30:00Z",
+       "scheduledDeparture": "2026-11-08T01:30:00Z",
+       "stopCode": "20638",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM"
+       ]
+      },
+      {
+       "name": "Lancaster Av & Powelton Av",
+       "stopId": "us-pa-SEPTA-Bus_32722",
+       "importance": 1.2039409739372786e-05,
+       "lat": 39.959773999999996,
+       "lon": -75.19612000000001,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:31:00Z",
+       "departure": "2026-11-08T01:31:00Z",
+       "scheduledArrival": "2026-11-08T01:31:00Z",
+       "scheduledDeparture": "2026-11-08T01:31:00Z",
+       "stopCode": "32722",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM"
+       ]
+      },
+      {
+       "name": "Lancaster Av & 36th St",
+       "stopId": "us-pa-SEPTA-Bus_20639",
+       "importance": 8.026272553252056e-06,
+       "lat": 39.958565,
+       "lon": -75.19378999999999,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:32:00Z",
+       "departure": "2026-11-08T01:32:00Z",
+       "scheduledArrival": "2026-11-08T01:32:00Z",
+       "scheduledDeparture": "2026-11-08T01:32:00Z",
+       "stopCode": "20639",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM"
+       ]
+      },
+      {
+       "name": "36th St & Market St",
+       "stopId": "us-pa-SEPTA-Bus_20640",
+       "importance": 1.2045934454363305e-05,
+       "lat": 39.95627999999999,
+       "lon": -75.19422000000002,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:33:00Z",
+       "departure": "2026-11-08T01:33:00Z",
+       "scheduledArrival": "2026-11-08T01:33:00Z",
+       "scheduledDeparture": "2026-11-08T01:33:00Z",
+       "stopCode": "20640",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM",
+        "BUS"
+       ]
+      },
+      {
+       "name": "36th St Portal",
+       "stopId": "us-pa-SEPTA-Bus_20641",
+       "importance": 8.026272553252056e-06,
+       "lat": 39.955334,
+       "lon": -75.19416000000001,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:34:00Z",
+       "departure": "2026-11-08T01:34:00Z",
+       "scheduledArrival": "2026-11-08T01:34:00Z",
+       "scheduledDeparture": "2026-11-08T01:34:00Z",
+       "stopCode": "20641",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM"
+       ]
+      },
+      {
+       "name": "33rd St",
+       "stopId": "us-pa-SEPTA-Bus_20642",
+       "importance": 8.846301352605224e-05,
+       "lat": 39.95477999999999,
+       "lon": -75.18952,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:35:00Z",
+       "departure": "2026-11-08T01:35:00Z",
+       "scheduledArrival": "2026-11-08T01:35:00Z",
+       "scheduledDeparture": "2026-11-08T01:35:00Z",
+       "stopCode": "20642",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM"
+       ]
+      },
+      {
+       "name": "Drexel Station at 30th St",
+       "stopId": "us-pa-SEPTA-Bus_20643",
+       "parentId": "us-pa-SEPTA-Bus_33035",
+       "importance": 0.0019866367802023888,
+       "lat": 39.954814999999996,
+       "lon": -75.1835,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:36:00Z",
+       "departure": "2026-11-08T01:36:00Z",
+       "scheduledArrival": "2026-11-08T01:36:00Z",
+       "scheduledDeparture": "2026-11-08T01:36:00Z",
+       "stopCode": "20643",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "SUBWAY",
+        "TRAM"
+       ]
+      },
+      {
+       "name": "22nd St",
+       "stopId": "us-pa-SEPTA-Bus_20645",
+       "importance": 8.846301352605224e-05,
+       "lat": 39.953959999999995,
+       "lon": -75.17673499999998,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:38:00Z",
+       "departure": "2026-11-08T01:38:00Z",
+       "scheduledArrival": "2026-11-08T01:38:00Z",
+       "scheduledDeparture": "2026-11-08T01:38:00Z",
+       "stopCode": "20645",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM"
+       ]
+      },
+      {
+       "name": "19th St",
+       "stopId": "us-pa-SEPTA-Bus_20646",
+       "importance": 8.846301352605224e-05,
+       "lat": 39.953326999999994,
+       "lon": -75.17164,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:40:00Z",
+       "departure": "2026-11-08T01:40:00Z",
+       "scheduledArrival": "2026-11-08T01:40:00Z",
+       "scheduledDeparture": "2026-11-08T01:40:00Z",
+       "stopCode": "20646",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "TRAM"
+       ]
+      },
+      {
+       "name": "15th St/City Hall Station",
+       "stopId": "us-pa-SEPTA-Bus_31140",
+       "parentId": "us-pa-SEPTA-Bus_33034",
+       "importance": 0.0042053391225636005,
+       "lat": 39.952503,
+       "lon": -75.16536999999998,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:41:00Z",
+       "departure": "2026-11-08T01:41:00Z",
+       "scheduledArrival": "2026-11-08T01:41:00Z",
+       "scheduledDeparture": "2026-11-08T01:41:00Z",
+       "stopCode": "31140",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "SUBWAY",
+        "TRAM"
+       ]
+      }
+     ],
+     "legGeometry": {
+      "points": "wczoyVr`sezk@~a@ct@~|Dg^nmf@olFn{KwmAksAokSk_Ao`Qkz@_oP{|@_ePos@{oN_q@{`N_`AonOkz@o_Okz@ogPkz@wyOsq@gvM_q@wsM{w@_lO_{@_sNk_AwwPgfAwiRkz@oqP{aAokSox@wvNgOgbCkMklB{aAouSkMcmAsIod@wGwQwLoK{OsN{TcBnPod@ffAg{Cj_AwnCboEgxLjkEgdLvuGg}Qrb@ovAr}D_hLbwFoxOffAoaDrgEgnLby@wuBn~BoeGfyD_vJrxIo`QbdMojVrb@wcAjxAorCvfBgtDnZos@~\\on@b[oi@zh@gaAzh@ogAzYoi@n_@ox@z}B_lEfjIwyOziBopDvaG_hL~eCo}Ez|@_cBryAgqCvqDgxGn_JoyQn}@o`Bfw@w|AvjEgjI~jCwrFflCosEbwAg{Cb{Iw~OvlDo~GjM_XfYwj@znLgpUroAciCzsGswLf}GomMvzBw`EnqKclSnsJczQvaGwaLr`AwfBzw@_yAnZwj@jf@o}@r~A{qCnhHkcNruCwrFzfKscVfmE{kKf^gw@fmEguKftD{yIv`J{~SvuGkuOfJc[~Rka@r}IkrSzeDopIvvDozIbvIgeSnmMvuBbcPvuBnmMv|AfoNv|AnnEgps@v}Cggf@w}Hwtm@jHgpAzO_fCvVgtDzOgqCby@omMrNg{CrNgbCvB_XjCwQjC{m@zT{`DzOciCnbAw~OrN{qCbB_XfE_q@fEg^vj@oiJvj@wvIvhAk|NnF{|@z@gOnAoKjCod@~Cg^nA{T~Cce@r]otGf^giGfY_vErNwnC~WgtDvcAgkPvj@w}H~a@_kH~MgbC~a@wdH~f@gqHnvAghTzm@whKb[gfF~W_qEzh@weJfuAghTrg@_dIfpAgvRni@_sIfkAwbSrg@w`JryAo`Vf^olF~iAoyQfm@wyJvmAfOf|E_b@bj@cBf^kHfYkHvVsNbV_XnPwQvVg^zJw`@jMce@fTksAvo@g{Cfr@ofNrg@woJz@wcAbBod@_Dg^kCg^oK{TgOwQoZsN_q@wQ_q@oKooBg^ghJksAnAc[",
+      "precision": 7,
+      "length": 193
+     },
+     "alerts": [
+      {
+       "communicationPeriod": [
+        {
+         "start": "2026-11-07T05:00:00Z",
+         "end": "2026-11-09T05:00:00Z"
+        }
+       ],
+       "impactPeriod": [
+        {
+         "start": "2026-11-07T05:00:00Z",
+         "end": "2026-11-09T05:00:00Z"
+        }
+       ],
+       "cause": "MAINTENANCE",
+       "effect": "UNKNOWN_EFFECT",
+       "url": "https://www.septa.org/alerts",
+       "headerText": "Shuttle Busing Between 33rd Street Station to the Malvern Loop",
+       "descriptionText": "Bus service replaces trolley service from 33rd Street Station to the Malvern Loop, on Saturday, November 7 and Sunday, November 8."
+      },
+      {
+       "communicationPeriod": [
+        {
+         "start": "2026-11-09T03:00:00Z",
+         "end": "2026-11-10T10:00:00Z"
+        }
+       ],
+       "impactPeriod": [
+        {
+         "start": "2026-11-09T03:00:00Z",
+         "end": "2026-11-10T10:00:00Z"
+        }
+       ],
+       "cause": "MAINTENANCE",
+       "effect": "UNKNOWN_EFFECT",
+       "url": "https://www.septa.org/alerts",
+       "headerText": "Weekly Sunday & Monday Trolley Tunnel Diversion",
+       "descriptionText": "Service is re-routed to 40th St and Market St on Sunday and Monday nights beginning at 10 pm until 5 am the next morning due to scheduled maintenance. Use the [L] Market-Frankford Line for continued service to/from Center City."
+      }
+     ],
+     "bikesAllowed": false,
+     "wheelchairAccessible": "NOT_ACCESSIBLE",
+     "reservation": "NONE",
+     "alternatives": []
+    },
+    {
+     "mode": "WALK",
+     "from": {
+      "name": "13th St",
+      "stopId": "us-pa-SEPTA-Bus_283",
+      "importance": 0.0019424051279202104,
+      "lat": 39.952534,
+      "lon": -75.16256,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "arrival": "2026-11-08T01:43:00Z",
+      "departure": "2026-11-08T01:43:00Z",
+      "scheduledArrival": "2026-11-08T01:43:00Z",
+      "scheduledDeparture": "2026-11-08T01:43:00Z",
+      "stopCode": "283",
+      "vertexType": "TRANSIT",
+      "cancelled": false,
+      "arrivalTimestampReason": "PREDICTED",
+      "departureTimestampReason": "PREDICTED",
+      "modes": [
+       "SUBWAY",
+       "TRAM"
+      ]
+     },
+     "to": {
+      "name": "Jefferson Station",
+      "stopId": "us-pa-SEPTA-Rail_90006",
+      "importance": 0.0046877930872142315,
+      "lat": 39.9525,
+      "lon": -75.15805999999999,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "arrival": "2026-11-08T01:47:00Z",
+      "scheduledArrival": "2026-11-08T01:47:00Z",
+      "vertexType": "TRANSIT",
+      "modes": [
+       "COACH",
+       "REGIONAL_RAIL"
+      ]
+     },
+     "duration": 240,
+     "startTime": "2026-11-08T01:43:00Z",
+     "endTime": "2026-11-08T01:47:00Z",
+     "scheduledStartTime": "2026-11-08T01:43:00Z",
+     "scheduledEndTime": "2026-11-08T01:47:00Z",
+     "realTime": false,
+     "scheduled": false,
+     "distance": 482.0,
+     "legGeometry": {
+      "points": "ebb`yV~dsrxk@ivEaj@??vGa|@??`Fgu@??zC{c@??cM_B??iDc@??uNkF??}KcE??eQkCiqCq^??`@aH??tcAssO??vAqT??f@aI??|@}M??xAmT??jD_g@??p@yK??bc@gvH??hm@ssJ??|V{_E??dAay@??Min@??feAgxQ??|`@wcH??zEmB??b@gI??fCs]??tCac@??v@iN??htBnX",
+      "precision": 7,
+      "length": 61
+     }
+    },
+    {
+     "mode": "REGIONAL_RAIL",
+     "from": {
+      "name": "Jefferson Station",
+      "stopId": "us-pa-SEPTA-Rail_90006",
+      "importance": 0.0046877930872142315,
+      "lat": 39.9525,
+      "lon": -75.15805999999999,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "departure": "2026-11-08T01:47:00Z",
+      "scheduledDeparture": "2026-11-08T01:47:00Z",
+      "vertexType": "TRANSIT",
+      "pickupType": "NORMAL",
+      "dropoffType": "NORMAL",
+      "cancelled": false,
+      "arrivalTimestampReason": "NO_RT_DATA",
+      "departureTimestampReason": "NO_RT_DATA",
+      "modes": [
+       "COACH",
+       "REGIONAL_RAIL"
+      ]
+     },
+     "to": {
+      "name": "Temple University",
+      "stopId": "us-pa-SEPTA-Rail_90007",
+      "importance": 0.0027496691327542067,
+      "lat": 39.98139,
+      "lon": -75.14944,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "arrival": "2026-11-08T01:52:00Z",
+      "scheduledArrival": "2026-11-08T01:52:00Z",
+      "vertexType": "TRANSIT",
+      "pickupType": "NORMAL",
+      "dropoffType": "NORMAL",
+      "cancelled": false,
+      "arrivalTimestampReason": "NO_RT_DATA",
+      "departureTimestampReason": "NO_RT_DATA",
+      "modes": [
+       "REGIONAL_RAIL"
+      ]
+     },
+     "duration": 300,
+     "startTime": "2026-11-08T01:47:00Z",
+     "endTime": "2026-11-08T01:52:00Z",
+     "scheduledStartTime": "2026-11-08T01:47:00Z",
+     "scheduledEndTime": "2026-11-08T01:52:00Z",
+     "realTime": false,
+     "scheduled": true,
+     "interlineWithPreviousLeg": false,
+     "headsign": "Doylestown",
+     "tripFrom": {
+      "name": "Suburban Station",
+      "stopId": "us-pa-SEPTA-Rail_90005",
+      "importance": 0.002897506346926093,
+      "lat": 39.953889999999994,
+      "lon": -75.16778,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "departure": "2026-11-08T01:42:00Z",
+      "scheduledDeparture": "2026-11-08T01:42:00Z",
+      "vertexType": "TRANSIT",
+      "pickupType": "NORMAL",
+      "dropoffType": "NORMAL",
+      "cancelled": false,
+      "arrivalTimestampReason": "NO_RT_DATA",
+      "departureTimestampReason": "NO_RT_DATA",
+      "modes": [
+       "REGIONAL_RAIL"
+      ]
+     },
+     "tripTo": {
+      "name": "Doylestown",
+      "stopId": "us-pa-SEPTA-Rail_90538",
+      "importance": 0.0003186582471244037,
+      "lat": 40.30639,
+      "lon": -75.13028,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "arrival": "2026-11-08T03:03:00Z",
+      "scheduledArrival": "2026-11-08T03:03:00Z",
+      "vertexType": "TRANSIT",
+      "pickupType": "NORMAL",
+      "dropoffType": "NORMAL",
+      "cancelled": false,
+      "arrivalTimestampReason": "NO_RT_DATA",
+      "modes": [
+       "REGIONAL_RAIL"
+      ]
+     },
+     "routeId": "us-pa-SEPTA-Rail_LAN",
+     "routeUrl": "https://www.septa.org/schedules/LAN",
+     "directionId": "0",
+     "routeColor": "4f758b",
+     "routeTextColor": "ffffff",
+     "routeType": 2,
+     "agencyName": "SEPTA",
+     "agencyUrl": "http://www.septa.org/",
+     "agencyFareUrl": "https://wwww.septa.org/fares/",
+     "agencyId": "SEPTA",
+     "tripId": "20261107_20:42_us-pa-SEPTA-Rail_LAN3562_20261018_SID189800",
+     "routeShortName": "LAN",
+     "routeLongName": "Lansdale/Doylestown Line",
+     "tripShortName": "LAN3562",
+     "displayName": "LAN",
+     "cancelled": false,
+     "source": "us-pa_SEPTA-Rail.gtfs.zip/stop_times.txt:17920:17937",
+     "intermediateStops": [],
+     "legGeometry": {
+      "points": "oga`yVnzyoxk@o}@sNf_BksU~HgpAnKwfBf@wQnAoKzJgqCbBwt@z@oZz@gOnAovAoAw|A{Ew|A{JovAkRw|AcBwGcVgpAc[o`BkRod@gT_q@on@g_B{h@_{@o}@o`BksAg_BsNwQgpAwcA{kA_q@{JkHkRkHsg@_X_SgE_jAg^kqB_X{aAoKwj@oK_cB_X_g@oKkhDgh@_l@wGoaDwj@cG?s`AwQ_cB_Xc[wBgh@_NstAwQoeB_X_v@oKc{D_q@_NoAwy@gOgOcBckB{Tos@gOseA_Nk\\wGgpAwQwmAkR_g@kHsbE_q@wj@gEoi@oKwLcBwrAwQcwAkRwzBoZsl@_NgjDce@wuBc[_q@_NsdDce@gYkH_zCw[k~Cw`@_`Fwj@giBwQwqDod@wvIwcA{`Dg^_v@kHsfCc[_mBwQwhA_NsxIogAkqB_XgEcBwrK{w@kvBgT{sBwQ_b@cBcG?knAsNwuBoKwuBwQoeB_NgOwB{xBsNkvBwQgxBkR{ToA_cBgOsg@oAgpAoKgxBwQooBwQ{J?gxBwQk{BoKcwAwQsb@gEwzB_N{}BkRgYcB{kAoKcVcBwzBsN{xBgEkC?k{BoKwzBwGos@wBgfAgEwwFoKgE?_X?gpAoK{~DoUcnC_NkiAoKka@gEgdB_XoA?w`@cBgpAwQkkEsg@ckB{ToKcB_|Bg^gxB_XoyB_Xo}@sNs{@sNswB_XoyB_Xcj@oKgpAwQ{xBoUgxBoZoyBg^g|@oKgtDod@wzBg^kvB{TwzBc[{xBg^gxB{T{nB{TsIgEsiDw`@chAgOogAoK_q@kHo~BwQswBsNk\\?_b@wB{sBwGs}D_N{J?klB_IwzBkH_|BcBod@gEwrAgEwzBgEwzBgE_q@gE{fAwBwzBwGkR?wfB_IwcAoAcqDoK{xBwGon@wBce@?ce@gEgxBoKkhDwQos@gE{YgEczBwQchFoZcB?ciCkRkzEc[c`@gEcsCwQwuGg^os@oKsS?kf@cBsqEc[{m@gE{E?ce@gE{r@oAcfBgOg^oAc_CgOct@cBce@cB_zCsN_q@cBw_CgOfw@fO",
+      "precision": 7,
+      "length": 217
+     },
+     "bikesAllowed": false,
+     "wheelchairAccessible": "ACCESSIBLE",
+     "reservation": "NONE",
+     "alternatives": []
+    },
+    {
+     "mode": "WALK",
+     "from": {
+      "name": "Temple University",
+      "stopId": "us-pa-SEPTA-Rail_90007",
+      "importance": 0.0027496691327542067,
+      "lat": 39.98139,
+      "lon": -75.14944,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "arrival": "2026-11-08T01:52:00Z",
+      "departure": "2026-11-08T01:52:00Z",
+      "scheduledArrival": "2026-11-08T01:52:00Z",
+      "scheduledDeparture": "2026-11-08T01:52:00Z",
+      "vertexType": "TRANSIT",
+      "cancelled": false,
+      "arrivalTimestampReason": "NO_RT_DATA",
+      "departureTimestampReason": "NO_RT_DATA",
+      "modes": [
+       "REGIONAL_RAIL"
+      ]
+     },
+     "to": {
+      "name": "END",
+      "lat": 39.9814,
+      "lon": -75.1495,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "arrival": "2026-11-08T01:53:00Z",
+      "scheduledArrival": "2026-11-08T01:53:00Z",
+      "vertexType": "NORMAL"
+     },
+     "duration": 60,
+     "startTime": "2026-11-08T01:52:00Z",
+     "endTime": "2026-11-08T01:53:00Z",
+     "scheduledStartTime": "2026-11-08T01:52:00Z",
+     "scheduledEndTime": "2026-11-08T01:53:00Z",
+     "realTime": false,
+     "scheduled": false,
+     "distance": 5.0,
+     "legGeometry": {
+      "points": "wouqyV~nqjxk@gEnd@",
+      "precision": 7,
+      "length": 2
+     }
+    }
+   ]
+  },
+  {
+   "duration": 2580,
+   "startTime": "2026-11-08T01:32:00Z",
+   "endTime": "2026-11-08T02:15:00Z",
+   "transfers": 1,
+   "id": "Ck8h2ht8YTL9Q0Apxyk6ksvPUsAyFXVzLXBhLVNFUFRBLUJ1c18xMDE4OTnMsieBzf1DQEEB+n3/5s9SwEiQor/XBlCspr/XBloEV0FMS2ABCpABCgI2NRIlMjAyNjExMDdfMjA6MzJfdXMtcGEtU0VQVEEtQnVzXzg5MDI0MBoVdXMtcGEtU0VQVEEtQnVzXzEwMTg5IcyyJ4HN/UNAKQH6ff/mz1LAMhV1cy1wYS1TRVBUQS1CdXNfMTQ5OTU5GJY/3xYCREBBU5YhjnXNUsBIrKa/1wZQ9Ky/1wZaA0JVU2ABCmcaFXVzLXBhLVNFUFRBLUJ1c18xNDk5NSEYlj/fFgJEQClTliGOdc1SwDIWdXMtcGEtU0VQVEEtUmFpbF85MDIyMDmDaRg+IgJEQEEwwD46dc1SwEiwrb/XBlCorr/XBloEV0FMS2ABCrIBCgNOT1ISOjIwMjYxMTA3XzIwOjQ1X3VzLXBhLVNFUFRBLVJhaWxfTk9SMjQ2OV8yMDI2MTEwN19TSUQxOTAxMTUaFnVzLXBhLVNFUFRBLVJhaWxfOTAyMjAhg2kYPiICREApMMA+OnXNUsAyFnVzLXBhLVNFUFRBLVJhaWxfOTAwMDc5i08BMJ79Q0BBti3KbJDJUsBI3K+/1wZQ6LW/1wZaDVJFR0lPTkFMX1JBSUxgAQpQGhZ1cy1wYS1TRVBUQS1SYWlsXzkwMDA3IYtPATCe/UNAKbYtymyQyVLAOa8l5IOe/UNAQSGwcmiRyVLASOi1v9cGUKS2v9cGWgRXQUxLYAE=",
+   "legs": [
+    {
+     "mode": "WALK",
+     "from": {
+      "name": "START",
+      "lat": 39.9781,
+      "lon": -75.2468,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "departure": "2026-11-08T01:32:00Z",
+      "scheduledDeparture": "2026-11-08T01:32:00Z",
+      "vertexType": "NORMAL"
+     },
+     "to": {
+      "name": "Malvern Av & Wynnewood Rd",
+      "stopId": "us-pa-SEPTA-Bus_10189",
+      "importance": 2.3867105483077466e-05,
+      "lat": 39.982834,
+      "lon": -75.248474,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "arrival": "2026-11-08T01:41:00Z",
+      "scheduledArrival": "2026-11-08T01:41:00Z",
+      "stopCode": "10189",
+      "vertexType": "TRANSIT",
+      "modes": [
+       "BUS"
+      ]
+     },
+     "duration": 540,
+     "startTime": "2026-11-08T01:32:00Z",
+     "endTime": "2026-11-08T01:41:00Z",
+     "scheduledStartTime": "2026-11-08T01:32:00Z",
+     "scheduledEndTime": "2026-11-08T01:41:00Z",
+     "realTime": false,
+     "scheduled": false,
+     "distance": 609.0,
+     "legGeometry": {
+      "points": "eqwoyV`o_fzk@dh@dnJ??sb@fYc`a@znE??}bAfI??}vKzkA??m{Nh}A??}eAdL??gbY~_D??z`@b}@dTdi@",
+      "precision": 7,
+      "length": 18
+     }
+    },
+    {
+     "mode": "BUS",
+     "from": {
+      "name": "Malvern Av & Wynnewood Rd",
+      "stopId": "us-pa-SEPTA-Bus_10189",
+      "importance": 2.3867105483077466e-05,
+      "lat": 39.982834,
+      "lon": -75.248474,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "departure": "2026-11-08T01:41:00Z",
+      "scheduledDeparture": "2026-11-08T01:41:00Z",
+      "stopCode": "10189",
+      "vertexType": "TRANSIT",
+      "pickupType": "NORMAL",
+      "dropoffType": "NORMAL",
+      "cancelled": false,
+      "arrivalTimestampReason": "PREDICTED",
+      "departureTimestampReason": "PROPAGATED",
+      "modes": [
+       "BUS"
+      ]
+     },
+     "to": {
+      "name": "Ridge Av & Osborn St - MBNS",
+      "stopId": "us-pa-SEPTA-Bus_14995",
+      "importance": 5.097227040096186e-05,
+      "lat": 40.016323,
+      "lon": -75.2103,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "arrival": "2026-11-08T01:56:00Z",
+      "scheduledArrival": "2026-11-08T01:55:00Z",
+      "stopCode": "14995",
+      "vertexType": "TRANSIT",
+      "pickupType": "NORMAL",
+      "dropoffType": "NORMAL",
+      "cancelled": false,
+      "arrivalTimestampReason": "PROPAGATED",
+      "departureTimestampReason": "PROPAGATED",
+      "modes": [
+       "BUS"
+      ]
+     },
+     "duration": 900,
+     "startTime": "2026-11-08T01:41:00Z",
+     "endTime": "2026-11-08T01:56:00Z",
+     "scheduledStartTime": "2026-11-08T01:41:00Z",
+     "scheduledEndTime": "2026-11-08T01:55:00Z",
+     "realTime": true,
+     "scheduled": true,
+     "interlineWithPreviousLeg": false,
+     "headsign": "Germantown-Chelten",
+     "tripFrom": {
+      "name": "69th Street Transit Center",
+      "stopId": "us-pa-SEPTA-Bus_33111",
+      "parentId": "us-pa-SEPTA-Bus_31034",
+      "importance": 0.002850078046321869,
+      "lat": 39.962886999999995,
+      "lon": -75.25872999999999,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "departure": "2026-11-08T01:32:00Z",
+      "scheduledDeparture": "2026-11-08T01:32:00Z",
+      "stopCode": "33111",
+      "vertexType": "TRANSIT",
+      "pickupType": "NORMAL",
+      "dropoffType": "NORMAL",
+      "cancelled": false,
+      "departureTimestampReason": "PREDICTED",
+      "modes": [
+       "SUBWAY",
+       "TRAM",
+       "BUS"
+      ]
+     },
+     "tripTo": {
+      "name": "Chelten Av & Germantown Av - FS",
+      "stopId": "us-pa-SEPTA-Bus_5805",
+      "importance": 7.557167555205524e-05,
+      "lat": 40.035446,
+      "lon": -75.17522999999998,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "arrival": "2026-11-08T02:11:00Z",
+      "scheduledArrival": "2026-11-08T02:10:00Z",
+      "stopCode": "5805",
+      "vertexType": "TRANSIT",
+      "pickupType": "NORMAL",
+      "dropoffType": "NORMAL",
+      "cancelled": false,
+      "arrivalTimestampReason": "PROPAGATED",
+      "departureTimestampReason": "NO_RT_DATA",
+      "modes": [
+       "BUS"
+      ]
+     },
+     "routeId": "us-pa-SEPTA-Bus_65",
+     "routeUrl": "https://www.septa.org/schedules/65",
+     "directionId": "0",
+     "routeColor": "1a1818",
+     "routeTextColor": "ffffff",
+     "routeType": 3,
+     "agencyName": "SEPTA",
+     "agencyUrl": "https://septa.org/",
+     "agencyFareUrl": "https://www.septa.org/fares/",
+     "agencyId": "1",
+     "tripId": "20261107_20:32_us-pa-SEPTA-Bus_890240",
+     "routeShortName": "65",
+     "routeLongName": "Germantown-Chelten to 69th St TC",
+     "tripShortName": "",
+     "displayName": "65",
+     "cancelled": false,
+     "source": "us-pa_SEPTA-Bus.gtfs.zip/stop_times.txt:1697628:1697693",
+     "intermediateStops": [
+      {
+       "name": "Malvern Av & 63rd St Loop",
+       "stopId": "us-pa-SEPTA-Bus_293",
+       "importance": 3.0979092116467655e-05,
+       "lat": 39.983955,
+       "lon": -75.24626000000002,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:41:00Z",
+       "departure": "2026-11-08T01:42:00Z",
+       "scheduledArrival": "2026-11-08T01:42:00Z",
+       "scheduledDeparture": "2026-11-08T01:42:00Z",
+       "stopCode": "293",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PREDICTED",
+       "modes": [
+        "TRAM",
+        "BUS"
+       ]
+      },
+      {
+       "name": "63rd St & Woodbine Av - FS",
+       "stopId": "us-pa-SEPTA-Bus_3839",
+       "importance": 2.3085503926267847e-05,
+       "lat": 39.985832,
+       "lon": -75.24754000000001,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:42:00Z",
+       "departure": "2026-11-08T01:42:00Z",
+       "scheduledArrival": "2026-11-08T01:42:00Z",
+       "scheduledDeparture": "2026-11-08T01:42:00Z",
+       "stopCode": "3839",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "BUS"
+       ]
+      },
+      {
+       "name": "63rd St & Sherwood Rd",
+       "stopId": "us-pa-SEPTA-Bus_3838",
+       "importance": 2.3085503926267847e-05,
+       "lat": 39.987359999999995,
+       "lon": -75.24897,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:43:00Z",
+       "departure": "2026-11-08T01:43:00Z",
+       "scheduledArrival": "2026-11-08T01:43:00Z",
+       "scheduledDeparture": "2026-11-08T01:43:00Z",
+       "stopCode": "3838",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "BUS"
+       ]
+      },
+      {
+       "name": "63rd St & Overbrook Av",
+       "stopId": "us-pa-SEPTA-Bus_3834",
+       "importance": 2.3085503926267847e-05,
+       "lat": 39.988304,
+       "lon": -75.24974,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:43:00Z",
+       "departure": "2026-11-08T01:43:00Z",
+       "scheduledArrival": "2026-11-08T01:43:00Z",
+       "scheduledDeparture": "2026-11-08T01:43:00Z",
+       "stopCode": "3834",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "BUS"
+       ]
+      },
+      {
+       "name": "63rd St & City Av",
+       "stopId": "us-pa-SEPTA-Bus_3826",
+       "importance": 2.827684147632681e-05,
+       "lat": 39.989726999999995,
+       "lon": -75.25064,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:43:00Z",
+       "departure": "2026-11-08T01:43:00Z",
+       "scheduledArrival": "2026-11-08T01:43:00Z",
+       "scheduledDeparture": "2026-11-08T01:43:00Z",
+       "stopCode": "3826",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "BUS"
+       ]
+      },
+      {
+       "name": "City Av & Overbrook Av - MBNS",
+       "stopId": "us-pa-SEPTA-Bus_6249",
+       "importance": 1.6864598364918493e-05,
+       "lat": 39.99082,
+       "lon": -75.24847,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:44:00Z",
+       "departure": "2026-11-08T01:44:00Z",
+       "scheduledArrival": "2026-11-08T01:44:00Z",
+       "scheduledDeparture": "2026-11-08T01:44:00Z",
+       "stopCode": "6249",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "BUS"
+       ]
+      },
+      {
+       "name": "City Av & 59th St",
+       "stopId": "us-pa-SEPTA-Bus_25761",
+       "importance": 1.6864598364918493e-05,
+       "lat": 39.99211000000001,
+       "lon": -75.24578,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:44:00Z",
+       "departure": "2026-11-08T01:44:00Z",
+       "scheduledArrival": "2026-11-08T01:44:00Z",
+       "scheduledDeparture": "2026-11-08T01:44:00Z",
+       "stopCode": "25761",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "BUS"
+       ]
+      },
+      {
+       "name": "City Av & Berwick Rd - FS",
+       "stopId": "us-pa-SEPTA-Bus_6248",
+       "importance": 2.8488555471994914e-05,
+       "lat": 39.993,
+       "lon": -75.24389000000001,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:45:00Z",
+       "departure": "2026-11-08T01:45:00Z",
+       "scheduledArrival": "2026-11-08T01:45:00Z",
+       "scheduledDeparture": "2026-11-08T01:45:00Z",
+       "stopCode": "6248",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "BUS"
+       ]
+      },
+      {
+       "name": "City Av & Cardinal Av",
+       "stopId": "us-pa-SEPTA-Bus_6250",
+       "importance": 2.3085503926267847e-05,
+       "lat": 39.994,
+       "lon": -75.24174500000001,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:45:00Z",
+       "departure": "2026-11-08T01:45:00Z",
+       "scheduledArrival": "2026-11-08T01:45:00Z",
+       "scheduledDeparture": "2026-11-08T01:45:00Z",
+       "stopCode": "6250",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "BUS"
+       ]
+      },
+      {
+       "name": "City Av & Lapsley Ln",
+       "stopId": "us-pa-SEPTA-Bus_6257",
+       "importance": 2.3085503926267847e-05,
+       "lat": 39.99523500000001,
+       "lon": -75.23910000000001,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:45:00Z",
+       "departure": "2026-11-08T01:45:00Z",
+       "scheduledArrival": "2026-11-08T01:46:00Z",
+       "scheduledDeparture": "2026-11-08T01:46:00Z",
+       "stopCode": "6257",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "BUS"
+       ]
+      },
+      {
+       "name": "City Av & Orchard Rd",
+       "stopId": "us-pa-SEPTA-Bus_6260",
+       "importance": 2.3085503926267847e-05,
+       "lat": 39.996044,
+       "lon": -75.23736000000001,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:45:00Z",
+       "departure": "2026-11-08T01:45:00Z",
+       "scheduledArrival": "2026-11-08T01:46:00Z",
+       "scheduledDeparture": "2026-11-08T01:46:00Z",
+       "stopCode": "6260",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "BUS"
+       ]
+      },
+      {
+       "name": "City Av & 54th St",
+       "stopId": "us-pa-SEPTA-Bus_20591",
+       "importance": 3.036932866962161e-05,
+       "lat": 39.996967,
+       "lon": -75.23537999999999,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:46:00Z",
+       "departure": "2026-11-08T01:47:00Z",
+       "scheduledArrival": "2026-11-08T01:47:00Z",
+       "scheduledDeparture": "2026-11-08T01:47:00Z",
+       "stopCode": "20591",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PREDICTED",
+       "modes": [
+        "BUS"
+       ]
+      },
+      {
+       "name": "City Av & 53rd St",
+       "stopId": "us-pa-SEPTA-Bus_6239",
+       "importance": 5.7715209550224245e-05,
+       "lat": 39.997448,
+       "lon": -75.23437,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:47:00Z",
+       "departure": "2026-11-08T01:47:00Z",
+       "scheduledArrival": "2026-11-08T01:47:00Z",
+       "scheduledDeparture": "2026-11-08T01:47:00Z",
+       "stopCode": "6239",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "BUS"
+       ]
+      },
+      {
+       "name": "City Av & 52nd St",
+       "stopId": "us-pa-SEPTA-Bus_20592",
+       "importance": 5.7715209550224245e-05,
+       "lat": 39.997966999999996,
+       "lon": -75.23329000000001,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:47:00Z",
+       "departure": "2026-11-08T01:47:00Z",
+       "scheduledArrival": "2026-11-08T01:47:00Z",
+       "scheduledDeparture": "2026-11-08T01:47:00Z",
+       "stopCode": "20592",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "BUS"
+       ]
+      },
+      {
+       "name": "City Av & Bryn Mawr Av",
+       "stopId": "us-pa-SEPTA-Bus_6232",
+       "importance": 5.976129250484519e-05,
+       "lat": 39.999023,
+       "lon": -75.23102000000002,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:47:00Z",
+       "departure": "2026-11-08T01:47:00Z",
+       "scheduledArrival": "2026-11-08T01:48:00Z",
+       "scheduledDeparture": "2026-11-08T01:48:00Z",
+       "stopCode": "6232",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "BUS"
+       ]
+      },
+      {
+       "name": "City Av & Bala Av",
+       "stopId": "us-pa-SEPTA-Bus_30187",
+       "importance": 5.976129250484519e-05,
+       "lat": 39.999924,
+       "lon": -75.22896,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:49:00Z",
+       "departure": "2026-11-08T01:49:00Z",
+       "scheduledArrival": "2026-11-08T01:48:00Z",
+       "scheduledDeparture": "2026-11-08T01:48:00Z",
+       "stopCode": "30187",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PREDICTED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "BUS"
+       ]
+      },
+      {
+       "name": "City Av & Conshohocken Av - FS",
+       "stopId": "us-pa-SEPTA-Bus_6233",
+       "importance": 5.976129250484519e-05,
+       "lat": 40.00147,
+       "lon": -75.22583999999999,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:50:00Z",
+       "departure": "2026-11-08T01:50:00Z",
+       "scheduledArrival": "2026-11-08T01:49:00Z",
+       "scheduledDeparture": "2026-11-08T01:49:00Z",
+       "stopCode": "6233",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PROPAGATED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "BUS"
+       ]
+      },
+      {
+       "name": "City Av & 47th St - FS",
+       "stopId": "us-pa-SEPTA-Bus_6237",
+       "importance": 5.976129250484519e-05,
+       "lat": 40.002810000000004,
+       "lon": -75.222946,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:51:00Z",
+       "departure": "2026-11-08T01:51:00Z",
+       "scheduledArrival": "2026-11-08T01:50:00Z",
+       "scheduledDeparture": "2026-11-08T01:50:00Z",
+       "stopCode": "6237",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PROPAGATED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "BUS"
+       ]
+      },
+      {
+       "name": "City Av & Belmont Av - FS",
+       "stopId": "us-pa-SEPTA-Bus_20587",
+       "importance": 2.9787841413053684e-05,
+       "lat": 40.004112000000006,
+       "lon": -75.22019,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:52:00Z",
+       "departure": "2026-11-08T01:52:00Z",
+       "scheduledArrival": "2026-11-08T01:51:00Z",
+       "scheduledDeparture": "2026-11-08T01:51:00Z",
+       "stopCode": "20587",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PROPAGATED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "BUS"
+       ]
+      },
+      {
+       "name": "City Av & Kings Grant Dr - MBFS",
+       "stopId": "us-pa-SEPTA-Bus_6251",
+       "importance": 5.976129250484519e-05,
+       "lat": 40.00521500000001,
+       "lon": -75.21775000000001,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:52:00Z",
+       "departure": "2026-11-08T01:52:00Z",
+       "scheduledArrival": "2026-11-08T01:51:00Z",
+       "scheduledDeparture": "2026-11-08T01:51:00Z",
+       "stopCode": "6251",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PROPAGATED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "BUS"
+       ]
+      },
+      {
+       "name": "City Av & Decker Blvd - FS",
+       "stopId": "us-pa-SEPTA-Bus_6234",
+       "importance": 5.976129250484519e-05,
+       "lat": 40.006298,
+       "lon": -75.21547,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:52:00Z",
+       "departure": "2026-11-08T01:52:00Z",
+       "scheduledArrival": "2026-11-08T01:51:00Z",
+       "scheduledDeparture": "2026-11-08T01:51:00Z",
+       "stopCode": "6234",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PROPAGATED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "BUS"
+       ]
+      },
+      {
+       "name": "City Av & Monument Rd",
+       "stopId": "us-pa-SEPTA-Bus_20550",
+       "importance": 5.976129250484519e-05,
+       "lat": 40.00694,
+       "lon": -75.21403000000001,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:53:00Z",
+       "departure": "2026-11-08T01:53:00Z",
+       "scheduledArrival": "2026-11-08T01:52:00Z",
+       "scheduledDeparture": "2026-11-08T01:52:00Z",
+       "stopCode": "20550",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PROPAGATED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "BUS"
+       ]
+      },
+      {
+       "name": "City Av & Presidential Blvd",
+       "stopId": "us-pa-SEPTA-Bus_699",
+       "importance": 7.289770292118192e-05,
+       "lat": 40.008194,
+       "lon": -75.21126000000002,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:53:00Z",
+       "departure": "2026-11-08T01:53:00Z",
+       "scheduledArrival": "2026-11-08T01:52:00Z",
+       "scheduledDeparture": "2026-11-08T01:52:00Z",
+       "stopCode": "699",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PROPAGATED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "BUS"
+       ]
+      },
+      {
+       "name": "Wissahickon Transit Center",
+       "stopId": "us-pa-SEPTA-Bus_32991",
+       "parentId": "us-pa-SEPTA-Bus_32993",
+       "importance": 0.00014016468776389956,
+       "lat": 40.01529,
+       "lon": -75.20763400000001,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T01:56:00Z",
+       "departure": "2026-11-08T01:56:00Z",
+       "scheduledArrival": "2026-11-08T01:55:00Z",
+       "scheduledDeparture": "2026-11-08T01:55:00Z",
+       "scheduledTrack": "11",
+       "track": "11",
+       "stopCode": "32991",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "PROPAGATED",
+       "departureTimestampReason": "PROPAGATED",
+       "modes": [
+        "BUS"
+       ]
+      }
+     ],
+     "legGeometry": {
+      "points": "gvqryVfw_gzk@wmAgfAos@_mBkgGghO{kAoaD{@?spCo~GwkBgmEovA_nDwQwj@wQod@wQg^kMwQwQoKonE~gLk{GrtPgfFzm@wcAvQgfAf^sbEfiBgbCnvA{rEnkDwhF~nFowHf|JkcDnzDkgBbmAwvI~fE_{@ja@wlDn}@ojBfm@whAzw@wfBfpAgmJzgHsaCo~Ggc@gfAk_AorCos@_mBgpAopDw|AozDwxC_dI_v@srBwxCkcIg_L_{YklGstPkjCskHwaL{uZoi@{_BkuJgeXsfCo~GgpA_nDwdCo~Ggr@gsBckBobFkcDopIggComH{w@oyBooBwrFs`AwnCcfL{_[cy@kvBweJohWwt@klBoyBshGcsCowHc`@wcAwkBgfFwQg^cVwt@ku@gxBgpAoaDwxC{`I{zA_gEkuEcdMg^wcAowCopIwt@ooB_|BotGohC_|Ggw@wuBcvDobKoAgw@{Ywt@seAgcE_cBosEk\\wt@wzB_oFg}B_rGooBwhFgeDozI_Nw`@o}@geDcG_Nk_Aon@cj@ovAc_CwkGobA_kCgjIs{Tsg@ksAk}Fw~OohCo~G{h@w|A{|JokX_~AgmE_{@_|BciCwdHkjCgqHolAsdDorCk~Hgw@gxBovA_nDsb@wcAwhA_uCkCwcAsq@{xBs{@cxCg^gaA{kAowCcwA_nD_vE_wLon@wfBcrFwlNchA_nDwsHgaU_{@ohCooBg_G{m@ooB{m@giBwdC{`IowHclSwhAwnC{}BwkGciCwuGwrAopDwV{m@kz@_cB_l@gpAc[ct@gw@giBcV_q@sxIo`VsyAgmEcj@ovAwV{m@waBkzE_jAowCox@giB{EgEsb@wj@g^od@sl@wcAk_A_yAwy@wmAcaBwuBcj@o}@c|A{xBkM{TgTg^wVoZohCgtDwcAgpA_uCgwE{dBohCce@_q@c`@_q@wVg^ce@wt@_g@wy@ka@g^wL_NkRwQwVgOoZgE_|BwcAsg@?gbCfEsrBnKgw@fEwQ?o}@fEgpA?_b@nAw`@vB_X?_XfEkMfEchA~Wgh@fOce@vQku@fT_{@zTkz@zT_q@fOce@nAoF?{|@nKsSfEwQnAoZ~H_q@~W{Jfh@{Obj@kMbt@{Ofw@klBf`NsNvcAgEvQkCfEkCfT_Ivt@gOn}@_Nfw@wj@vgDg^fxB_Nzw@{Jrg@sb@zxBod@b_CsIf^_uC~yM_lE~rNkz@vnC_|Bn~Go}@nhC_X~p@{mJn}Tn{FgaP",
+      "precision": 7,
+      "length": 226
+     },
+     "alerts": [
+      {
+       "communicationPeriod": [
+        {
+         "start": "2026-10-16T19:30:00Z",
+         "end": "2027-06-30T22:00:00Z"
+        }
+       ],
+       "impactPeriod": [
+        {
+         "start": "2026-10-16T19:30:00Z",
+         "end": "2027-06-30T22:00:00Z"
+        }
+       ],
+       "cause": "CONSTRUCTION",
+       "effect": "DETOUR",
+       "url": "https://www.septa.org/alerts",
+       "headerText": "Construction",
+       "descriptionText": "6am - 6pm Mon - Fri, Until 6/30/27, NB via Malvern, Right on 64th, Left on Lebanon, Left on Wynnewood, Right on Malvern, Reg Rt"
+      },
+      {
+       "communicationPeriod": [
+        {
+         "start": "2026-10-16T19:30:00Z",
+         "end": "2027-06-30T22:00:00Z"
+        }
+       ],
+       "impactPeriod": [
+        {
+         "start": "2026-10-16T19:30:00Z",
+         "end": "2027-06-30T22:00:00Z"
+        }
+       ],
+       "cause": "CONSTRUCTION",
+       "effect": "DETOUR",
+       "url": "https://www.septa.org/alerts",
+       "headerText": "Construction",
+       "descriptionText": "6am - 6pm Mon - Fri, Until 6/30/27, SB via Malvern, Left on Wynnewood, Right on Lebanon, Right on 64th, Left on Malvern, Reg Rt"
+      }
+     ],
+     "bikesAllowed": true,
+     "wheelchairAccessible": "ACCESSIBLE",
+     "reservation": "NONE",
+     "alternatives": []
+    },
+    {
+     "mode": "WALK",
+     "from": {
+      "name": "Ridge Av & Osborn St - MBNS",
+      "stopId": "us-pa-SEPTA-Bus_14995",
+      "importance": 5.097227040096186e-05,
+      "lat": 40.016323,
+      "lon": -75.2103,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "arrival": "2026-11-08T01:56:00Z",
+      "departure": "2026-11-08T01:56:00Z",
+      "scheduledArrival": "2026-11-08T01:55:00Z",
+      "scheduledDeparture": "2026-11-08T01:56:00Z",
+      "stopCode": "14995",
+      "vertexType": "TRANSIT",
+      "cancelled": false,
+      "arrivalTimestampReason": "PROPAGATED",
+      "departureTimestampReason": "PROPAGATED",
+      "modes": [
+       "BUS"
+      ]
+     },
+     "to": {
+      "name": "Wissahickon",
+      "stopId": "us-pa-SEPTA-Rail_90220",
+      "importance": 0.0003898578870575875,
+      "lat": 40.01667,
+      "lon": -75.21028000000001,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "arrival": "2026-11-08T01:58:00Z",
+      "scheduledArrival": "2026-11-08T01:58:00Z",
+      "vertexType": "TRANSIT",
+      "modes": [
+       "REGIONAL_RAIL"
+      ]
+     },
+     "duration": 120,
+     "startTime": "2026-11-08T01:56:00Z",
+     "endTime": "2026-11-08T01:58:00Z",
+     "scheduledStartTime": "2026-11-08T01:56:00Z",
+     "scheduledEndTime": "2026-11-08T01:58:00Z",
+     "realTime": false,
+     "scheduled": false,
+     "distance": 63.0,
+     "legGeometry": {
+      "points": "es`gzVhmuoyk@uVvl@??kLx[??cNr_@??}BZ??e@}GqJcSoEmNqBkKw@_LsAyN??gO{G??uJiEoDhP??mK`e@??eC|K??k}@c_@??|B}J??~DcQ",
+      "precision": 7,
+      "length": 30
+     }
+    },
+    {
+     "mode": "REGIONAL_RAIL",
+     "from": {
+      "name": "Wissahickon",
+      "stopId": "us-pa-SEPTA-Rail_90220",
+      "importance": 0.0003898578870575875,
+      "lat": 40.01667,
+      "lon": -75.21028000000001,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "departure": "2026-11-08T02:01:00Z",
+      "scheduledDeparture": "2026-11-08T02:01:00Z",
+      "vertexType": "TRANSIT",
+      "pickupType": "NORMAL",
+      "dropoffType": "NORMAL",
+      "cancelled": false,
+      "arrivalTimestampReason": "NO_RT_DATA",
+      "departureTimestampReason": "NO_RT_DATA",
+      "modes": [
+       "REGIONAL_RAIL"
+      ]
+     },
+     "to": {
+      "name": "Temple University",
+      "stopId": "us-pa-SEPTA-Rail_90007",
+      "importance": 0.0027496691327542067,
+      "lat": 39.98139,
+      "lon": -75.14944,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "arrival": "2026-11-08T02:14:00Z",
+      "scheduledArrival": "2026-11-08T02:14:00Z",
+      "vertexType": "TRANSIT",
+      "pickupType": "NORMAL",
+      "dropoffType": "NORMAL",
+      "cancelled": false,
+      "arrivalTimestampReason": "NO_RT_DATA",
+      "departureTimestampReason": "NO_RT_DATA",
+      "modes": [
+       "REGIONAL_RAIL"
+      ]
+     },
+     "duration": 780,
+     "startTime": "2026-11-08T02:01:00Z",
+     "endTime": "2026-11-08T02:14:00Z",
+     "scheduledStartTime": "2026-11-08T02:01:00Z",
+     "scheduledEndTime": "2026-11-08T02:14:00Z",
+     "realTime": false,
+     "scheduled": true,
+     "interlineWithPreviousLeg": false,
+     "headsign": "Center City Philadelphia",
+     "tripFrom": {
+      "name": "Conshohocken",
+      "stopId": "us-pa-SEPTA-Rail_90225",
+      "importance": 0.0003678164503071457,
+      "lat": 40.07328,
+      "lon": -75.31094,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "departure": "2026-11-08T01:45:00Z",
+      "scheduledDeparture": "2026-11-08T01:45:00Z",
+      "vertexType": "TRANSIT",
+      "pickupType": "NORMAL",
+      "dropoffType": "NORMAL",
+      "cancelled": false,
+      "departureTimestampReason": "NO_RT_DATA",
+      "modes": [
+       "REGIONAL_RAIL"
+      ]
+     },
+     "tripTo": {
+      "name": "Suburban Station",
+      "stopId": "us-pa-SEPTA-Rail_90005",
+      "importance": 0.002897506346926093,
+      "lat": 39.953889999999994,
+      "lon": -75.16778,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "arrival": "2026-11-08T02:25:00Z",
+      "scheduledArrival": "2026-11-08T02:25:00Z",
+      "vertexType": "TRANSIT",
+      "pickupType": "NORMAL",
+      "dropoffType": "NORMAL",
+      "cancelled": false,
+      "arrivalTimestampReason": "NO_RT_DATA",
+      "departureTimestampReason": "NO_RT_DATA",
+      "modes": [
+       "REGIONAL_RAIL"
+      ]
+     },
+     "routeId": "us-pa-SEPTA-Rail_NOR",
+     "routeUrl": "https://www.septa.org/schedules/NOR",
+     "directionId": "1",
+     "routeColor": "4f758b",
+     "routeTextColor": "ffffff",
+     "routeType": 2,
+     "agencyName": "SEPTA",
+     "agencyUrl": "http://www.septa.org/",
+     "agencyFareUrl": "https://wwww.septa.org/fares/",
+     "agencyId": "SEPTA",
+     "tripId": "20261107_20:45_us-pa-SEPTA-Rail_NOR2469_20261107_SID190115",
+     "routeShortName": "NOR",
+     "routeLongName": "Manayunk/Norristown Line",
+     "tripShortName": "NOR2469",
+     "displayName": "NOR",
+     "cancelled": false,
+     "source": "us-pa_SEPTA-Rail.gtfs.zip/stop_times.txt:13959:13970",
+     "intermediateStops": [
+      {
+       "name": "East Falls",
+       "stopId": "us-pa-SEPTA-Rail_90219",
+       "importance": 0.0003898578870575875,
+       "lat": 40.01139,
+       "lon": -75.19195,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T02:03:00Z",
+       "departure": "2026-11-08T02:03:00Z",
+       "scheduledArrival": "2026-11-08T02:03:00Z",
+       "scheduledDeparture": "2026-11-08T02:03:00Z",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "NO_RT_DATA",
+       "departureTimestampReason": "NO_RT_DATA",
+       "modes": [
+        "REGIONAL_RAIL"
+       ]
+      },
+      {
+       "name": "Allegheny",
+       "stopId": "us-pa-SEPTA-Rail_90218",
+       "importance": 0.0003347543242853135,
+       "lat": 40.00361,
+       "lon": -75.16472,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T02:08:00Z",
+       "departure": "2026-11-08T02:08:00Z",
+       "scheduledArrival": "2026-11-08T02:08:00Z",
+       "scheduledDeparture": "2026-11-08T02:08:00Z",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "NO_RT_DATA",
+       "departureTimestampReason": "NO_RT_DATA",
+       "modes": [
+        "REGIONAL_RAIL"
+       ]
+      },
+      {
+       "name": "North Broad",
+       "stopId": "us-pa-SEPTA-Rail_90008",
+       "importance": 0.0007029332919046283,
+       "lat": 39.99222,
+       "lon": -75.15388999999999,
+       "level": 0.0,
+       "tz": "America/New_York",
+       "arrival": "2026-11-08T02:11:00Z",
+       "departure": "2026-11-08T02:11:00Z",
+       "scheduledArrival": "2026-11-08T02:11:00Z",
+       "scheduledDeparture": "2026-11-08T02:11:00Z",
+       "vertexType": "TRANSIT",
+       "pickupType": "NORMAL",
+       "dropoffType": "NORMAL",
+       "cancelled": false,
+       "arrivalTimestampReason": "NO_RT_DATA",
+       "departureTimestampReason": "NO_RT_DATA",
+       "modes": [
+        "REGIONAL_RAIL"
+       ]
+      }
+     ],
+     "legGeometry": {
+      "points": "wqfgzV~wuoyk@~W?rI_Xf^gpAby@gtDrNwj@bj@g{Cb`@ooBvVsyAr`AkiFnUwcA~bBoiJv`@gsB~Wg_BbG_XjdAgpFfh@gqCfE_XnKwj@vQwcAbrAo~GjRwcAfOo}@baBwvI~u@w`EfYw|AvVovArrBo{K~WgpAjHg^b[_cBvnCwlNfxB_hLfsBs~K~Hka@fT_jAnd@_uCvj@oaD~Hg^neB{rJnAkHj_AwyEjCg^jR_`AzTgkAni@gqCffAg_G~nAo~Gby@osEzT_jAffA_yFn{A_dIzYo`Bj_Aw~Enn@geDnPct@bVksA~CwQrb@_|B~u@gtDz@oKzaA_`Fn}@wyEfEgTnx@wjErq@cqDvL{m@be@ohCzOgw@nx@_gEzE_X~_A_`Fni@cxCn_@klBzY_cBfYgzAjH_g@fYovAf^ooBryAoaIjHcj@nF{Tzw@gmErg@wnCvQgfAnd@w_CjnAgxG~CwQfkAooGrl@w}C~k@wgDjdAwrFbVgpAzYovAjMgw@vGw[j\\oeBzOkz@z@kRzr@ssDfm@k~CzJwj@jM_q@ni@owCnUogAfw@_gE?gEvj@wnCnKgw@by@_gEbe@ohCjRo}@jMgm@rb@oyBjRwcAr]klBjRs`A?gEnZ_cBby@gmEnAcB~p@{jD~u@w`EzTgpAzm@wgDjRo}@z|@_`FzfA_yFvLgw@nx@odEv[_cBfOwy@~f@gqCj\\_cBzaA_jFzE_XzfA_yFn}@wyEnKct@vcAsoFvy@cjEb`@c_CjMwj@ns@ozDfaA_`FfEwQfpAgxGjf@skCfTcmAbG_XfO_q@~Mgw@nd@gbCnKwj@vt@odEvVwrAfOkz@n}@{|E~WwmAbVwrAvVovAvVgpAjnA_rGrSgpAr{@_gEf@oKnPgw@bhAg_Grb@gbCjdAwrFjHg^jM_q@zJwj@rl@w}Cr`A_jF~bBgcJrIg^v_CggMrIod@~{BwzLjM{m@zaAkiFjMwj@be@wnCf^cfB~Hce@vQgfArb@_|BjM{m@b`@wuBr{@{|EvBwQvy@gmEja@gsB~k@_dD~Hod@zw@_gE~a@gbC~p@_nDbG_Xbo@oaD~f@wnCvt@_nDvcAwrFnKos@ja@oyBbe@_|BzJwj@jHg^jMgw@fYgpAjM_q@vVgpAfm@gbCf|@_nDzaAoaDvLg^n}@keCrtA{jDvBkHfEkHni@_jAbj@_jAby@_cB~Rg^v`@gw@~CgEbe@o}@~k@_jArl@{fAfw@syA~iAooBfOod@fpA_|Bju@w|ArIoKf|@syAnn@gpAruCsoFvQ_XjvBozDroAw_CzOwVntBgtDv|AorCzh@o}@raCgtD~u@wcAnU_Xz_BwuBjvBohCfm@wj@nkD_nDv`@_XjHgOfkA_`Az|@gw@njBovAf^_XrtAo}@bnCwuBfaAos@nd@w[bkBw|AzaAo}@~WwQ~bBovA~tC_|Bni@od@fOoK~z@_q@f^_XvLoKfTwQjdAgw@~u@_q@bfBgpAvy@wj@v`@g^ryA_jA~}AgpAjHgEvQwQ~WoK~WwQfw@od@~WgTbt@ce@vQsN~C?fToKjH_IjR_NrIgEvQoKfEgEfToKjRoKvQgOnFoAzOoKzEwBzT_NfTwQf~DgbC~mD_|BfbCw|AjsAgw@vLoKfuAgw@z|Ew}C~cIwcFz_BwcAjCcBntBgpAfpA{w@vkBolA~sAo}@vo@_Xfr@g^r{@od@zsBo}@~bBgw@~C?~p@g^vo@{TzzAct@~HgEbhAod@~WoK~xA_q@bnCwcAjgBct@~lBkz@znB_{@fY_NrSoKr`Aka@vQsNr~Agw@vLgE~bBo}@vuBwmAvt@w`@vQoK~_Aod@z_BwcA~u@g^jnAgw@brAgw@jC?~HgE~qB_jAfnB_jAvlD_mBns@w`@jqB_jAnoBogAzaAcj@~k@ka@jlBs`Az@cBve@_XvhA_q@vmAwj@~CgEfbCgpAfO_I~qB_`Ab`@sNzhEcfBr{@g^jz@c[jvBct@~bBwj@fTgEnoB_q@bGgEvuBwj@rwBgw@jRgE~bBwj@jvBct@jvBct@fOgEvhAg^~WkHnoB{m@noB_q@bkBwj@ziB_q@~gBwj@~bBwj@nFcBb|Ace@r}DgpAvwA_g@vGoAjR_Ij_A_XnqA_Xf^oKnx@oKjRgEr{@oK~iAsN~WcBf^gE~WgE~iAwBreAwGzaA?fO?bo@?jz@fEzO?~}AnAjf@vBrSfEbe@?jMfEb{DvQfYbB~u@bBrb@fEjM?feIv`@fw@fO",
+      "precision": 7,
+      "length": 428
+     },
+     "alerts": [
+      {
+       "communicationPeriod": [
+        {
+         "start": "2026-11-07T05:01:00Z",
+         "end": "2026-11-09T04:59:00Z"
+        }
+       ],
+       "impactPeriod": [
+        {
+         "start": "2026-11-07T05:01:00Z",
+         "end": "2026-11-09T04:59:00Z"
+        }
+       ],
+       "cause": "MAINTENANCE",
+       "effect": "MODIFIED_SERVICE",
+       "url": "https://www.septa.org/alerts",
+       "headerText": "Shuttle Busing Conshohocken to Norristown - Elm St Stations",
+       "descriptionText": "Bus service replaces trains from Conshohocken to Norristown - Elm St stations on November 7-8 and November 14-15. Riders should allow an additional 10-15 minutes for travel. For details and schedules, visit septa.org. Shuttle bus information is available on a separate  Manayunk/Norristown Shuttle Bus schedule page. "
+      },
+      {
+       "communicationPeriod": [
+        {
+         "start": "2026-10-26T09:50:00Z",
+         "end": "1970-01-01T00:00:00Z"
+        }
+       ],
+       "impactPeriod": [
+        {
+         "start": "2026-10-26T09:50:00Z",
+         "end": "1970-01-01T00:00:00Z"
+        }
+       ],
+       "cause": "MAINTENANCE",
+       "effect": "UNKNOWN_EFFECT",
+       "url": "https://www.septa.org/alerts",
+       "headerText": "Outbound Platform Boarding, Train #207, Norristown Transit Center",
+       "descriptionText": "Every weekday until further notice, passengers must board inbound Train #207 departing at 5:50 am on the outbound platform at Norristown Transit Center."
+      }
+     ],
+     "bikesAllowed": false,
+     "wheelchairAccessible": "ACCESSIBLE",
+     "reservation": "NONE",
+     "alternatives": []
+    },
+    {
+     "mode": "WALK",
+     "from": {
+      "name": "Temple University",
+      "stopId": "us-pa-SEPTA-Rail_90007",
+      "importance": 0.0027496691327542067,
+      "lat": 39.98139,
+      "lon": -75.14944,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "arrival": "2026-11-08T02:14:00Z",
+      "departure": "2026-11-08T02:14:00Z",
+      "scheduledArrival": "2026-11-08T02:14:00Z",
+      "scheduledDeparture": "2026-11-08T02:14:00Z",
+      "vertexType": "TRANSIT",
+      "cancelled": false,
+      "arrivalTimestampReason": "NO_RT_DATA",
+      "departureTimestampReason": "NO_RT_DATA",
+      "modes": [
+       "REGIONAL_RAIL"
+      ]
+     },
+     "to": {
+      "name": "END",
+      "lat": 39.9814,
+      "lon": -75.1495,
+      "level": 0.0,
+      "tz": "America/New_York",
+      "arrival": "2026-11-08T02:15:00Z",
+      "scheduledArrival": "2026-11-08T02:15:00Z",
+      "vertexType": "NORMAL"
+     },
+     "duration": 60,
+     "startTime": "2026-11-08T02:14:00Z",
+     "endTime": "2026-11-08T02:15:00Z",
+     "scheduledStartTime": "2026-11-08T02:14:00Z",
+     "scheduledEndTime": "2026-11-08T02:15:00Z",
+     "realTime": false,
+     "scheduled": false,
+     "distance": 5.0,
+     "legGeometry": {
+      "points": "wouqyV~nqjxk@gEnd@",
+      "precision": 7,
+      "length": 2
+     }
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,80 @@
+{
+  "routes": [
+    {
+      "duration": "2280s",
+      "distanceMeters": 9120,
+      "localizedValues": {
+        "distance": { "text": "5.7 mi" },
+        "duration": { "text": "38 mins" },
+        "staticDuration": { "text": "38 mins" },
+        "transitFare": { "text": "$2.50" }
+      },
+      "legs": [
+        {
+          "steps": [
+            { "distanceMeters": 120, "staticDuration": "95s", "travelMode": "WALK" },
+            { "distanceMeters": 210, "staticDuration": "160s", "travelMode": "WALK" },
+            {
+              "distanceMeters": 6400,
+              "staticDuration": "1260s",
+              "travelMode": "TRANSIT",
+              "transitDetails": {
+                "stopDetails": {
+                  "arrivalStop": { "name": "Market St & 15th St", "location": { "latLng": { "latitude": 39.9524, "longitude": -75.1658 } } },
+                  "arrivalTime": "2026-11-07T23:40:00Z",
+                  "departureStop": { "name": "Lansdowne Av & 63rd St", "location": { "latLng": { "latitude": 39.9781, "longitude": -75.2468 } } },
+                  "departureTime": "2026-11-07T23:19:00Z"
+                },
+                "localizedValues": {
+                  "arrivalTime": { "time": { "text": "6:40 PM" }, "timeZone": "America/New_York" },
+                  "departureTime": { "time": { "text": "6:19 PM" }, "timeZone": "America/New_York" }
+                },
+                "headsign": "15th-Market",
+                "transitLine": {
+                  "agencies": [ { "name": "SEPTA", "uri": "http://www.septa.org/" } ],
+                  "name": "Route 31",
+                  "nameShort": "31",
+                  "color": "#004f9f",
+                  "textColor": "#ffffff",
+                  "vehicle": { "name": { "text": "Bus" }, "type": "BUS" }
+                },
+                "stopCount": 18
+              }
+            },
+            { "distanceMeters": 90, "staticDuration": "70s", "travelMode": "WALK" },
+            {
+              "distanceMeters": 2300,
+              "staticDuration": "420s",
+              "travelMode": "TRANSIT",
+              "transitDetails": {
+                "stopDetails": {
+                  "arrivalStop": { "name": "Temple University", "location": { "latLng": { "latitude": 39.9814, "longitude": -75.1495 } } },
+                  "arrivalTime": "2026-11-07T23:55:30.000Z",
+                  "departureStop": { "name": "Jefferson Station", "location": { "latLng": { "latitude": 39.9525, "longitude": -75.1580 } } },
+                  "departureTime": "2026-11-07T23:48:00Z"
+                },
+                "localizedValues": {
+                  "arrivalTime": { "time": { "text": "6:55 PM" } },
+                  "departureTime": { "time": { "text": "6:48 PM" } }
+                },
+                "headsign": "Trenton",
+                "transitLine": {
+                  "agencies": [ { "name": "SEPTA" } ],
+                  "name": "Trenton Line",
+                  "vehicle": { "name": { "text": "Train" }, "type": "HEAVY_RAIL" }
+                },
+                "stopCount": 2
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "duration": "2700s",
+      "localizedValues": { "duration": { "text": "45 mins" } },
+      "warnings": [ "Walking directions are in beta." ],
+      "legs": [ { "steps": [ { "distanceMeters": 3600, "staticDuration": "2700s", "travelMode": "WALK" } ] } ]
+    }
+  ]
+}
