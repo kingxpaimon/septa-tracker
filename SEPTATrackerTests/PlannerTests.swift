@@ -127,6 +127,19 @@ final class PlannerTests: XCTestCase {
         XCTAssertEqual(second.lastArrival, at(monday, 8, 50))
     }
 
+    func testRoutesCarryMapPaths() throws {
+        let router = TripRouter(timetable: try timetable())
+        let route = try XCTUnwrap(router.plan(from: A, to: E, departAt: at(monday, 7, 55)).first)
+        let bus = try XCTUnwrap(route.rides.first)
+        XCTAssertEqual(bus.path.map(\.longitude), [-75.20, -75.19, -75.18], "stop by stop A → B → C")
+        let rail = try XCTUnwrap(route.rides.last)
+        XCTAssertEqual(rail.path.count, 2)
+        // Walks are straight lines between stops / origin / destination.
+        let walks = route.segments.compactMap { if case .walk(let w) = $0 { return w } else { return nil } }
+        XCTAssertTrue(walks.allSatisfy { $0.path.count >= 2 })
+        XCTAssertEqual(route.allPoints.first, A)
+    }
+
     func testAfterMidnightUsesPreviousServiceDay() throws {
         let router = TripRouter(timetable: try timetable())
         let tuesday = monday.adding(days: 1)

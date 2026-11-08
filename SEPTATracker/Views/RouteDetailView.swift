@@ -6,9 +6,39 @@ struct RouteDetailView: View {
     let route: TransitRoute
     let source: TripPlanner.Engine
     let showOnMap: (LiveLineMatcher.LiveInfo, TransitMode?) -> Void
+    @State private var showingFullMap = false
+
+    /// Google routes can't be drawn on this app's Apple map (Google's terms).
+    private var canDraw: Bool { source != .google && route.allPoints.count >= 2 }
+
+    /// Live vehicles running this route's exact trips.
+    private var tripVehicles: [Vehicle] {
+        route.rides.compactMap { LiveLineMatcher.liveInfo(for: $0, in: store.allVehicles)?.tripVehicle }
+    }
 
     var body: some View {
         List {
+            if canDraw {
+                Section {
+                    RouteMapView(route: route, liveVehicles: tripVehicles, interactive: false)
+                        .frame(height: 260)
+                        .listRowInsets(EdgeInsets())
+                        .overlay(alignment: .topTrailing) {
+                            Button { showingFullMap = true } label: {
+                                Image(systemName: "arrow.up.left.and.arrow.down.right")
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .frame(width: 34, height: 34)
+                                    .background(Color(.systemBackground), in: RoundedRectangle(cornerRadius: 8))
+                                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(.separator)))
+                            }
+                            .padding(8)
+                            .accessibilityLabel("Expand map")
+                        }
+                        .contentShape(Rectangle())
+                        .onTapGesture { showingFullMap = true }
+                    RouteLegend(route: route)
+                }
+            }
             Section {
                 ForEach(Array(route.segments.enumerated()), id: \.offset) { _, segment in
                     switch segment {
@@ -32,6 +62,24 @@ struct RouteDetailView: View {
         .listStyle(.insetGrouped)
         .navigationTitle(route.durationText ?? "Route")
         .navigationBarTitleDisplayMode(.inline)
+        .sheet(isPresented: $showingFullMap) {
+            NavigationStack {
+                RouteMapView(route: route, liveVehicles: tripVehicles)
+                    .ignoresSafeArea(edges: .bottom)
+                    .safeAreaInset(edge: .bottom) {
+                        RouteLegend(route: route)
+                            .padding()
+                            .background(Color(.systemBackground))
+                    }
+                    .navigationTitle(route.durationText ?? "Route")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Done") { showingFullMap = false }
+                        }
+                    }
+            }
+        }
     }
 }
 

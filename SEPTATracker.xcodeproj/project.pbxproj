@@ -58,6 +58,9 @@
 		B2000000000000000000021B /* RideDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000011E /* RideDetector.swift */; };
 		B2000000000000000000021C /* RideTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000011F /* RideTracker.swift */; };
 		B20000000000000000000415 /* RideDetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000315 /* RideDetectorTests.swift */; };
+		B2000000000000000000021D /* Polyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000120 /* Polyline.swift */; };
+		B2000000000000000000021E /* KeyboardDismiss.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000121 /* KeyboardDismiss.swift */; };
+		B2000000000000000000021F /* RouteMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000122 /* RouteMapView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +130,9 @@
 		B2000000000000000000011E /* RideDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideDetector.swift; sourceTree = "<group>"; };
 		B2000000000000000000011F /* RideTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideTracker.swift; sourceTree = "<group>"; };
 		B20000000000000000000315 /* RideDetectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RideDetectorTests.swift; sourceTree = "<group>"; };
+		B20000000000000000000120 /* Polyline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Polyline.swift; sourceTree = "<group>"; };
+		B20000000000000000000121 /* KeyboardDismiss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardDismiss.swift; sourceTree = "<group>"; };
+		B20000000000000000000122 /* RouteMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteMapView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +222,8 @@
 			children = (
 				B20000000000000000000106 /* JSONValues.swift */,
 				B2000000000000000000011A /* ZipArchive.swift */,
+				B20000000000000000000120 /* Polyline.swift */,
+				B20000000000000000000121 /* KeyboardDismiss.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -228,6 +236,7 @@
 				B20000000000000000000109 /* FilterView.swift */,
 				B20000000000000000000110 /* TripPlannerView.swift */,
 				B20000000000000000000111 /* RouteDetailView.swift */,
+				B20000000000000000000122 /* RouteMapView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -423,6 +432,9 @@
 				B2000000000000000000021A /* SavedPlacesStore.swift in Sources */,
 				B2000000000000000000021B /* RideDetector.swift in Sources */,
 				B2000000000000000000021C /* RideTracker.swift in Sources */,
+				B2000000000000000000021D /* Polyline.swift in Sources */,
+				B2000000000000000000021E /* KeyboardDismiss.swift in Sources */,
+				B2000000000000000000021F /* RouteMapView.swift in Sources */,
 				B20000000000000000000210 /* TripPlannerView.swift in Sources */,
 				B20000000000000000000211 /* RouteDetailView.swift in Sources */,
 				B20000000000000000000212 /* CSVReader.swift in Sources */,

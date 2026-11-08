@@ -65,7 +65,8 @@ struct TripRouter {
             let seconds = Walking.seconds(meters: straight)
             routes.append(TransitRoute(id: routes.count, duration: seconds, durationText: minutesText(seconds),
                                        distanceText: nil, fareText: nil,
-                                       segments: [.walk(.init(duration: seconds, distanceMeters: Int(Walking.meters(straightLine: straight))))],
+                                       segments: [.walk(.init(duration: seconds, distanceMeters: Int(Walking.meters(straightLine: straight)),
+                                                               path: [origin, destination]))],
                                        warnings: []))
         }
         return routes
@@ -112,7 +113,8 @@ struct TripRouter {
             let seconds = Walking.seconds(meters: straight)
             routes.append(TransitRoute(id: routes.count, duration: seconds, durationText: minutesText(seconds),
                                        distanceText: nil, fareText: nil,
-                                       segments: [.walk(.init(duration: seconds, distanceMeters: Int(Walking.meters(straightLine: straight))))],
+                                       segments: [.walk(.init(duration: seconds, distanceMeters: Int(Walking.meters(straightLine: straight)),
+                                                               path: [origin, destination]))],
                                        warnings: []))
         }
         return routes
@@ -292,7 +294,8 @@ struct TripRouter {
             }
             guard ok, let access = accessSeconds[Int32(s)] else { continue }
             legs.append(.walk(from: -1, to: Int32(s), seconds: access))
-            journeys.append(Journey(timetable: tt, today: today, departAt: departAt, legs: legs.reversed(), arrivalSeconds: destByRound[k]))
+            journeys.append(Journey(timetable: tt, today: today, departAt: departAt, origin: origin, destination: destination,
+                                    legs: legs.reversed(), arrivalSeconds: destByRound[k]))
         }
         return journeys
     }
@@ -311,6 +314,8 @@ private struct Journey {
     let timetable: Timetable
     let today: ServiceDay
     let departAt: Date
+    let origin: GeoPoint
+    let destination: GeoPoint
     let legs: [Leg]
     let arrivalSeconds: Int32
 
@@ -341,15 +346,17 @@ private struct Journey {
         for leg in legs {
             switch leg {
             case .walk(let from, let to, let seconds):
-                let a = from >= 0 ? tt.point(ofStop: Int(from)) : nil
-                let b = to >= 0 ? tt.point(ofStop: Int(to)) : nil
-                let meters = (a != nil && b != nil) ? Walking.meters(straightLine: a!.distance(to: b!)) : Double(seconds) * 1.3
+                let a = from >= 0 ? tt.point(ofStop: Int(from)) : origin
+                let b = to >= 0 ? tt.point(ofStop: Int(to)) : destination
+                let meters = Walking.meters(straightLine: a.distance(to: b))
                 if seconds > 0 {
                     if case .walk(var w)? = segments.last {
                         w.duration += TimeInterval(seconds); w.distanceMeters += Int(meters)
+                        w.path.append(b)
                         segments[segments.count - 1] = .walk(w)
                     } else {
-                        segments.append(.walk(.init(duration: TimeInterval(seconds), distanceMeters: Int(meters))))
+                        // Straight line: this planner has no street network.
+                        segments.append(.walk(.init(duration: TimeInterval(seconds), distanceMeters: Int(meters), path: [a, b])))
                     }
                 }
             case .ride(let trip, _, let b, let a, let depS, let arrS, let delay):
@@ -384,7 +391,9 @@ private struct Journey {
                     tripID: rawTrip,
                     trainNumber: isRail ? Self.trainNumber(tt.tripShortNames[t], tripID: rawTrip) : nil,
                     liveDelaySeconds: delay.map(Int.init),
-                    routeShortName: short.isEmpty ? nil : short
+                    routeShortName: short.isEmpty ? nil : short,
+                    // Stop by stop (SEPTA's route shapes aren't downloaded, to save space).
+                    path: stops[(stops.startIndex + b)...(stops.startIndex + a)].map { tt.point(ofStop: Int($0)) }
                 )))
             }
         }

@@ -45,6 +45,7 @@ struct FilterView: View {
                     }
                 }
             }
+            .scrollDismissesKeyboard(.interactively)
             .searchable(text: $search, prompt: "Route")
             .navigationTitle("Filter")
             .navigationBarTitleDisplayMode(.inline)
@@ -54,6 +55,7 @@ struct FilterView: View {
                 }
             }
         }
+        .keyboardDismissButton()
     }
 
     private func filtered(_ routes: [String]) -> [String] {

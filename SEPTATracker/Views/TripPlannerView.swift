@@ -62,6 +62,7 @@ struct TripPlannerView: View {
                 }
             }
             .listStyle(.insetGrouped)
+            .scrollDismissesKeyboard(.interactively)
             .searchable(text: $search.query, placement: .navigationBarDrawer(displayMode: .always),
                         prompt: picking?.prompt ?? "Where to?")
             .navigationTitle("Directions")
@@ -89,6 +90,7 @@ struct TripPlannerView: View {
                 await planner.plan(using: location)
             }
         }
+        .keyboardDismissButton()
     }
 
     // MARK: Sections

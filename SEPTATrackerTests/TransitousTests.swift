@@ -2,8 +2,8 @@ import XCTest
 @testable import SEPTATracker
 
 /// Transitous client against a real response captured 2026-11-07 ~8:05 pm Eastern
-/// (63rd & Lansdowne → Temple University). The first two itineraries were kept;
-/// `legGeometry` and `steps` were removed to keep the file small. Nothing else was edited.
+/// (63rd & Lansdowne → Temple University). The first two itineraries were kept and
+/// turn-by-turn `steps` removed to keep the file small. Nothing else was edited.
 final class TransitousTests: XCTestCase {
 
     func testParsesItineraries() throws {
@@ -65,6 +65,30 @@ final class TransitousTests: XCTestCase {
         XCTAssertEqual(arriveQuery.first { $0.name == "arriveBy" }?.value, "true")
         XCTAssertTrue(TransitousClient.userAgent.hasPrefix("SEPTA-Live/"))
         XCTAssertTrue(TransitousClient.userAgent.contains("https://github.com/kingxpaimon/septa-tracker"))
+    }
+
+    func testDecodesRouteGeometry() throws {
+        let route = try TransitousClient.parseRoutes(fixture())[0]
+        let trolley = try XCTUnwrap(route.rides.first)
+        XCTAssertEqual(trolley.path.count, 193, "matches legGeometry.length")
+        XCTAssertEqual(trolley.path.first?.latitude ?? 0, 39.97835, accuracy: 1e-6)
+        XCTAssertEqual(trolley.path.last?.longitude ?? 0, -75.16256, accuracy: 1e-6)
+        XCTAssertEqual(route.rides.last?.path.count, 217)
+        guard case .walk(let firstWalk) = route.segments[0] else { return XCTFail("expected walk") }
+        XCTAssertEqual(firstWalk.path.count, 2)
+        XCTAssertEqual(route.allPoints.count, 2 + 193 + 61 + 217 + 2)
+    }
+
+    func testPolylineDecoding() {
+        // Google's documented example (precision 5).
+        let points = Polyline.decode("_p~iF~ps|U_ulLnnqC_mqNvxq`@")
+        XCTAssertEqual(points.count, 3)
+        XCTAssertEqual(points[0].latitude, 38.5, accuracy: 1e-9)
+        XCTAssertEqual(points[0].longitude, -120.2, accuracy: 1e-9)
+        XCTAssertEqual(points[2].latitude, 43.252, accuracy: 1e-9)
+        XCTAssertEqual(points[2].longitude, -126.453, accuracy: 1e-9)
+        XCTAssertTrue(Polyline.decode("").isEmpty)
+        XCTAssertEqual(Polyline.decode("_p~iF~ps|U_ulL").count, 1, "truncated pair dropped")
     }
 
     func testHelpers() {

@@ -74,10 +74,12 @@ struct TransitousClient {
         var warnings: [String] = []
         for leg in it.legs ?? [] {
             if leg.mode == "WALK" || leg.mode == "BIKE" || leg.mode == "CAR" {
-                let walk = TransitRoute.Walk(duration: leg.duration ?? 0, distanceMeters: Int(leg.distance ?? 0))
+                let walk = TransitRoute.Walk(duration: leg.duration ?? 0, distanceMeters: Int(leg.distance ?? 0),
+                                             path: leg.legGeometry.map(path) ?? [])
                 if case .walk(var w)? = segments.last {
                     w.duration += walk.duration
                     w.distanceMeters += walk.distanceMeters
+                    w.path += walk.path
                     segments[segments.count - 1] = .walk(w)
                 } else {
                     segments.append(.walk(walk))
@@ -112,7 +114,8 @@ struct TransitousClient {
                 tripID: septaTrip,
                 trainNumber: isRail ? trainNumber(leg.tripShortName) : nil,
                 liveDelaySeconds: delay,
-                routeShortName: short
+                routeShortName: short,
+                path: leg.legGeometry.map(path) ?? []
             )))
             for alert in leg.alerts ?? [] {
                 let text = [short ?? leg.routeLongName, alert.headerText, alert.descriptionText]
@@ -123,6 +126,10 @@ struct TransitousClient {
         let duration = it.duration.map(TimeInterval.init)
         return TransitRoute(id: id, duration: duration, durationText: duration.map(minutesText), distanceText: nil,
                             fareText: nil, segments: segments, warnings: warnings)
+    }
+
+    private static func path(_ geometry: DTO.Geometry) -> [GeoPoint] {
+        Polyline.decode(geometry.points ?? "", precision: geometry.precision ?? 7)
     }
 
     /// "20261107_20:08_us-pa-SEPTA-Bus_968699" → "968699" (SEPTA's GTFS trip_id).
@@ -197,6 +204,11 @@ struct TransitousClient {
             let tripShortName: String?
             let intermediateStops: [Place]?
             let alerts: [Alert]?
+            let legGeometry: Geometry?
+        }
+        struct Geometry: Decodable {
+            let points: String?
+            let precision: Int?
         }
         struct Place: Decodable {
             let name: String?

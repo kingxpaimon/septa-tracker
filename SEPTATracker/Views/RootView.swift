@@ -83,6 +83,9 @@ struct RootView: View {
             }
             .navigationTitle("SEPTA Live")
             .navigationBarTitleDisplayMode(.inline)
+            // Solid top bar so the toolbar buttons don't sit on see-through glass over the map.
+            .toolbarBackground(Color(.systemBackground), for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
@@ -356,10 +359,12 @@ private struct MapButtons: View {
             }
             .accessibilityLabel("Center on my location")
         }
-        .font(.system(size: 18, weight: .medium))
+        .font(.system(size: 18, weight: .semibold))
         .foregroundStyle(.tint)
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 10))
-        .shadow(color: .black.opacity(0.15), radius: 4, y: 2)
+        // Solid, not frosted, so the buttons read clearly over busy map areas.
+        .background(Color(.systemBackground), in: RoundedRectangle(cornerRadius: 10))
+        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(.separator), lineWidth: 0.5))
+        .shadow(color: .black.opacity(0.25), radius: 5, y: 2)
     }
 }
 
@@ -462,7 +467,8 @@ private struct StatusBar: View {
         }
         .padding(.horizontal)
         .padding(.vertical, 8)
-        .background(.regularMaterial)
+        .background(Color(.systemBackground))
+        .overlay(alignment: .top) { Divider() }
     }
 }
 

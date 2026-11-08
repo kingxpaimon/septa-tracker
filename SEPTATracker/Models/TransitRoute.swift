@@ -40,6 +40,9 @@ struct TransitRoute: Identifiable, Hashable {
     struct Walk: Hashable {
         var duration: TimeInterval
         var distanceMeters: Int
+        /// Line to draw on the map; empty when unknown (e.g. Google results, which can't be
+        /// drawn on this app's Apple map anyway).
+        var path: [GeoPoint] = []
     }
 
     struct Ride: Hashable {
@@ -71,6 +74,9 @@ struct TransitRoute: Identifiable, Hashable {
         var liveDelaySeconds: Int? = nil
         /// GTFS route_short_name ("21", "T1", "AIR").
         var routeShortName: String? = nil
+        /// Line to draw on the map: street geometry from Transitous, or the stop-by-stop
+        /// sequence from the on-device planner. Empty for Google.
+        var path: [GeoPoint] = []
 
         /// Short label for chips: "21", "T1", or the line name for rail.
         var displayName: String {
@@ -95,6 +101,16 @@ struct TransitRoute: Identifiable, Hashable {
         segments.reduce(0) { total, segment in
             if case .walk(let w) = segment { return total + w.duration }
             return total
+        }
+    }
+
+    /// Every point to draw, in order (for fitting the map).
+    var allPoints: [GeoPoint] {
+        segments.flatMap { segment -> [GeoPoint] in
+            switch segment {
+            case .walk(let w): return w.path
+            case .ride(let r): return r.path
+            }
         }
     }
 
