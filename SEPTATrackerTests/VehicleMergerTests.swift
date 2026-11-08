@@ -55,19 +55,27 @@ final class VehicleMergerTests: XCTestCase {
 
     // MARK: - Bus/trolley merge
 
-    private func mergedSurface() throws -> [Vehicle] {
+    private func mergedSurface(includeRealtimeOnly: Bool = false) throws -> [Vehicle] {
         let entries = try SEPTAClient.parseTransitViewAllEntries(fixture("Merge-TransitViewAll", "json"))
         let positions = try GTFSRealtime.parseVehiclePositions(fixture("Merge-BusVehiclePositions", "pb"))
-        return VehicleMerger.mergeSurface(transitView: entries, realtime: positions)
+        return VehicleMerger.mergeSurface(transitView: entries, realtime: positions, includeRealtimeOnly: includeRealtimeOnly)
     }
 
     func testSurfaceMergeVehicleSet() throws {
+        // GTFS-RT-only vehicles (3630, 3401) are left out by default: checked against the
+        // schedule they're almost always waiting for, or done with, their trip. 3630 here is
+        // stopped at stop #1 of route 124.
         let vehicles = try mergedSurface()
         XCTAssertEqual(Set(vehicles.map(\.id)), [
             "bus-16-8633", "bus-33-7373", "bus-D1_BUS-3084", "trolley-T1-8484", "bus-5-3513",
-            "bus-124-3630", "bus-52-3401",   // GTFS-RT only, in service
-            // 1218 is in GTFS-RT without a trip (not in service): excluded.
         ])
+    }
+
+    func testRealtimeOnlyVehiclesCanBeIncluded() throws {
+        let vehicles = try mergedSurface(includeRealtimeOnly: true)
+        XCTAssertTrue(vehicles.contains { $0.id == "bus-124-3630" })
+        XCTAssertTrue(vehicles.contains { $0.id == "bus-52-3401" })
+        XCTAssertFalse(vehicles.contains { $0.label == "1218" }, "no trip at all: never included")
     }
 
     func testDuplicateResolvedByRealtimeTrip() throws {
@@ -104,7 +112,7 @@ final class VehicleMergerTests: XCTestCase {
     }
 
     func testRealtimeOnlyVehicleHasNoScheduleDetails() throws {
-        let vehicles = try mergedSurface()
+        let vehicles = try mergedSurface(includeRealtimeOnly: true)
         let bus = try XCTUnwrap(vehicles.first { $0.id == "bus-124-3630" })
         XCTAssertEqual(bus.positionSource, .gtfsRealtime)
         XCTAssertEqual(bus.tripID, "840960")

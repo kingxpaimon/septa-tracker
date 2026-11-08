@@ -13,7 +13,7 @@ An iOS app that shows where SEPTA buses, trolleys and Regional Rail trains are r
 - **Keyboard.** A hide-keyboard button floats above the keyboard in the directions and filter screens. Scrolling the list also dismisses it.
 - **Readable controls.** The floating map buttons, status bar and top bar use solid backgrounds instead of see-through materials.
 - **Ride detection (opt-in, on-device).** Turn on "Detect when I'm riding" in the map menu. While the app is open, it compares your GPS track with live vehicles. When you're moving faster than walking and staying with one specific bus or train across three of SEPTA's reports (at least a minute apart), it shows a banner ("On the 21 · #3686 · 3 min late"). It also moves that vehicle's marker to your phone's position, which is fresher than SEPTA's 30–90 s-old report, and tells you how far behind SEPTA's report is. "Not on it" dismisses a wrong guess. Nothing is stored or sent anywhere.
-- **Two SEPTA feeds, merged.** Vehicle positions come from SEPTA's JSON feeds (TransitView/TrainView) and its GTFS-realtime feed. For each vehicle the app uses the newest report, picks the right trip when TransitView lists a vehicle twice, and adds in-service buses that only GTFS-realtime reports. Positions are never averaged. See "Position accuracy" below.
+- **Two SEPTA feeds, merged.** Vehicle positions come from SEPTA's JSON feeds (TransitView/TrainView) and its GTFS-realtime feed. For each vehicle the app uses the newer report, and when TransitView lists a bus twice it picks the trip the bus is actually running. Trains get timestamps. Buses that only GTFS-realtime reports are *not* shown: checked against the schedule, almost none are running a trip (see "Position accuracy"). Positions are never averaged.
 - **Directions.** Search for a destination (Apple's place search) or pick a saved place. Choose **Leave now**, **Leave at** a time, or **Arrive by** a time; arrive-by results list the latest departure first. Each option lists lines, times, walking, transfers and live status, and the app can point out *your* bus or train on the live map. Three planners, switchable per search:
   - **Transitous** (default): free community service. Answers in about a second, routes walking along real streets, and includes SEPTA service alerts. Has live bus and trolley data but no live train data.
   - **SEPTA, on the phone:** plans from SEPTA's own schedule with SEPTA's live feed, including train delays. Free and needs no outside service, but the first search downloads and compiles the schedule (about 27 MB, several seconds).
@@ -126,12 +126,23 @@ What the app does instead, measured on a live capture (2026-11-07 ~6:17 pm Easte
 
 | | TransitView alone | Merged with GTFS-realtime |
 |---|---|---|
-| Buses/trolleys shown | 393 | **522** (+129 in service that TransitView omits) |
+| Buses/trolleys only GTFS-realtime reports | — | 87–129 per snapshot, but **2 of 396 were running a trip**; not shown (see below) |
 | Duplicate entries resolved by actual trip | 0 of 6 correct (old "keep first" rule) | 6 of 6 |
 | Positions replaced by a newer report | — | 4 of 397 (TransitView was usually as new or newer) |
 | Trains with a report timestamp | 0 of 18 | 18 of 18 |
 
-So the freshness gain for buses is small. The real wins are coverage, choosing the right trip, and timestamps for trains. For trains, the GTFS-realtime position is always preferred when it matches, because TrainView has no timestamp to compare. In one case, train 4459, TrainView's position was about 6.5 km from the stretch between the two stations it reported itself between, while GTFS-realtime's matched them. That's one example, not a measured error rate.
+So the freshness gain for buses is small. The real wins are choosing the right trip for duplicated buses (8 of 8 checks across captures) and timestamps for trains. For trains, the GTFS-realtime position is always preferred when it matches, because TrainView has no timestamp to compare. In one case, train 4459, TrainView's position was about 6.5 km from the stretch between the two stations it reported itself between, while GTFS-realtime's matched them. That's one example, not a measured error rate.
+
+**Correction: the "extra" buses aren't in service.** An earlier version added buses that appear only in GTFS-realtime and claimed about 30% more coverage. A check of every such vehicle against SEPTA's schedule, on 4 snapshots (Sat 2026-11-07 6:17 pm and Sun 2026-11-08 7:47–7:49 am), found 396 of them:
+
+| What they were doing | Count |
+|---|---|
+| Waiting at their first stop for a trip that hadn't started | 271 (68%) |
+| Finished their trip | 80 (20%) |
+| Driving to the start of their next trip | 43 (11%) |
+| **Running their trip** | **2 (0.5%)** |
+
+For comparison, 97% of buses that both feeds report were mid-trip, within ~7 m of their route. TransitView leaves the idle buses out on purpose, so the app now does too (`VehicleMerger.mergeSurface(includeRealtimeOnly:)`, off by default). GTFS-realtime's own fields don't separate them cleanly: "stopped at stop 1" also matches 12–27 buses that are about to depart.
 
 ## Known gaps and risks
 
@@ -153,7 +164,7 @@ So the freshness gain for buses is small. The real wins are coverage, choosing t
 - **Field names now match a live response, but there's still no spec.** TransitViewAll returns `{"routes":[{"<route>":[…]}]}`. TrainView returns a bare array. Field names and types are documented in `SEPTAClient.swift`. A single weekend-evening capture won't show every variant (for example, null coordinates, or a train with no next stop), so parsing stays lenient.
 - **`Offset_sec` was misread before.** It is the schedule deviation in seconds (`Offset_sec / 60 ≈ late`), not how old the GPS report is. Report age now comes from TransitView's `timestamp` field (Unix seconds). TrainView has no timestamp, so trains show no report age.
 - **TransitView lists some vehicles twice.** The duplicates have the same vehicle number and position but different trip IDs (10 of 433 entries in one capture, 6 of 399 in another). GTFS-realtime's `trip_id` says which trip is active, and that's used when available. It was always the entry with non-zero lateness; the `late: 0` entry is the next trip. When GTFS-realtime is unavailable, the app falls back to preferring the late entry. (The previous "keep the first entry" rule was wrong in every observed case.)
-- **GTFS-realtime-only vehicles have less detail.** The 129 extra buses have a route, position and timestamp, but no destination, next stop or lateness. Vehicles in that feed with no trip (407 in the capture, presumably out of service) are left out. That they're out of service is an assumption.
+- **Idle buses are hidden.** Buses only GTFS-realtime reports are left off the map, because almost all are waiting for or done with a trip. That could hide a rare genuinely running bus (2 of 396 in the check).
 - **Regional Rail matching relies on a trip-ID pattern.** GTFS-realtime rail trip IDs looked like `PAO9566_20261019_SID189798`, and the digits after the line code matched TrainView's `trainno` for all 18 trains. One train can appear under two trip IDs at the same position. Trains only in GTFS-realtime aren't added, because its line codes (`PAO`, `TRE`) don't map cleanly to TrainView line names.
 - **Trolley detection is by route key and misclassifies bus substitutions.** Route keys seen: T1–T5, G1, M1, `D1_BUS`, `D2_BUS`, plus numeric bus routes and named ones (`BLVDDIR`, `NOR_BUS`, `K`). The old numeric trolley routes (10, 11, 13, 15, 34, 36, 101, 102) didn't appear. T and G1 vehicles include bus-numbered vehicles (for example 3042 on T1, and 3659 and 3398 on G1), which will show as trolleys. M1 (Norristown High Speed Line) is shown as a trolley because there's no separate light-rail mode. `D1_BUS`/`D2_BUS` are shown as buses.
 - **Lateness sentinel.** TransitView sends `late: 998` (with `Offset_sec: "0"`) for "no estimate", which was seen twice. 999 wasn't seen. Anything 900 or more is treated as no estimate. Early vehicles have negative values, and `Offset` can be `"-0"`.
@@ -165,7 +176,7 @@ So the freshness gain for buses is small. The real wins are coverage, choosing t
   - A rider who boards with the app already open can take 1–2 minutes to be detected.
 - **Subway isn't on the live map.** The L and B lines aren't in the vehicle feeds used here. The planner does route on them from the schedule (`L1`, `B1` and others), without live data.
 - **Performance at full load is unverified.** The capture had 433 surface vehicles on a Saturday evening. Weekday peak will be higher. Standard `Marker`s are used rather than custom views. If the map lags, cluster markers or show only vehicles inside the visible region.
-- **Coverage gaps.** TransitView omitted about a quarter of in-service buses compared with GTFS-realtime in the capture. GTFS-realtime may have gaps of its own; nothing here measures that.
+- **Coverage.** No evidence that TransitView misses buses on a trip; the earlier "about a quarter" claim was wrong (see the correction above). Whether either feed misses buses outright hasn't been measured.
 
 ## Project layout
 

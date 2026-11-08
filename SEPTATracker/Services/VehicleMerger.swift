@@ -8,8 +8,12 @@ import Foundation
 /// 2. Use the freshest position. For buses/trolleys, whichever report has the newer
 ///    timestamp wins. TrainView has no timestamps, so a matched GTFS-RT position
 ///    (which does) is preferred for trains.
-/// 3. Add in-service buses/trolleys that GTFS-RT reports but TransitView omits.
-///    These have no destination, next stop or lateness.
+/// 3. Optionally (off by default) add buses/trolleys that only GTFS-RT reports. Checked
+///    against SEPTA's schedule on 4 snapshots (Sat 2026-11-07 6:17 pm, Sun 2026-11-08
+///    7:47-7:49 am): of 396 such vehicles, only 2 were running their trip. 271 were waiting
+///    at their first stop for a trip that hadn't started, 43 were driving to their next
+///    trip, and 80 had finished. TransitView leaves these out on purpose; showing them as
+///    "Route 21" would be misleading.
 ///
 /// Positions are never averaged: the two feeds report the same GPS units at different
 /// moments, so an average would land behind the vehicle.
@@ -20,7 +24,8 @@ enum VehicleMerger {
     /// - Parameters:
     ///   - transitView: every TransitView entry, duplicates included.
     ///   - realtime: the bus/trolley GTFS-RT feed, or empty if it failed.
-    static func mergeSurface(transitView: [Vehicle], realtime: [RealtimeVehiclePosition]) -> [Vehicle] {
+    static func mergeSurface(transitView: [Vehicle], realtime: [RealtimeVehiclePosition],
+                             includeRealtimeOnly: Bool = false) -> [Vehicle] {
         let realtimeByID = Dictionary(realtime.map { ($0.vehicleID, $0) }, uniquingKeysWith: { a, _ in a })
         var merged = resolveDuplicates(transitView) { realtimeByID[$0.label]?.tripID }
 
@@ -34,6 +39,7 @@ enum VehicleMerger {
             }
         }
 
+        guard includeRealtimeOnly else { return uniqued(merged) }
         let known = Set(merged.map(\.label))
         let extras = realtime.compactMap { rt -> Vehicle? in
             // No trip means the vehicle isn't in service (deadheading, in the garage).
