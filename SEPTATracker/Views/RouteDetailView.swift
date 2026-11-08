@@ -3,6 +3,7 @@ import SwiftUI
 /// Step-by-step view of one recommended route, with live SEPTA info for each ride.
 struct RouteDetailView: View {
     @EnvironmentObject private var store: VehicleStore
+    @EnvironmentObject private var alerts: TripAlerts
     let route: TransitRoute
     let source: TripPlanner.Engine
     let showOnMap: (LiveLineMatcher.LiveInfo, TransitMode?) -> Void
@@ -39,6 +40,22 @@ struct RouteDetailView: View {
                     RouteLegend(route: route)
                 }
             }
+            if let leave = leaveTime, let first = route.rides.first, leave > Date() {
+                Section {
+                    reminderToggle(id: leaveAlertID, title: "Remind me when to leave",
+                                   detail: "2 min before \(leave.formatted(date: .omitted, time: .shortened))") {
+                        TripAlert(id: leaveAlertID, kind: .leave, title: "Time to leave",
+                                  message: "Head out for the \(first.displayName) at \(first.departureStopName ?? "your stop")",
+                                  eventTime: leave, leadMinutes: 2, tripID: first.tripID)
+                    }
+                } footer: {
+                    if alerts.permissionDenied {
+                        Text("Notifications are off for SEPTA Live. Turn them on in Settings to get reminders.")
+                    } else {
+                        Text("Reminders use the predicted time when you set them. Nearby keeps departure reminders up to date while the app is open.")
+                    }
+                }
+            }
             Section {
                 ForEach(Array(route.segments.enumerated()), id: \.offset) { _, segment in
                     switch segment {
@@ -62,6 +79,7 @@ struct RouteDetailView: View {
             }
         }
         .listStyle(.insetGrouped)
+        .environment(\.getOffReminder, getOffReminder)
         .navigationTitle(route.durationText ?? "Route")
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showingFullMap) {
@@ -82,6 +100,68 @@ struct RouteDetailView: View {
                     }
             }
         }
+    }
+}
+
+extension RouteDetailView {
+    /// When to start walking to the first stop.
+    private var leaveTime: Date? {
+        guard let first = route.rides.first?.departureTime else { return nil }
+        if case .walk(let w)? = route.segments.first { return first.addingTimeInterval(-w.duration) }
+        return first
+    }
+
+    private var leaveAlertID: String {
+        "leave-" + route.rides.map { $0.tripID ?? $0.displayName }.joined(separator: "+")
+    }
+
+    @ViewBuilder
+    private func reminderToggle(id: String, title: String, detail: String, make: @escaping () -> TripAlert) -> some View {
+        let isOn = alerts.alert(id: id) != nil
+        Button {
+            if isOn { alerts.cancel(id: id) } else { Task { await alerts.schedule(make()) } }
+        } label: {
+            HStack {
+                Label(title, systemImage: isOn ? "bell.fill" : "bell")
+                Spacer()
+                Text(isOn ? "On" : detail).font(.caption).foregroundStyle(.secondary)
+            }
+        }
+    }
+
+    /// Passed to ride rows so they can offer "Alert me before my stop".
+    private var getOffReminder: GetOffReminder {
+        GetOffReminder(isOn: { alerts.alert(id: $0) != nil },
+                       toggle: { ride in
+                           guard let arrival = ride.arrivalTime else { return }
+                           let id = GetOffReminder.id(for: ride)
+                           if alerts.alert(id: id) != nil { alerts.cancel(id: id); return }
+                           Task {
+                               await alerts.schedule(TripAlert(id: id, kind: .getOff, title: "Get off soon",
+                                                               message: ride.arrivalStopName ?? "Your stop",
+                                                               eventTime: arrival, leadMinutes: 2, tripID: ride.tripID))
+                           }
+                       })
+    }
+}
+
+/// "Alert me before my stop" plumbing from RouteDetailView to its ride rows.
+struct GetOffReminder {
+    var isOn: (String) -> Bool = { _ in false }
+    var toggle: (TransitRoute.Ride) -> Void = { _ in }
+    static func id(for ride: TransitRoute.Ride) -> String {
+        "getoff-\(ride.tripID ?? ride.displayName)-\(ride.arrivalStopName ?? "")"
+    }
+}
+
+private struct GetOffReminderKey: EnvironmentKey {
+    static let defaultValue = GetOffReminder()
+}
+
+extension EnvironmentValues {
+    var getOffReminder: GetOffReminder {
+        get { self[GetOffReminderKey.self] }
+        set { self[GetOffReminderKey.self] = newValue }
     }
 }
 
@@ -109,6 +189,7 @@ private struct RideRow: View {
     let live: LiveLineMatcher.LiveInfo?
     var bunch: VehicleInsights.Bunch? = nil
     let showOnMap: (LiveLineMatcher.LiveInfo, TransitMode?) -> Void
+    @Environment(\.getOffReminder) private var getOffReminder
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -136,6 +217,14 @@ private struct RideRow: View {
             }
             if let stop = ride.arrivalStopName {
                 timeLine("Get off at \(stop)", ride.arrivalTimeText ?? ride.arrivalTime.map(Self.time))
+            }
+            if let arrival = ride.arrivalTime, arrival > Date() {
+                let on = getOffReminder.isOn(GetOffReminder.id(for: ride))
+                Button { getOffReminder.toggle(ride) } label: {
+                    Label(on ? "Stop alert on (2 min before)" : "Alert me before my stop", systemImage: on ? "bell.fill" : "bell")
+                        .font(.caption.weight(.semibold))
+                }
+                .buttonStyle(.borderless)
             }
             liveSection
         }

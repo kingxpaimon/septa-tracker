@@ -41,6 +41,10 @@ actor ScheduleStore {
 
     private var router: TripRouter?
     private var staleWarning: String?
+    /// Live predictions are shared between searches for up to `liveCacheSeconds`; the bus feed
+    /// is ~500-600 KB, so re-fetching on every refresh would waste mobile data.
+    private var liveCache: (fetched: Date, delays: LiveDelays?)?
+    private let liveCacheSeconds: TimeInterval = 30
     private let cacheURL: URL
     private let session: URLSession
 
@@ -57,12 +61,46 @@ actor ScheduleStore {
               progress: @escaping @Sendable (Phase) -> Void = { _ in }) async throws -> PlanResult {
         let router = try await loadRouter(progress: progress)
         progress(.ready)
-        let live = await fetchLive(router: router, now: Date())
+        let live = await cachedLive(router: router)
         let routes = arriveBy
             ? router.plan(from: origin, to: destination, arriveBy: time ?? Date(), live: live)
             : router.plan(from: origin, to: destination, departAt: time ?? Date(), live: live)
         return PlanResult(routes: routes, feedVersion: router.timetable.feedVersion,
                           liveTrips: live?.matchedTrips, staleScheduleWarning: staleWarning)
+    }
+
+    struct NearbyResult: Sendable {
+        let lines: [LineDepartures]
+        let liveTrips: Int?
+        let staleScheduleWarning: String?
+    }
+
+    /// Next departures around `point` (see `TripRouter.departures`).
+    func departures(near point: GeoPoint, now: Date = Date(),
+                    progress: @escaping @Sendable (Phase) -> Void = { _ in }) async throws -> NearbyResult {
+        let router = try await loadRouter(progress: progress)
+        progress(.ready)
+        let live = await cachedLive(router: router)
+        return NearbyResult(lines: router.departures(near: point, at: now, live: live),
+                            liveTrips: live?.matchedTrips, staleScheduleWarning: staleWarning)
+    }
+
+    /// Whether a usable schedule is already on disk or in memory (no download needed).
+    func hasSchedule() -> Bool {
+        router != nil || FileManager.default.fileExists(atPath: cacheURL.path)
+    }
+
+    /// Downloads and compiles the schedule ahead of time (call on Wi-Fi), so the first
+    /// "Nearby" or SEPTA search doesn't wait. Errors are ignored; the next use retries.
+    func prefetch() async {
+        _ = try? await loadRouter()
+    }
+
+    private func cachedLive(router: TripRouter) async -> LiveDelays? {
+        if let cache = liveCache, Date().timeIntervalSince(cache.fetched) < liveCacheSeconds { return cache.delays }
+        let live = await fetchLive(router: router, now: Date())
+        liveCache = (Date(), live)
+        return live
     }
 
     /// Forces a fresh download next time.
@@ -111,6 +149,7 @@ actor ScheduleStore {
 
     private func install(_ timetable: Timetable) -> TripRouter {
         let r = TripRouter(timetable: timetable)
+        liveCache = nil   // live delays index trips of the previous timetable
         router = r
         return r
     }

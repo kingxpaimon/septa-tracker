@@ -63,6 +63,13 @@
 		B2000000000000000000021F /* RouteMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000122 /* RouteMapView.swift */; };
 		B20000000000000000000220 /* VehicleInsights.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000123 /* VehicleInsights.swift */; };
 		B20000000000000000000416 /* RiderInsightsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000316 /* RiderInsightsTests.swift */; };
+		B20000000000000000000221 /* Departures.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000124 /* Departures.swift */; };
+		B20000000000000000000222 /* TripAlertModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000125 /* TripAlertModels.swift */; };
+		B20000000000000000000223 /* TripAlerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000126 /* TripAlerts.swift */; };
+		B20000000000000000000224 /* DiagnosticReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000127 /* DiagnosticReport.swift */; };
+		B20000000000000000000225 /* NearbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000128 /* NearbyView.swift */; };
+		B20000000000000000000226 /* DiagnosticSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000129 /* DiagnosticSheet.swift */; };
+		B20000000000000000000417 /* NearbyAndAlertsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000317 /* NearbyAndAlertsTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,6 +144,13 @@
 		B20000000000000000000122 /* RouteMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteMapView.swift; sourceTree = "<group>"; };
 		B20000000000000000000123 /* VehicleInsights.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleInsights.swift; sourceTree = "<group>"; };
 		B20000000000000000000316 /* RiderInsightsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RiderInsightsTests.swift; sourceTree = "<group>"; };
+		B20000000000000000000124 /* Departures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Departures.swift; sourceTree = "<group>"; };
+		B20000000000000000000125 /* TripAlertModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripAlertModels.swift; sourceTree = "<group>"; };
+		B20000000000000000000126 /* TripAlerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripAlerts.swift; sourceTree = "<group>"; };
+		B20000000000000000000127 /* DiagnosticReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticReport.swift; sourceTree = "<group>"; };
+		B20000000000000000000128 /* NearbyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyView.swift; sourceTree = "<group>"; };
+		B20000000000000000000129 /* DiagnosticSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagnosticSheet.swift; sourceTree = "<group>"; };
+		B20000000000000000000317 /* NearbyAndAlertsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyAndAlertsTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -218,6 +232,9 @@
 				B2000000000000000000011E /* RideDetector.swift */,
 				B2000000000000000000011F /* RideTracker.swift */,
 				B20000000000000000000123 /* VehicleInsights.swift */,
+				B20000000000000000000125 /* TripAlertModels.swift */,
+				B20000000000000000000126 /* TripAlerts.swift */,
+				B20000000000000000000127 /* DiagnosticReport.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -242,6 +259,8 @@
 				B20000000000000000000110 /* TripPlannerView.swift */,
 				B20000000000000000000111 /* RouteDetailView.swift */,
 				B20000000000000000000122 /* RouteMapView.swift */,
+				B20000000000000000000128 /* NearbyView.swift */,
+				B20000000000000000000129 /* DiagnosticSheet.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -257,6 +276,7 @@
 				B20000000000000000000314 /* SavedPlacesTests.swift */,
 				B20000000000000000000315 /* RideDetectorTests.swift */,
 				B20000000000000000000316 /* RiderInsightsTests.swift */,
+				B20000000000000000000317 /* NearbyAndAlertsTests.swift */,
 				B20000000000000000000501 /* Fixtures */,
 			);
 			path = SEPTATrackerTests;
@@ -300,6 +320,7 @@
 				B20000000000000000000117 /* LiveDelays.swift */,
 				B20000000000000000000118 /* TripRouter.swift */,
 				B20000000000000000000119 /* ScheduleStore.swift */,
+				B20000000000000000000124 /* Departures.swift */,
 			);
 			path = Planner;
 			sourceTree = "<group>";
@@ -442,6 +463,12 @@
 				B2000000000000000000021E /* KeyboardDismiss.swift in Sources */,
 				B2000000000000000000021F /* RouteMapView.swift in Sources */,
 				B20000000000000000000220 /* VehicleInsights.swift in Sources */,
+				B20000000000000000000221 /* Departures.swift in Sources */,
+				B20000000000000000000222 /* TripAlertModels.swift in Sources */,
+				B20000000000000000000223 /* TripAlerts.swift in Sources */,
+				B20000000000000000000224 /* DiagnosticReport.swift in Sources */,
+				B20000000000000000000225 /* NearbyView.swift in Sources */,
+				B20000000000000000000226 /* DiagnosticSheet.swift in Sources */,
 				B20000000000000000000210 /* TripPlannerView.swift in Sources */,
 				B20000000000000000000211 /* RouteDetailView.swift in Sources */,
 				B20000000000000000000212 /* CSVReader.swift in Sources */,
@@ -465,6 +492,7 @@
 				B20000000000000000000414 /* SavedPlacesTests.swift in Sources */,
 				B20000000000000000000415 /* RideDetectorTests.swift in Sources */,
 				B20000000000000000000416 /* RiderInsightsTests.swift in Sources */,
+				B20000000000000000000417 /* NearbyAndAlertsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,6 +12,13 @@ An iOS app that shows where SEPTA buses, trolleys and Regional Rail trains are r
 - **Dropped pins.** Long-press the map to drop a pin. It shows the street address (Apple's geocoder), with **Directions** (to here), **From here**, **Star**, **Set Home** and **Set Work**. Saved places appear on the map as pins.
 - **Keyboard.** A hide-keyboard button floats above the keyboard in the directions and filter screens. Scrolling the list also dismisses it.
 - **Readable controls.** The floating map buttons, status bar and top bar use solid backgrounds instead of see-through materials.
+- **Nearby.** The clock button opens a list of departures around you, like Transit's main screen. Each line and direction shows its nearest stop (within 500 m), the walk time, and the next three departures in the next 90 minutes as countdowns, with live predictions marked. It refreshes every minute (pull to refresh too), and a map button filters the live map to that line. Built from the on-device SEPTA schedule plus SEPTA's live predictions. On real data it took 0.009 s for 25 lines around City Hall. The schedule downloads in the background on Wi-Fi at launch, so Nearby rarely waits.
+- **Alerts** (local notifications, permission asked on first use):
+  - "Remind me 2 / 5 / 10 min before" on any departure in Nearby.
+  - "Remind me when to leave" for a planned route: 2 minutes before you need to start walking.
+  - "Alert me before my stop": 2 minutes before arriving.
+  - Departure reminders move with live predictions while Nearby is open. With the app closed, a reminder fires at the last computed time. There's no background tracking, because location is "while using" only.
+- **Report a problem.** The map menu creates a JSON snapshot: your note, your location, live vehicles within 1.5 km, feed status and ride state. You share it yourself; the app uploads nothing. See `TESTING.md` for a field-test checklist.
 - **Rider details from SEPTA's feeds:**
   - **Trains:** platform/track ("Track 1N", flagged when changed), number of cars, and express service, both on the train and on route steps for your exact train.
   - **Buses:** crowding gauge (empty / many seats / few seats / standing / full) where SEPTA reports it; about 60% of buses in captures had a value.
@@ -153,7 +160,7 @@ For comparison, 97% of buses that both feeds report were mid-trip, within ~7 m o
 ## Known gaps and risks
 
 - **Built and tested in Xcode, but not yet used.** On 2026-11-08 the project built with `xcodebuild` for the iOS Simulator (`generic/platform=iOS Simulator`), and `xcodebuild test` passed on an iOS 27.2 "iPhone Duo" simulator. Nobody has opened the app and used it yet: the map, location permission, directions screen and first-run schedule download are unchecked in practice, and it hasn't run on a physical iPhone.
-- **What was verified, and how.** SEPTA's JSON feeds and GTFS-realtime feeds were captured live on 2026-11-07, and SEPTA's GTFS schedule (v202611010) was downloaded the same evening. Trimmed copies of the live responses are in `SEPTATrackerTests/Fixtures/`; entries were dropped, nothing edited. `MiniSEPTA.zip` and `MiniTripUpdates-*.pb` are hand-made. All non-UI code (the planner, zip reader, parsers, merger, Google client) was compiled with Swift 6.0.3 on Linux, using stub `CoreLocation`/`SwiftUI` modules. All 77 tests passed there. Disabling live delays or cancellations in the router makes tests fail, so they do check those paths. The planner also ran end to end against the real schedule and live feeds (see "On-device planner"). The tests also pass in Xcode (see above).
+- **What was verified, and how.** SEPTA's JSON feeds and GTFS-realtime feeds were captured live on 2026-11-07, and SEPTA's GTFS schedule (v202611010) was downloaded the same evening. Trimmed copies of the live responses are in `SEPTATrackerTests/Fixtures/`; entries were dropped, nothing edited. `MiniSEPTA.zip` and `MiniTripUpdates-*.pb` are hand-made. All non-UI code (the planner, zip reader, parsers, merger, Google client) was compiled with Swift 6.0.3 on Linux, using stub `CoreLocation`/`SwiftUI` modules. All 83 tests passed there. Disabling live delays or cancellations in the router makes tests fail, so they do check those paths. The planner also ran end to end against the real schedule and live feeds (see "On-device planner"). The tests also pass in Xcode (see above).
 - **The optional Google planner has never made a real request.** No API key was available. `GoogleRoutes-Synthetic.json` was written by hand from Google's documentation, and how Google names SEPTA lines is a guess.
 - **Live-vehicle matching.** For SEPTA-planned rides, *your* bus is found by trip ID (TransitView's `trip` equals the schedule's `trip_id`) and your train by train number. It's shown only when that vehicle is currently reporting. Otherwise the app falls back to the line's closest vehicle by straight-line distance, which ignores direction.
 - **The planner hasn't been checked against reality.** Its routes match an independent planner on one sample trip and look plausible on others, but nobody has ridden them. Known simplifications:
@@ -206,6 +213,7 @@ SEPTATrackerTests/
   SavedPlacesTests.swift     Home/Work/starred storage
   RideDetectorTests.swift    Ride detection on simulated GPS tracks
   RiderInsightsTests.swift   Track/cars/crowding parsing, bunching, waiting-bus matching
+  NearbyAndAlertsTests.swift Nearby departures (incl. live/cancellations/after midnight), alert timing, diagnostics
   TransitousTests.swift      Transitous request/parse (real response fixture)
   Fixtures/                  Trimmed live SEPTA responses; MiniSEPTA.zip, MiniTripUpdates-*.pb and
                              GoogleRoutes-Synthetic.json are hand-made

@@ -24,6 +24,9 @@ struct RootView: View {
     /// Opt-in: notice when the user is riding a vehicle (on-device only, app open only).
     @AppStorage("ride.detection") private var rideDetection = false
     @State private var showingRideExplainer = false
+    @State private var showingNearby = false
+    @State private var showingDiagnostics = false
+    @EnvironmentObject private var tripAlerts: TripAlerts
 
     static let philadelphia = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 39.9526, longitude: -75.1652),
@@ -73,6 +76,7 @@ struct RootView: View {
                         showsTraffic: $showsTraffic,
                         showsPlaces: $showsPlaces,
                         rideDetection: rideDetectionBinding,
+                        onReportProblem: { selectedVehicleID = nil; showingDiagnostics = true },
                         locateIcon: locateIcon,
                         onLocate: locateTapped,
                         onShowArea: { withAnimation { cameraPosition = .region(Self.philadelphia) } }
@@ -94,6 +98,15 @@ struct RootView: View {
                         Label("Refresh", systemImage: "arrow.clockwise")
                     }
                     .disabled(store.isRefreshing)
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        selectedVehicleID = nil
+                        droppedPin = nil
+                        showingNearby = true
+                    } label: {
+                        Label("Nearby", systemImage: "clock.arrow.circlepath")
+                    }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
@@ -122,6 +135,7 @@ struct RootView: View {
                     .environmentObject(store)
                     .environmentObject(location)
                     .environmentObject(saved)
+                    .environmentObject(tripAlerts)
             }
             .sheet(isPresented: detailBinding) {
                 if let id = selectedVehicleID {
@@ -140,6 +154,14 @@ struct RootView: View {
                 .environmentObject(saved)
                 .presentationDetents([.height(320)])
                 .presentationBackgroundInteraction(.enabled)
+            }
+            .sheet(isPresented: $showingNearby) {
+                NearbyView()
+                    .presentationDetents([.medium, .large])
+                    .presentationBackgroundInteraction(.enabled(upThrough: .medium))
+            }
+            .sheet(isPresented: $showingDiagnostics) {
+                DiagnosticSheet()
             }
             .alert("Detect when you're riding?", isPresented: $showingRideExplainer) {
                 Button("Turn On") {
@@ -325,6 +347,7 @@ private struct MapButtons: View {
     @Binding var showsTraffic: Bool
     @Binding var showsPlaces: Bool
     @Binding var rideDetection: Bool
+    let onReportProblem: () -> Void
     let locateIcon: String
     let onLocate: () -> Void
     let onShowArea: () -> Void
@@ -346,6 +369,9 @@ private struct MapButtons: View {
                 Divider()
                 Button { onShowArea() } label: {
                     Label("Show all of Philadelphia", systemImage: "arrow.up.left.and.arrow.down.right")
+                }
+                Button { onReportProblem() } label: {
+                    Label("Report a problem…", systemImage: "exclamationmark.bubble")
                 }
             } label: {
                 Image(systemName: "map")
