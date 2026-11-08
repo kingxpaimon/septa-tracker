@@ -36,6 +36,19 @@
 		B20000000000000000000407 /* Merge-BusVehiclePositions.pb in Resources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000308 /* Merge-BusVehiclePositions.pb */; };
 		B20000000000000000000408 /* Merge-RailVehiclePositions.pb in Resources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000309 /* Merge-RailVehiclePositions.pb */; };
 		B20000000000000000000409 /* GoogleRoutes-Synthetic.json in Resources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000030A /* GoogleRoutes-Synthetic.json */; };
+		B20000000000000000000212 /* CSVReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000115 /* CSVReader.swift */; };
+		B20000000000000000000213 /* Timetable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000116 /* Timetable.swift */; };
+		B20000000000000000000214 /* LiveDelays.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000117 /* LiveDelays.swift */; };
+		B20000000000000000000215 /* TripRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000118 /* TripRouter.swift */; };
+		B20000000000000000000216 /* ScheduleStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000119 /* ScheduleStore.swift */; };
+		B20000000000000000000217 /* ZipArchive.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000011A /* ZipArchive.swift */; };
+		B2000000000000000000040B /* PlannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000030B /* PlannerTests.swift */; };
+		B2000000000000000000040C /* MiniSEPTA.zip in Resources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000030C /* MiniSEPTA.zip */; };
+		B2000000000000000000040D /* MiniTripUpdates-Bus.pb in Resources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000030D /* MiniTripUpdates-Bus.pb */; };
+		B2000000000000000000040E /* MiniTripUpdates-Rail.pb in Resources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000030E /* MiniTripUpdates-Rail.pb */; };
+		B2000000000000000000040F /* MiniTripUpdates-RailEarly.pb in Resources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000030F /* MiniTripUpdates-RailEarly.pb */; };
+		B20000000000000000000410 /* Real-TripUpdates-Bus.pb in Resources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000310 /* Real-TripUpdates-Bus.pb */; };
+		B20000000000000000000411 /* Real-TripUpdates-Rail.pb in Resources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000311 /* Real-TripUpdates-Rail.pb */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +96,19 @@
 		B20000000000000000000112 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B20000000000000000000113 /* App.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = App.xcconfig; sourceTree = "<group>"; };
 		B20000000000000000000114 /* Secrets.example.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.example.xcconfig; sourceTree = "<group>"; };
+		B20000000000000000000115 /* CSVReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVReader.swift; sourceTree = "<group>"; };
+		B20000000000000000000116 /* Timetable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timetable.swift; sourceTree = "<group>"; };
+		B20000000000000000000117 /* LiveDelays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveDelays.swift; sourceTree = "<group>"; };
+		B20000000000000000000118 /* TripRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRouter.swift; sourceTree = "<group>"; };
+		B20000000000000000000119 /* ScheduleStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleStore.swift; sourceTree = "<group>"; };
+		B2000000000000000000011A /* ZipArchive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZipArchive.swift; sourceTree = "<group>"; };
+		B2000000000000000000030B /* PlannerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerTests.swift; sourceTree = "<group>"; };
+		B2000000000000000000030C /* MiniSEPTA.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "MiniSEPTA.zip"; sourceTree = "<group>"; };
+		B2000000000000000000030D /* MiniTripUpdates-Bus.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MiniTripUpdates-Bus.pb"; sourceTree = "<group>"; };
+		B2000000000000000000030E /* MiniTripUpdates-Rail.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MiniTripUpdates-Rail.pb"; sourceTree = "<group>"; };
+		B2000000000000000000030F /* MiniTripUpdates-RailEarly.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MiniTripUpdates-RailEarly.pb"; sourceTree = "<group>"; };
+		B20000000000000000000310 /* Real-TripUpdates-Bus.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Real-TripUpdates-Bus.pb"; sourceTree = "<group>"; };
+		B20000000000000000000311 /* Real-TripUpdates-Rail.pb */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Real-TripUpdates-Rail.pb"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +147,7 @@
 				B20000000000000000000011 /* Services */,
 				B20000000000000000000012 /* Support */,
 				B20000000000000000000013 /* Views */,
+				B20000000000000000000017 /* Planner */,
 				B20000000000000000000014 /* Assets.xcassets */,
 				B20000000000000000000112 /* Info.plist */,
 			);
@@ -165,6 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				B20000000000000000000106 /* JSONValues.swift */,
+				B2000000000000000000011A /* ZipArchive.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -187,6 +215,7 @@
 				B20000000000000000000300 /* SEPTAClientParsingTests.swift */,
 				B20000000000000000000304 /* VehicleMergerTests.swift */,
 				B20000000000000000000305 /* GoogleRoutesTests.swift */,
+				B2000000000000000000030B /* PlannerTests.swift */,
 				B20000000000000000000501 /* Fixtures */,
 			);
 			path = SEPTATrackerTests;
@@ -202,6 +231,12 @@
 				B20000000000000000000308 /* Merge-BusVehiclePositions.pb */,
 				B20000000000000000000309 /* Merge-RailVehiclePositions.pb */,
 				B2000000000000000000030A /* GoogleRoutes-Synthetic.json */,
+				B2000000000000000000030C /* MiniSEPTA.zip */,
+				B2000000000000000000030D /* MiniTripUpdates-Bus.pb */,
+				B2000000000000000000030E /* MiniTripUpdates-Rail.pb */,
+				B2000000000000000000030F /* MiniTripUpdates-RailEarly.pb */,
+				B20000000000000000000310 /* Real-TripUpdates-Bus.pb */,
+				B20000000000000000000311 /* Real-TripUpdates-Rail.pb */,
 			);
 			path = Fixtures;
 			sourceTree = "<group>";
@@ -213,6 +248,18 @@
 				B20000000000000000000114 /* Secrets.example.xcconfig */,
 			);
 			path = Config;
+			sourceTree = "<group>";
+		};
+		B20000000000000000000017 /* Planner */ = {
+			isa = PBXGroup;
+			children = (
+				B20000000000000000000115 /* CSVReader.swift */,
+				B20000000000000000000116 /* Timetable.swift */,
+				B20000000000000000000117 /* LiveDelays.swift */,
+				B20000000000000000000118 /* TripRouter.swift */,
+				B20000000000000000000119 /* ScheduleStore.swift */,
+			);
+			path = Planner;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -311,6 +358,12 @@
 				B20000000000000000000407 /* Merge-BusVehiclePositions.pb in Resources */,
 				B20000000000000000000408 /* Merge-RailVehiclePositions.pb in Resources */,
 				B20000000000000000000409 /* GoogleRoutes-Synthetic.json in Resources */,
+				B2000000000000000000040C /* MiniSEPTA.zip in Resources */,
+				B2000000000000000000040D /* MiniTripUpdates-Bus.pb in Resources */,
+				B2000000000000000000040E /* MiniTripUpdates-Rail.pb in Resources */,
+				B2000000000000000000040F /* MiniTripUpdates-RailEarly.pb in Resources */,
+				B20000000000000000000410 /* Real-TripUpdates-Bus.pb in Resources */,
+				B20000000000000000000411 /* Real-TripUpdates-Rail.pb in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,6 +392,12 @@
 				B2000000000000000000020F /* TripPlanner.swift in Sources */,
 				B20000000000000000000210 /* TripPlannerView.swift in Sources */,
 				B20000000000000000000211 /* RouteDetailView.swift in Sources */,
+				B20000000000000000000212 /* CSVReader.swift in Sources */,
+				B20000000000000000000213 /* Timetable.swift in Sources */,
+				B20000000000000000000214 /* LiveDelays.swift in Sources */,
+				B20000000000000000000215 /* TripRouter.swift in Sources */,
+				B20000000000000000000216 /* ScheduleStore.swift in Sources */,
+				B20000000000000000000217 /* ZipArchive.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,6 +408,7 @@
 				B20000000000000000000400 /* SEPTAClientParsingTests.swift in Sources */,
 				B20000000000000000000403 /* VehicleMergerTests.swift in Sources */,
 				B20000000000000000000404 /* GoogleRoutesTests.swift in Sources */,
+				B2000000000000000000040B /* PlannerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

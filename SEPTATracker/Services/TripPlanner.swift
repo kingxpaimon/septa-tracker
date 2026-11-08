@@ -58,37 +58,68 @@ final class PlaceSearch: NSObject, ObservableObject, MKLocalSearchCompleterDeleg
 /// State for the directions screen.
 @MainActor
 final class TripPlanner: ObservableObject {
+    enum Engine: String, CaseIterable, Identifiable {
+        /// On-device RAPTOR over SEPTA's schedule plus SEPTA's live TripUpdates. Free, no key.
+        case septa
+        /// Google Routes API. Needs a key; results can't be shown on the (Apple) map.
+        case google
+        var id: String { rawValue }
+        var title: String { self == .septa ? "SEPTA" : "Google" }
+    }
+
     @Published var destination: Place?
+    @Published var engine: Engine = .septa
     @Published var preference: GoogleRoutesClient.Preference = .fastest
     @Published private(set) var origin: GeoPoint?
     @Published private(set) var routes: [TransitRoute] = []
     @Published private(set) var isLoading = false
+    @Published private(set) var statusMessage: String?
     @Published private(set) var errorMessage: String?
     @Published private(set) var hasResults = false
+    /// Shown under SEPTA results: schedule version and live coverage, or a stale-data warning.
+    @Published private(set) var resultNote: String?
 
-    /// Nil when no API key is configured; the screen then offers only the Google Maps hand-off.
-    let client: GoogleRoutesClient?
+    /// Nil when no Google key is configured; then only the SEPTA engine is offered.
+    let googleClient: GoogleRoutesClient?
+    let schedule: ScheduleStore
 
-    init(client: GoogleRoutesClient? = .fromInfoPlist()) {
-        self.client = client
+    init(googleClient: GoogleRoutesClient? = .fromInfoPlist(), schedule: ScheduleStore = .shared) {
+        self.googleClient = googleClient
+        self.schedule = schedule
     }
 
     func plan(using location: LocationService) async {
         guard let destination else { return }
         isLoading = true
         errorMessage = nil
-        defer { isLoading = false }
+        resultNote = nil
+        defer { isLoading = false; statusMessage = nil }
 
         do {
+            statusMessage = "Finding your location…"
             let here = try await location.currentLocation().coordinate
             let start = GeoPoint(latitude: here.latitude, longitude: here.longitude)
             origin = start
-            guard let client else {
-                routes = []
-                hasResults = false
-                return
+
+            switch engine {
+            case .septa:
+                let result = try await schedule.plan(from: start, to: destination.point) { phase in
+                    Task { @MainActor [weak self] in self?.statusMessage = phase.message.isEmpty ? "Planning…" : phase.message }
+                }
+                routes = result.routes
+                var notes: [String] = []
+                if let warning = result.staleScheduleWarning { notes.append(warning) }
+                if let live = result.liveTrips {
+                    notes.append("Times include SEPTA live predictions where available (\(live) trips right now).")
+                } else {
+                    notes.append("SEPTA live predictions are unavailable; times are scheduled.")
+                }
+                notes.append("Schedule: SEPTA GTFS \(result.feedVersion).")
+                resultNote = notes.joined(separator: " ")
+            case .google:
+                guard let googleClient else { throw GoogleRoutesError.missingAPIKey }
+                routes = try await googleClient.transitRoutes(from: start, to: destination.point, preference: preference)
             }
-            routes = try await client.transitRoutes(from: start, to: destination.point, preference: preference)
             hasResults = true
         } catch is CancellationError {
             return

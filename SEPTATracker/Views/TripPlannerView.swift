@@ -40,6 +40,9 @@ struct TripPlannerView: View {
             .onChange(of: planner.preference) {
                 Task { await planner.plan(using: location) }
             }
+            .onChange(of: planner.engine) {
+                Task { await planner.plan(using: location) }
+            }
         }
     }
 
@@ -86,7 +89,13 @@ struct TripPlannerView: View {
                 Button("Change") { planner.clear() }
                     .buttonStyle(.borderless)
             }
-            if planner.client != nil {
+            if planner.googleClient != nil {
+                Picker("Plan with", selection: $planner.engine) {
+                    ForEach(TripPlanner.Engine.allCases) { Text($0.title).tag($0) }
+                }
+                .pickerStyle(.segmented)
+            }
+            if planner.engine == .google && planner.googleClient != nil {
                 Picker("Prefer", selection: $planner.preference) {
                     ForEach(GoogleRoutesClient.Preference.allCases) { Text($0.title).tag($0) }
                 }
@@ -107,15 +116,16 @@ struct TripPlannerView: View {
     @ViewBuilder
     private var resultsSection: some View {
         if planner.isLoading {
-            Section { HStack { Spacer(); ProgressView(); Spacer() } }
+            Section {
+                HStack(spacing: 10) {
+                    ProgressView()
+                    if let status = planner.statusMessage {
+                        Text(status).font(.callout).foregroundStyle(.secondary)
+                    }
+                }
+            }
         } else if let message = planner.errorMessage {
             Section { Label(message, systemImage: "exclamationmark.triangle").foregroundStyle(.orange) }
-        } else if planner.client == nil {
-            Section {
-                Text("In-app route recommendations need a Google Maps API key. See “Directions setup” in the README. You can still open the trip in Google Maps.")
-                    .font(.callout)
-                    .foregroundStyle(.secondary)
-            }
         } else if planner.hasResults && planner.routes.isEmpty {
             Section { Text("No transit routes found.").foregroundStyle(.secondary) }
         } else if !planner.routes.isEmpty {
@@ -126,7 +136,11 @@ struct TripPlannerView: View {
             } header: {
                 Text("Routes")
             } footer: {
-                GoogleAttribution()
+                if planner.engine == .google {
+                    GoogleAttribution()
+                } else if let note = planner.resultNote {
+                    Text(note).font(.caption2)
+                }
             }
         }
     }
@@ -186,6 +200,10 @@ private struct RouteRow: View {
                 if let fare = route.fareText {
                     Label(fare, systemImage: "creditcard")
                 }
+                if route.rides.contains(where: { $0.liveDelaySeconds != nil }) {
+                    Label("Live", systemImage: "dot.radiowaves.left.and.right")
+                        .foregroundStyle(.green)
+                }
             }
             .font(.caption)
             .foregroundStyle(.secondary)
@@ -217,11 +235,6 @@ struct GoogleAttribution: View {
             .font(.caption2)
             .foregroundStyle(.secondary)
     }
-}
-
-func minutesText(_ seconds: TimeInterval) -> String {
-    let minutes = max(1, Int((seconds / 60).rounded()))
-    return minutes < 60 ? "\(minutes) min" : "\(minutes / 60) hr \(minutes % 60) min"
 }
 
 extension Color {

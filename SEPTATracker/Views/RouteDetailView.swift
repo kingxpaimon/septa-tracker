@@ -20,7 +20,9 @@ struct RouteDetailView: View {
             } footer: {
                 VStack(alignment: .leading, spacing: 4) {
                     ForEach(route.warnings, id: \.self) { Text($0) }
-                    GoogleAttribution()
+                    if route.rides.contains(where: { $0.tripID == nil }) {
+                        GoogleAttribution()   // Google results carry no SEPTA trip IDs
+                    }
                 }
             }
         }
@@ -63,7 +65,15 @@ private struct RideRow: View {
                 }
             }
             if let stop = ride.departureStopName {
-                timeLine("Board at \(stop)", ride.departureTimeText)
+                timeLine("Board at \(stop)", ride.departureTimeText ?? ride.departureTime.map(Self.time))
+            }
+            if let train = ride.trainNumber {
+                Text("Train \(train)").font(.caption).foregroundStyle(.secondary)
+            }
+            if let delay = ride.liveDelaySeconds {
+                Label(Self.delayText(delay), systemImage: "dot.radiowaves.left.and.right")
+                    .font(.caption)
+                    .foregroundStyle(delay > 120 ? Color.orange : Color.green)
             }
             if let count = ride.stopCount {
                 Text("\(count) stop\(count == 1 ? "" : "s")" + (ride.duration.map { " · \(minutesText($0))" } ?? ""))
@@ -71,7 +81,7 @@ private struct RideRow: View {
                     .foregroundStyle(.secondary)
             }
             if let stop = ride.arrivalStopName {
-                timeLine("Get off at \(stop)", ride.arrivalTimeText)
+                timeLine("Get off at \(stop)", ride.arrivalTimeText ?? ride.arrivalTime.map(Self.time))
             }
             liveSection
         }
@@ -100,14 +110,32 @@ private struct RideRow: View {
                 }
                 .buttonStyle(.borderless)
             }
-        } else if ride.isSEPTA {
-            Text("No live SEPTA vehicles matched this line.")
+        } else if ride.isSEPTA && ride.liveDelaySeconds == nil {
+            Text(ride.tripID == nil ? "No live SEPTA vehicles matched this line." : "No live data for this trip yet (scheduled time).")
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
     }
 
+    static func time(_ date: Date) -> String {
+        date.formatted(date: .omitted, time: .shortened)
+    }
+
+    static func delayText(_ seconds: Int) -> String {
+        let minutes = Int((Double(seconds) / 60).rounded())
+        if minutes == 0 { return "Live: on time" }
+        return minutes > 0 ? "Live: \(minutes) min late (times adjusted)" : "Live: \(-minutes) min early (times adjusted)"
+    }
+
     private func liveSummary(_ live: LiveLineMatcher.LiveInfo) -> String {
+        if let vehicle = live.tripVehicle {
+            let noun = vehicle.mode == .regionalRail ? "Your train" : "Your \(vehicle.mode.title.lowercased()) #\(vehicle.label)"
+            var text = noun + " is live"
+            if let meters = live.tripVehicleDistanceMeters {
+                text += ", \(WalkRow.distance(meters)) from your stop"
+            }
+            return text
+        }
         var text = "\(live.vehicleCount) live on \(live.route)"
         if let nearest = live.nearest, let meters = live.nearestDistanceMeters {
             text += " · closest is \(WalkRow.distance(meters)) from your stop (may already have passed it)"

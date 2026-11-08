@@ -62,6 +62,15 @@ struct TransitRoute: Identifiable, Hashable {
         let arrivalTimeText: String?
         let stopCount: Int?
         let duration: TimeInterval?
+        // Set by the on-device SEPTA planner (nil for Google results):
+        /// SEPTA GTFS trip_id of the exact trip to board.
+        var tripID: String? = nil
+        /// Regional Rail train number, e.g. "1725".
+        var trainNumber: String? = nil
+        /// Live delay at the boarding stop from SEPTA's TripUpdates feed; nil = schedule only.
+        var liveDelaySeconds: Int? = nil
+        /// GTFS route_short_name ("21", "T1", "AIR").
+        var routeShortName: String? = nil
 
         /// Short label for chips: "21", "T1", or the line name for rail.
         var displayName: String {

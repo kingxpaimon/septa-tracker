@@ -1,20 +1,23 @@
 import Foundation
 
-/// Links a ride in a Google transit route to the live SEPTA vehicles on that line.
+/// Links a ride in a recommended route to live SEPTA vehicles.
 ///
-/// Matching is by name, and how Google names SEPTA lines is **unverified** (no real
-/// Routes API response has been captured). Assumptions:
-/// - Buses/trolleys: Google's `nameShort` ("21", "T1", "G1") equals the TransitView route key.
-/// - Regional Rail: Google's line `name` ("Paoli/Thorndale Line") equals TrainView's `line`
-///   ("Paoli/Thorndale") once a trailing " Line" is removed.
-/// When nothing matches, the UI just shows no live info for that ride.
+/// - **Exact vehicle** (on-device SEPTA planner only): the ride carries SEPTA's trip_id,
+///   and live buses/trolleys carry the trip they're running (TransitView `trip`, which
+///   matched GTFS trip_ids in captured data). Trains are matched by train number.
+/// - **Same line**: by name. For Google results, how Google names SEPTA lines is
+///   unverified; for the SEPTA planner, GTFS short names ("21", "T1") match TransitView
+///   route keys, and rail long names ("Airport Line") match TrainView lines minus " Line".
 enum LiveLineMatcher {
 
     struct LiveInfo: Hashable {
         /// The value to put in `VehicleStore.selectedRoutes` to show this line on the map.
         let route: String
         let vehicleCount: Int
-        /// The live vehicle nearest the ride's boarding stop, if Google gave the stop's location.
+        /// The vehicle running this exact trip, when known.
+        let tripVehicle: Vehicle?
+        let tripVehicleDistanceMeters: Double?
+        /// Otherwise: the live vehicle on the line nearest the boarding stop.
         let nearest: Vehicle?
         let nearestDistanceMeters: Double?
     }
@@ -27,23 +30,34 @@ enum LiveLineMatcher {
             guard let name = ride.lineName.map(normalizedRailName) else { return nil }
             candidates = vehicles.filter { $0.mode == .regionalRail && normalizedRailName($0.route) == name }
         } else {
-            guard let short = ride.lineShortName?.uppercased() else { return nil }
+            guard let short = (ride.lineShortName ?? ride.routeShortName)?.uppercased() else { return nil }
             candidates = vehicles.filter { $0.mode != .regionalRail && $0.route.uppercased() == short }
         }
-        guard let route = candidates.first?.route else { return nil }
 
+        var tripVehicle: Vehicle?
+        if ride.isRail, let number = ride.trainNumber {
+            tripVehicle = vehicles.first { $0.mode == .regionalRail && $0.label == number }
+        } else if let trip = ride.tripID {
+            tripVehicle = vehicles.first { $0.mode != .regionalRail && $0.tripID == trip }
+        }
+
+        guard let route = tripVehicle?.route ?? candidates.first?.route else { return nil }
+
+        func distance(_ v: Vehicle) -> Double? {
+            ride.departureStop?.distance(to: GeoPoint(latitude: v.latitude, longitude: v.longitude))
+        }
         var nearest: Vehicle?
         var nearestDistance: Double?
-        if let stop = ride.departureStop {
-            for vehicle in candidates {
-                let d = stop.distance(to: GeoPoint(latitude: vehicle.latitude, longitude: vehicle.longitude))
-                if nearestDistance.map({ d < $0 }) ?? true {
-                    nearest = vehicle
-                    nearestDistance = d
-                }
+        for vehicle in candidates {
+            guard let d = distance(vehicle) else { break }
+            if nearestDistance.map({ d < $0 }) ?? true {
+                nearest = vehicle
+                nearestDistance = d
             }
         }
-        return LiveInfo(route: route, vehicleCount: candidates.count, nearest: nearest, nearestDistanceMeters: nearestDistance)
+        return LiveInfo(route: route, vehicleCount: max(candidates.count, tripVehicle == nil ? 0 : 1),
+                        tripVehicle: tripVehicle, tripVehicleDistanceMeters: tripVehicle.flatMap(distance),
+                        nearest: nearest, nearestDistanceMeters: nearestDistance)
     }
 
     static func normalizedRailName(_ name: String) -> String {

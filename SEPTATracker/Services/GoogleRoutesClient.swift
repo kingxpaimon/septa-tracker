@@ -11,7 +11,7 @@ enum GoogleRoutesError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .missingAPIKey:
-            return "No Google Maps API key is configured. See README → Directions setup."
+            return "No Google Maps API key is configured. See README → Google planner setup."
         case .api(let status, let message):
             return "Google Routes returned HTTP \(status): \(message)"
         case .unexpectedFormat(let detail):
