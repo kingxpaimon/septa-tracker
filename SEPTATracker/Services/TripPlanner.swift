@@ -61,10 +61,18 @@ final class TripPlanner: ObservableObject {
     enum Engine: String, CaseIterable, Identifiable {
         /// On-device RAPTOR over SEPTA's schedule plus SEPTA's live TripUpdates. Free, no key.
         case septa
+        /// Transitous (free community service): street-level walking, live bus data, no live rail.
+        case transitous
         /// Google Routes API. Needs a key; results can't be shown on the (Apple) map.
         case google
         var id: String { rawValue }
-        var title: String { self == .septa ? "SEPTA" : "Google" }
+        var title: String {
+            switch self {
+            case .septa: return "SEPTA"
+            case .transitous: return "Transitous"
+            case .google: return "Google"
+            }
+        }
     }
 
     @Published var destination: Place?
@@ -81,11 +89,18 @@ final class TripPlanner: ObservableObject {
 
     /// Nil when no Google key is configured; then only the SEPTA engine is offered.
     let googleClient: GoogleRoutesClient?
+    let transitous: TransitousClient
     let schedule: ScheduleStore
 
-    init(googleClient: GoogleRoutesClient? = .fromInfoPlist(), schedule: ScheduleStore = .shared) {
+    init(googleClient: GoogleRoutesClient? = .fromInfoPlist(), transitous: TransitousClient = TransitousClient(),
+         schedule: ScheduleStore = .shared) {
         self.googleClient = googleClient
+        self.transitous = transitous
         self.schedule = schedule
+    }
+
+    var availableEngines: [Engine] {
+        Engine.allCases.filter { $0 != .google || googleClient != nil }
     }
 
     func plan(using location: LocationService) async {
@@ -116,6 +131,10 @@ final class TripPlanner: ObservableObject {
                 }
                 notes.append("Schedule: SEPTA GTFS \(result.feedVersion).")
                 resultNote = notes.joined(separator: " ")
+            case .transitous:
+                statusMessage = "Asking Transitous…"
+                routes = try await transitous.transitRoutes(from: start, to: destination.point)
+                resultNote = "Live predictions for SEPTA buses and trolleys where available; Regional Rail times are scheduled."
             case .google:
                 guard let googleClient else { throw GoogleRoutesError.missingAPIKey }
                 routes = try await googleClient.transitRoutes(from: start, to: destination.point, preference: preference)

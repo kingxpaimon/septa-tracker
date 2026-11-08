@@ -35,7 +35,7 @@ struct TripPlannerView: View {
                 }
             }
             .navigationDestination(for: TransitRoute.self) { route in
-                RouteDetailView(route: route, showOnMap: showOnMap)
+                RouteDetailView(route: route, source: planner.engine, showOnMap: showOnMap)
             }
             .onChange(of: planner.preference) {
                 Task { await planner.plan(using: location) }
@@ -89,12 +89,10 @@ struct TripPlannerView: View {
                 Button("Change") { planner.clear() }
                     .buttonStyle(.borderless)
             }
-            if planner.googleClient != nil {
-                Picker("Plan with", selection: $planner.engine) {
-                    ForEach(TripPlanner.Engine.allCases) { Text($0.title).tag($0) }
-                }
-                .pickerStyle(.segmented)
+            Picker("Plan with", selection: $planner.engine) {
+                ForEach(planner.availableEngines) { Text($0.title).tag($0) }
             }
+            .pickerStyle(.segmented)
             if planner.engine == .google && planner.googleClient != nil {
                 Picker("Prefer", selection: $planner.preference) {
                     ForEach(GoogleRoutesClient.Preference.allCases) { Text($0.title).tag($0) }
@@ -136,10 +134,15 @@ struct TripPlannerView: View {
             } header: {
                 Text("Routes")
             } footer: {
-                if planner.engine == .google {
-                    GoogleAttribution()
-                } else if let note = planner.resultNote {
-                    Text(note).font(.caption2)
+                VStack(alignment: .leading, spacing: 4) {
+                    if let note = planner.resultNote {
+                        Text(note).font(.caption2)
+                    }
+                    switch planner.engine {
+                    case .google: GoogleAttribution()
+                    case .transitous: TransitousAttribution()
+                    case .septa: EmptyView()
+                    }
                 }
             }
         }
@@ -234,6 +237,18 @@ struct GoogleAttribution: View {
         Text("Directions powered by Google")
             .font(.caption2)
             .foregroundStyle(.secondary)
+    }
+}
+
+/// Required by Transitous's usage policy: a visible link to its data sources, plus
+/// OpenStreetMap attribution (its walking routes use OSM data).
+struct TransitousAttribution: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Link("Routing by Transitous · data sources", destination: TransitousClient.sourcesURL)
+            Link("Map data © OpenStreetMap contributors", destination: URL(string: "https://www.openstreetmap.org/copyright")!)
+        }
+        .font(.caption2)
     }
 }
 

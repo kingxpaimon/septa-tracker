@@ -4,6 +4,7 @@ import SwiftUI
 struct RouteDetailView: View {
     @EnvironmentObject private var store: VehicleStore
     let route: TransitRoute
+    let source: TripPlanner.Engine
     let showOnMap: (LiveLineMatcher.LiveInfo, TransitMode?) -> Void
 
     var body: some View {
@@ -20,8 +21,10 @@ struct RouteDetailView: View {
             } footer: {
                 VStack(alignment: .leading, spacing: 4) {
                     ForEach(route.warnings, id: \.self) { Text($0) }
-                    if route.rides.contains(where: { $0.tripID == nil }) {
-                        GoogleAttribution()   // Google results carry no SEPTA trip IDs
+                    switch source {
+                    case .google: GoogleAttribution()
+                    case .transitous: TransitousAttribution()
+                    case .septa: EmptyView()
                     }
                 }
             }

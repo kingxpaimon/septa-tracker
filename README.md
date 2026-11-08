@@ -9,7 +9,7 @@ An iOS app that shows where SEPTA buses, trolleys and Regional Rail trains are r
 - **Filters.** Turn modes on or off, and narrow the map to specific routes or lines. Routes are searchable.
 - **Your location.** The app asks for "when in use" location so the map can show where you are, with a button to center on it.
 - **Two SEPTA feeds, merged.** Vehicle positions come from SEPTA's JSON feeds (TransitView/TrainView) and its GTFS-realtime feed. For each vehicle the app uses the newest report, picks the right trip when TransitView lists a vehicle twice, and adds in-service buses that only GTFS-realtime reports. Positions are never averaged. See "Position accuracy" below.
-- **Directions, planned on the phone.** Search for a destination (Apple's place search). The app plans transit routes itself from SEPTA's published schedule (bus, trolley, subway, Regional Rail) and adjusts them with SEPTA's live predictions: delayed and early trips, canceled trips, skipped stops. Each option lists lines, times, walking and transfers. Each ride knows the exact SEPTA trip, so the app can point out *your* bus or train on the live map, or the line's vehicles. Free, no key, no server. "Open in Google Maps" hands the trip to Google Maps. Google's Routes API remains an optional second planner if you add a key.
+- **Directions, planned on the phone.** Search for a destination (Apple's place search). The app plans transit routes itself from SEPTA's published schedule (bus, trolley, subway, Regional Rail) and adjusts them with SEPTA's live predictions: delayed and early trips, canceled trips, skipped stops. Each option lists lines, times, walking and transfers. Each ride knows the exact SEPTA trip, so the app can point out *your* bus or train on the live map, or the line's vehicles. Free, no key, no server. "Open in Google Maps" hands the trip to Google Maps. Two other planners are one tap away: **Transitous** (free, no key: street-level walking and SEPTA service alerts, but no live train data) and Google's Routes API (needs a key).
 - **Partial failures.** Bus/trolley data and train data come from separate feeds. If one fails, the other keeps working, and the failing feed shows its last good data plus a warning. If only the GTFS-realtime half of a pair fails, the JSON feed is used alone, and vice versa for buses.
 
 There's no backend and nothing needs a key unless you turn on the optional Google planner. The first directions search downloads SEPTA's schedule (about 27 MB) and compiles it on the phone (a few seconds). After that it's cached and refreshed weekly.
@@ -47,6 +47,30 @@ Measured on SEPTA's real data, with Swift 6.0.3 on a Linux x86 machine (not a ph
 
 Sanity check: for 63rd & Lansdowne → Temple University, Monday 8:30 am, it suggested bus 46 → L1 → Warminster Line (40 min), bus 65 → Manayunk/Norristown Line, and T1 → Trenton Line. Transitous, an independent planner, suggested the same three combinations. Nobody has checked the results against riding the routes.
 
+## Transitous planner
+
+[Transitous](https://transitous.org) is a free, community-run routing service built on open transit data and OpenStreetMap. Pick "Transitous" in the directions screen. No key or setup needed.
+
+**Compared with the on-device planner, on a capture from 2026-11-07:**
+
+| | On-device (SEPTA) | Transitous |
+|---|---|---|
+| Live bus/trolley predictions | Yes | Yes |
+| Live Regional Rail | Yes (delays) | **No** (`NO_RT_DATA` on every train checked) |
+| Walking | Straight line × 1.25 | Real street network (OSM) |
+| Service alerts | No | Yes (shown as route warnings, e.g. T1 shuttle busing) |
+| Works offline after first download | Schedule only | No |
+| Depends on a third party | No (SEPTA only) | Yes, volunteer-run, best effort |
+
+Transitous trip IDs embed SEPTA's own (`…_us-pa-SEPTA-Bus_968699`), so "your bus is live" matching works for its results too.
+
+**Usage policy — read before publishing.** From https://transitous.org/api/:
+- **Non-commercial only.** Apps using the API are expected to be **open source**. Light prototype testing before publishing is fine. **This repository is currently private and has no license.** Before real use, make it public under an open-source license or stop using Transitous. Choosing the license is your call.
+- Every request sends `User-Agent: SEPTA-Live/<version> (+https://github.com/kingxpaimon/septa-tracker)` as the required contact. If the repo stays private, that link won't work for them; use a contact they can reach.
+- The app shows the required link to https://transitous.org/sources/ and an OpenStreetMap credit under Transitous results.
+- They flag more than ~720 route searches/day as heavy use. Each search here is one request.
+- No guarantees. They can stop serving the app at any time. The on-device planner doesn't depend on them.
+
 ## Google planner setup (optional)
 
 1. In Google Cloud, create a project with billing enabled and enable the **Routes API**.
@@ -69,6 +93,7 @@ Anyone can extract a key from an app binary. The restrictions in step 2 limit wh
 | GTFS-RT TripUpdates (bus/trolley/subway) | `https://www3.septa.org/gtfsrt/septa-pa-us/Trip/rtTripUpdates.pb` | Live predictions and cancellations for the planner |
 | GTFS-RT TripUpdates (rail) | `https://www3.septa.org/gtfsrt/septarail-pa-us/Trip/rtTripUpdates.pb` | Live train delays for the planner |
 | SEPTA GTFS schedule | `https://github.com/septadev/GTFS/releases/latest/download/gtfs_public.zip` | Timetable for the on-device planner |
+| Transitous plan API | `https://api.transitous.org/api/v1/plan` | Alternative planner (free, policy applies) |
 | Google Routes API (optional) | `https://routes.googleapis.com/directions/v2:computeRoutes` | Alternative planner (needs key) |
 
 GTFS-realtime is decoded by a small hand-written protobuf reader (`GTFSRealtime.swift`), so there's no SwiftProtobuf dependency.
@@ -100,7 +125,7 @@ So the freshness gain for buses is small. The real wins are coverage, choosing t
 ## Known gaps and risks
 
 - **The app has never been built in Xcode or run on a device.** Nothing here has gone through the iOS SDK. These were written by hand and never compiled: the views (`TripPlannerView`, `RouteDetailView` and the rest), `VehicleStore`, `LocationService`, `TripPlanner`/`PlaceSearch`, the Xcode project file, `Config/App.xcconfig`, and the shared scheme. The project file does load in the `pbxproj` Python library. Expect to fix small build errors on first open.
-- **What was verified, and how.** SEPTA's JSON feeds and GTFS-realtime feeds were captured live on 2026-11-07, and SEPTA's GTFS schedule (v202611010) was downloaded the same evening. Trimmed copies of the live responses are in `SEPTATrackerTests/Fixtures/`; entries were dropped, nothing edited. `MiniSEPTA.zip` and `MiniTripUpdates-*.pb` are hand-made. All non-UI code (the planner, zip reader, parsers, merger, Google client) was compiled with Swift 6.0.3 on Linux, using stub `CoreLocation`/`SwiftUI` modules. All 47 tests passed there. Disabling live delays or cancellations in the router makes tests fail, so they do check those paths. The planner also ran end to end against the real schedule and live feeds (see "On-device planner"). The tests have not been run in Xcode.
+- **What was verified, and how.** SEPTA's JSON feeds and GTFS-realtime feeds were captured live on 2026-11-07, and SEPTA's GTFS schedule (v202611010) was downloaded the same evening. Trimmed copies of the live responses are in `SEPTATrackerTests/Fixtures/`; entries were dropped, nothing edited. `MiniSEPTA.zip` and `MiniTripUpdates-*.pb` are hand-made. All non-UI code (the planner, zip reader, parsers, merger, Google client) was compiled with Swift 6.0.3 on Linux, using stub `CoreLocation`/`SwiftUI` modules. All 53 tests passed there. Disabling live delays or cancellations in the router makes tests fail, so they do check those paths. The planner also ran end to end against the real schedule and live feeds (see "On-device planner"). The tests have not been run in Xcode.
 - **The optional Google planner has never made a real request.** No API key was available. `GoogleRoutes-Synthetic.json` was written by hand from Google's documentation, and how Google names SEPTA lines is a guess.
 - **Live-vehicle matching.** For SEPTA-planned rides, *your* bus is found by trip ID (TransitView's `trip` equals the schedule's `trip_id`) and your train by train number. It's shown only when that vehicle is currently reporting. Otherwise the app falls back to the line's closest vehicle by straight-line distance, which ignores direction.
 - **The planner hasn't been checked against reality.** Its routes match an independent planner on one sample trip and look plausible on others, but nobody has ridden them. Known simplifications:
@@ -131,7 +156,7 @@ SEPTATracker/
   SEPTATrackerApp.swift      App entry point, injects shared state
   Models/                    Vehicle, TransitMode (bus / trolley / rail)
   Services/                  SEPTAClient (HTTP + JSON parsing), GTFSRealtime (protobuf), VehicleMerger,
-                             GoogleRoutesClient, LiveLineMatcher, TripPlanner/PlaceSearch,
+                             GoogleRoutesClient, TransitousClient, LiveLineMatcher, TripPlanner/PlaceSearch,
                              VehicleStore (polling + filters), LocationService
   Planner/                   On-device routing: CSVReader, Timetable (compile + cache),
                              LiveDelays (TripUpdates), TripRouter (RAPTOR), ScheduleStore (download/cache)
@@ -143,6 +168,7 @@ SEPTATrackerTests/
   VehicleMergerTests.swift   GTFS-realtime decoding and merging
   GoogleRoutesTests.swift    Routes request/parse, live line matching
   PlannerTests.swift         Zip, timetable compile, RAPTOR, live delays, exact-vehicle matching
+  TransitousTests.swift      Transitous request/parse (real response fixture)
   Fixtures/                  Trimmed live SEPTA responses; MiniSEPTA.zip, MiniTripUpdates-*.pb and
                              GoogleRoutes-Synthetic.json are hand-made
 Config/
@@ -159,3 +185,4 @@ Config/
 6. Show service alerts (GTFS-realtime Alerts).
 7. Save favorite routes and use them as the default filter.
 8. If keeping Google: capture a real Routes API response and check the current Google terms.
+9. If keeping Transitous: make the repo public under an open-source license (or drop Transitous), and consider linking their donation page.
