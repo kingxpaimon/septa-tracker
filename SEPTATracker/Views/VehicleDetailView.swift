@@ -2,6 +2,7 @@ import SwiftUI
 
 struct VehicleDetailView: View {
     @EnvironmentObject private var store: VehicleStore
+    @EnvironmentObject private var rideTracker: RideTracker
     let vehicleID: Vehicle.ID
 
     var body: some View {
@@ -19,6 +20,21 @@ struct VehicleDetailView: View {
                                 row("Last GPS report", Self.age(since: reportedAt))
                             }
                             row("Position from", vehicle.positionSource.title)
+                        }
+                        if let ride = rideTracker.ride, ride.vehicleID == vehicle.id {
+                            Section {
+                                Label("You're on this vehicle", systemImage: "figure.seated.side")
+                                    .foregroundStyle(.green)
+                                if let lag = ride.feedLagSeconds, let meters = ride.feedOffsetMeters {
+                                    row("SEPTA's report", "\(Int(lag)) s old, \(Self.distance(meters)) from your phone")
+                                }
+                                Text("The map shows this vehicle at your phone's position.")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                                Button("I'm not on this vehicle", role: .destructive) { rideTracker.reject() }
+                            } header: {
+                                Text("Ride detection")
+                            }
                         }
                     }
                     .listStyle(.plain)
@@ -44,6 +60,10 @@ struct VehicleDetailView: View {
 
     private func row(_ label: String, _ value: String) -> some View {
         LabeledContent(label, value: value)
+    }
+
+    private static func distance(_ meters: Double) -> String {
+        Measurement(value: meters, unit: UnitLength.meters).formatted(.measurement(width: .abbreviated, usage: .road))
     }
 
     private static func age(since date: Date) -> String {

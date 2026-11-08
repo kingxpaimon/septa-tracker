@@ -5,6 +5,7 @@ struct RootView: View {
     @EnvironmentObject private var store: VehicleStore
     @EnvironmentObject private var location: LocationService
     @EnvironmentObject private var saved: SavedPlacesStore
+    @EnvironmentObject private var rideTracker: RideTracker
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.openURL) private var openURL
 
@@ -20,6 +21,9 @@ struct RootView: View {
     @AppStorage("map.style") private var mapStyleChoice = MapStyleChoice.standard
     @AppStorage("map.showsTraffic") private var showsTraffic = false
     @AppStorage("map.showsPlaces") private var showsPlaces = false
+    /// Opt-in: notice when the user is riding a vehicle (on-device only, app open only).
+    @AppStorage("ride.detection") private var rideDetection = false
+    @State private var showingRideExplainer = false
 
     static let philadelphia = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 39.9526, longitude: -75.1652),
@@ -31,7 +35,7 @@ struct RootView: View {
             MapReader { proxy in
                 Map(position: $cameraPosition, selection: $selectedVehicleID) {
                     UserAnnotation()
-                    ForEach(store.visibleVehicles) { vehicle in
+                    ForEach(store.visibleVehicles.map { rideTracker.adjusted($0) }) { vehicle in
                         Marker(vehicle.route, systemImage: vehicle.mode.systemImage, coordinate: vehicle.coordinate)
                             .tint(vehicle.mode.tint)
                             .tag(vehicle.id)
@@ -68,12 +72,13 @@ struct RootView: View {
                         styleChoice: $mapStyleChoice,
                         showsTraffic: $showsTraffic,
                         showsPlaces: $showsPlaces,
+                        rideDetection: rideDetectionBinding,
                         locateIcon: locateIcon,
                         onLocate: locateTapped,
                         onShowArea: { withAnimation { cameraPosition = .region(Self.philadelphia) } }
                     )
                     .padding(.trailing, 12)
-                    StatusBar()
+                    StatusBar(rideDetection: rideDetection)
                 }
             }
             .navigationTitle("SEPTA Live")
@@ -133,6 +138,15 @@ struct RootView: View {
                 .presentationDetents([.height(320)])
                 .presentationBackgroundInteraction(.enabled)
             }
+            .alert("Detect when you're riding?", isPresented: $showingRideExplainer) {
+                Button("Turn On") {
+                    rideDetection = true
+                    location.requestPermissionIfNeeded()
+                }
+                Button("Not Now", role: .cancel) {}
+            } message: {
+                Text("While SEPTA Live is open, it compares your location with live buses and trains. When you're moving with one, it shows which vehicle you're on and places it at your phone's position, which is usually fresher than SEPTA's. Your location stays on your phone and isn't stored or shared. Uses more battery while on.")
+            }
             .alert("Location is off", isPresented: $showingLocationDenied) {
                 Button("Open Settings") {
                     if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) }
@@ -142,7 +156,18 @@ struct RootView: View {
                 Text("Allow SEPTA Live to use your location in Settings to center the map on you.")
             }
         }
-        .onAppear { location.requestPermissionIfNeeded() }
+        .onAppear {
+            location.requestPermissionIfNeeded()
+            updateRideDetection()
+        }
+        .onChange(of: rideDetection) { updateRideDetection() }
+        .onChange(of: scenePhase) { updateRideDetection() }
+        .onChange(of: location.lastFix) {
+            if rideDetection, let fix = location.lastFix { rideTracker.observe(fix) }
+        }
+        .onChange(of: store.lastUpdated) {
+            if rideDetection { rideTracker.observe(vehicles: store.allVehicles) }
+        }
         .onChange(of: location.authorizationStatus) {
             if centerWhenAuthorized, !location.isDenied, location.authorizationStatus != .notDetermined {
                 centerWhenAuthorized = false
@@ -154,6 +179,28 @@ struct RootView: View {
             guard scenePhase == .active else { return }
             await store.pollUntilCancelled()
         }
+    }
+
+    // MARK: Ride detection
+
+    /// Continuous location only while detection is on and the app is in the foreground.
+    private func updateRideDetection() {
+        if rideDetection && scenePhase == .active && !location.isDenied {
+            location.startContinuousUpdates()
+        } else {
+            location.stopContinuousUpdates()
+            if !rideDetection { rideTracker.reset() }
+        }
+    }
+
+    /// Turning it on the first time explains what it does before enabling.
+    private var rideDetectionBinding: Binding<Bool> {
+        Binding(
+            get: { rideDetection },
+            set: { on in
+                if on { showingRideExplainer = true } else { rideDetection = false }
+            }
+        )
     }
 
     // MARK: Map style
@@ -274,6 +321,7 @@ private struct MapButtons: View {
     @Binding var styleChoice: MapStyleChoice
     @Binding var showsTraffic: Bool
     @Binding var showsPlaces: Bool
+    @Binding var rideDetection: Bool
     let locateIcon: String
     let onLocate: () -> Void
     let onShowArea: () -> Void
@@ -287,6 +335,10 @@ private struct MapButtons: View {
                 if styleChoice != .satellite {
                     Toggle("Traffic", isOn: $showsTraffic)
                     Toggle("Points of interest", isOn: $showsPlaces)
+                }
+                Divider()
+                Toggle(isOn: $rideDetection) {
+                    Label("Detect when I'm riding", systemImage: "figure.seated.side")
                 }
                 Divider()
                 Button { onShowArea() } label: {
@@ -380,9 +432,15 @@ private struct DroppedPinSheet: View {
 
 private struct StatusBar: View {
     @EnvironmentObject private var store: VehicleStore
+    @EnvironmentObject private var rideTracker: RideTracker
+    let rideDetection: Bool
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
+            if rideDetection, let ride = rideTracker.ride {
+                RideBanner(ride: ride, reject: rideTracker.reject)
+                    .padding(.bottom, 4)
+            }
             HStack {
                 Text("\(store.visibleVehicles.count) vehicles")
                     .font(.subheadline.weight(.semibold))
@@ -405,5 +463,42 @@ private struct StatusBar: View {
         .padding(.horizontal)
         .padding(.vertical, 8)
         .background(.regularMaterial)
+    }
+}
+
+/// "Riding 21 · bus #3686 · 3 min late", with a way to say it's wrong.
+private struct RideBanner: View {
+    let ride: RideDetector.Ride
+    let reject: () -> Void
+
+    var body: some View {
+        HStack(spacing: 8) {
+            Image(systemName: ride.mode.systemImage)
+                .foregroundStyle(.white)
+                .padding(6)
+                .background(ride.mode.tint, in: Circle())
+            VStack(alignment: .leading, spacing: 1) {
+                Text(ride.mode == .regionalRail ? "On \(ride.route) train \(ride.label)" : "On the \(ride.route) · #\(ride.label)")
+                    .font(.subheadline.weight(.semibold))
+                Text(detail).font(.caption).foregroundStyle(.secondary)
+            }
+            Spacer()
+            Button("Not on it", action: reject)
+                .font(.caption)
+                .buttonStyle(.bordered)
+        }
+    }
+
+    private var detail: String {
+        var parts: [String] = []
+        if let late = ride.minutesLate {
+            parts.append(late == 0 ? "on time" : late > 0 ? "\(late) min late" : "\(-late) min early")
+        }
+        if let lag = ride.feedLagSeconds, lag >= 20 {
+            parts.append("SEPTA's position is \(Int(lag)) s behind; showing yours")
+        } else {
+            parts.append("showing your phone's position")
+        }
+        return parts.joined(separator: " · ")
     }
 }
