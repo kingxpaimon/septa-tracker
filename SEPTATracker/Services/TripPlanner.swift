@@ -106,9 +106,6 @@ final class TripPlanner: ObservableObject {
         }
     }
     @Published var time = Date()
-    @Published var saved = SavedPlaces.load() {
-        didSet { saved.store() }
-    }
 
     @Published private(set) var origin: GeoPoint?
     @Published private(set) var routes: [TransitRoute] = []

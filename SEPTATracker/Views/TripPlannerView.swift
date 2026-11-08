@@ -8,6 +8,7 @@ import MapKit
 struct TripPlannerView: View {
     @EnvironmentObject private var store: VehicleStore
     @EnvironmentObject private var location: LocationService
+    @EnvironmentObject private var saved: SavedPlacesStore
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
 
@@ -16,6 +17,11 @@ struct TripPlannerView: View {
     @State private var resolveError: String?
     /// Set while the user is searching for a place to save as Home/Work, or to start from.
     @State private var picking: Picking?
+    @State private var appliedPreset = false
+
+    /// Prefilled from the map (e.g. a dropped pin's "Directions to here").
+    var initialDestination: Place? = nil
+    var initialStart: Place? = nil
 
     enum Picking: Equatable {
         case save(SavedPlaces.Kind)
@@ -68,6 +74,12 @@ struct TripPlannerView: View {
             .navigationDestination(for: TransitRoute.self) { route in
                 RouteDetailView(route: route, source: planner.engine, showOnMap: showOnMap)
             }
+            .onAppear {
+                guard !appliedPreset else { return }
+                appliedPreset = true
+                if let initialStart { planner.start = initialStart }
+                if let initialDestination { planner.destination = initialDestination }
+            }
             // Re-plan whenever the request changes. The short delay coalesces rapid changes
             // (e.g. scrolling the time picker) into one request; `.task(id:)` cancels the old one.
             .task(id: planner.request) {
@@ -99,7 +111,7 @@ struct TripPlannerView: View {
             Button { planner.start = nil } label: {
                 Label("Current location", systemImage: "location.fill")
             }
-            ForEach(planner.saved.all) { entry in
+            ForEach(saved.places.all) { entry in
                 Button { planner.start = entry.place } label: {
                     Label(entry.displayName, systemImage: entry.kind.systemImage)
                 }
@@ -118,19 +130,19 @@ struct TripPlannerView: View {
 
     private var startTitle: String {
         guard let start = planner.start else { return "Current location" }
-        return planner.saved.entry(at: start)?.displayName ?? start.name
+        return saved.places.entry(at: start)?.displayName ?? start.name
     }
 
     private var savedSection: some View {
         Section {
-            savedRow(.home, planner.saved.home)
-            savedRow(.work, planner.saved.work)
-            ForEach(planner.saved.starred) { entry in
+            savedRow(.home, saved.places.home)
+            savedRow(.work, saved.places.work)
+            ForEach(saved.places.starred) { entry in
                 Button { go(to: entry.place) } label: {
                     placeLabel(entry.displayName, subtitle: entry.place.subtitle ?? entry.place.name, icon: "star.fill", tint: .yellow)
                 }
                 .swipeActions {
-                    Button(role: .destructive) { planner.saved.remove(id: entry.id) } label: { Label("Remove", systemImage: "trash") }
+                    Button(role: .destructive) { saved.places.remove(id: entry.id) } label: { Label("Remove", systemImage: "trash") }
                 }
             }
             Button { picking = .save(.starred) } label: {
@@ -151,10 +163,10 @@ struct TripPlannerView: View {
             }
             .contextMenu {
                 Button { picking = .save(kind) } label: { Label("Change \(kind.title)", systemImage: "pencil") }
-                Button(role: .destructive) { planner.saved.remove(id: entry.id) } label: { Label("Remove", systemImage: "trash") }
+                Button(role: .destructive) { saved.places.remove(id: entry.id) } label: { Label("Remove", systemImage: "trash") }
             }
             .swipeActions {
-                Button(role: .destructive) { planner.saved.remove(id: entry.id) } label: { Label("Remove", systemImage: "trash") }
+                Button(role: .destructive) { saved.places.remove(id: entry.id) } label: { Label("Remove", systemImage: "trash") }
                 Button { picking = .save(kind) } label: { Label("Change", systemImage: "pencil") }.tint(.gray)
             }
         } else {
@@ -198,7 +210,7 @@ struct TripPlannerView: View {
             HStack {
                 Image(systemName: "mappin.circle.fill").foregroundStyle(.red)
                 VStack(alignment: .leading) {
-                    Text(planner.saved.entry(at: destination)?.displayName ?? destination.name).font(.headline)
+                    Text(saved.places.entry(at: destination)?.displayName ?? destination.name).font(.headline)
                     if let subtitle = destination.subtitle {
                         Text(subtitle).font(.caption).foregroundStyle(.secondary)
                     }
@@ -233,15 +245,15 @@ struct TripPlannerView: View {
     /// Star toggle plus "Save as Home / Work".
     private func saveMenu(_ place: Place) -> some View {
         Menu {
-            if planner.saved.isStarred(place) {
-                Button { planner.saved.unstar(place) } label: { Label("Remove star", systemImage: "star.slash") }
+            if saved.places.isStarred(place) {
+                Button { saved.places.unstar(place) } label: { Label("Remove star", systemImage: "star.slash") }
             } else {
-                Button { planner.saved.save(place, as: .starred) } label: { Label("Star this place", systemImage: "star") }
+                Button { saved.places.save(place, as: .starred) } label: { Label("Star this place", systemImage: "star") }
             }
-            Button { planner.saved.save(place, as: .home) } label: { Label("Set as Home", systemImage: "house") }
-            Button { planner.saved.save(place, as: .work) } label: { Label("Set as Work", systemImage: "briefcase") }
+            Button { saved.places.save(place, as: .home) } label: { Label("Set as Home", systemImage: "house") }
+            Button { saved.places.save(place, as: .work) } label: { Label("Set as Work", systemImage: "briefcase") }
         } label: {
-            Image(systemName: planner.saved.entry(at: place) == nil ? "star" : "star.fill")
+            Image(systemName: saved.places.entry(at: place) == nil ? "star" : "star.fill")
                 .foregroundStyle(.yellow)
                 .imageScale(.large)
         }
@@ -317,7 +329,7 @@ struct TripPlannerView: View {
             search.query = ""
             switch picking {
             case .save(let kind):
-                planner.saved.save(place, as: kind)
+                saved.places.save(place, as: kind)
                 picking = nil
             case .start:
                 planner.start = place

@@ -16,6 +16,9 @@ final class LocationService: NSObject, ObservableObject, CLLocationManagerDelega
         manager.delegate = self
     }
 
+    /// Location is off for this app (or restricted by parental controls / MDM).
+    var isDenied: Bool { authorizationStatus == .denied || authorizationStatus == .restricted }
+
     func requestPermissionIfNeeded() {
         if manager.authorizationStatus == .notDetermined {
             manager.requestWhenInUseAuthorization()

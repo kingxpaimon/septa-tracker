@@ -54,6 +54,7 @@
 		B20000000000000000000413 /* Transitous-Plan.json in Resources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000313 /* Transitous-Plan.json */; };
 		B20000000000000000000219 /* SavedPlaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000011C /* SavedPlaces.swift */; };
 		B20000000000000000000414 /* SavedPlacesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000314 /* SavedPlacesTests.swift */; };
+		B2000000000000000000021A /* SavedPlacesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000011D /* SavedPlacesStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,6 +120,7 @@
 		B20000000000000000000313 /* Transitous-Plan.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Transitous-Plan.json"; sourceTree = "<group>"; };
 		B2000000000000000000011C /* SavedPlaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedPlaces.swift; sourceTree = "<group>"; };
 		B20000000000000000000314 /* SavedPlacesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedPlacesTests.swift; sourceTree = "<group>"; };
+		B2000000000000000000011D /* SavedPlacesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedPlacesStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +198,7 @@
 				B2000000000000000000011B /* TransitousClient.swift */,
 				B2000000000000000000010E /* LiveLineMatcher.swift */,
 				B2000000000000000000010F /* TripPlanner.swift */,
+				B2000000000000000000011D /* SavedPlacesStore.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -408,6 +411,7 @@
 				B20000000000000000000218 /* TransitousClient.swift in Sources */,
 				B2000000000000000000020E /* LiveLineMatcher.swift in Sources */,
 				B2000000000000000000020F /* TripPlanner.swift in Sources */,
+				B2000000000000000000021A /* SavedPlacesStore.swift in Sources */,
 				B20000000000000000000210 /* TripPlannerView.swift in Sources */,
 				B20000000000000000000211 /* RouteDetailView.swift in Sources */,
 				B20000000000000000000212 /* CSVReader.swift in Sources */,
