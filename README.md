@@ -65,8 +65,8 @@ Sanity check: for 63rd & Lansdowne → Temple University, Monday 8:30 am, it sug
 Transitous trip IDs embed SEPTA's own (`…_us-pa-SEPTA-Bus_968699`), so "your bus is live" matching works for its results too.
 
 **Usage policy — read before publishing.** From https://transitous.org/api/:
-- **Non-commercial only.** Apps using the API are expected to be **open source**. Light prototype testing before publishing is fine. **This repository is currently private and has no license.** Before real use, make it public under an open-source license or stop using Transitous. Choosing the license is your call.
-- Every request sends `User-Agent: SEPTA-Live/<version> (+https://github.com/kingxpaimon/septa-tracker)` as the required contact. If the repo stays private, that link won't work for them; use a contact they can reach.
+- **Non-commercial only.** Apps using the API are expected to be **open source**. This project is licensed under Apache 2.0 (see `LICENSE`). The repository must be public for that to count, and the app code has to be on the default branch for visitors to see it.
+- Every request sends `User-Agent: SEPTA-Live/<version> (+https://github.com/kingxpaimon/septa-tracker)` as the required contact.
 - The app shows the required link to https://transitous.org/sources/ and an OpenStreetMap credit under Transitous results.
 - They flag more than ~720 route searches/day as heavy use. Each search here is one request.
 - No guarantees. They can stop serving the app at any time. The on-device planner doesn't depend on them.
@@ -185,4 +185,10 @@ Config/
 6. Show service alerts (GTFS-realtime Alerts).
 7. Save favorite routes and use them as the default filter.
 8. If keeping Google: capture a real Routes API response and check the current Google terms.
-9. If keeping Transitous: make the repo public under an open-source license (or drop Transitous), and consider linking their donation page.
+9. Merge this branch into the default branch so the public repo shows the app, and consider linking Transitous's donation page.
+
+## License
+
+Copyright 2026 kingxpaimon. Licensed under the [Apache License, Version 2.0](LICENSE).
+
+Data used at runtime keeps its own terms: SEPTA's feeds, and for the optional planners, Transitous's data sources and OpenStreetMap (ODbL) or Google Maps Platform.
