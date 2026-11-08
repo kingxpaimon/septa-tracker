@@ -445,6 +445,7 @@ private struct StatusBar: View {
             if rideDetection, let ride = rideTracker.ride {
                 RideBanner(ride: ride, reject: rideTracker.reject)
                     .padding(.bottom, 4)
+                    .sensoryFeedback(.success, trigger: ride.vehicleID)
             }
             HStack {
                 Text("\(store.visibleVehicles.count) vehicles")

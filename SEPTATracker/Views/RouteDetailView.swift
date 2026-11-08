@@ -13,7 +13,7 @@ struct RouteDetailView: View {
 
     /// Live vehicles running this route's exact trips.
     private var tripVehicles: [Vehicle] {
-        route.rides.compactMap { LiveLineMatcher.liveInfo(for: $0, in: store.allVehicles)?.tripVehicle }
+        route.rides.compactMap { LiveLineMatcher.liveInfo(for: $0, in: store.allVehicles, waiting: store.waitingVehicles)?.tripVehicle }
     }
 
     var body: some View {
@@ -45,7 +45,9 @@ struct RouteDetailView: View {
                     case .walk(let walk):
                         WalkRow(walk: walk)
                     case .ride(let ride):
-                        RideRow(ride: ride, live: LiveLineMatcher.liveInfo(for: ride, in: store.allVehicles), showOnMap: showOnMap)
+                        RideRow(ride: ride, live: LiveLineMatcher.liveInfo(for: ride, in: store.allVehicles, waiting: store.waitingVehicles),
+                                bunch: LiveLineMatcher.liveInfo(for: ride, in: store.allVehicles)?.tripVehicle.flatMap { store.bunching[$0.id] },
+                                showOnMap: showOnMap)
                     }
                 }
             } footer: {
@@ -105,6 +107,7 @@ private struct WalkRow: View {
 private struct RideRow: View {
     let ride: TransitRoute.Ride
     let live: LiveLineMatcher.LiveInfo?
+    var bunch: VehicleInsights.Bunch? = nil
     let showOnMap: (LiveLineMatcher.LiveInfo, TransitMode?) -> Void
 
     var body: some View {
@@ -151,9 +154,30 @@ private struct RideRow: View {
     private var liveSection: some View {
         if let live {
             VStack(alignment: .leading, spacing: 4) {
-                Label(liveSummary(live), systemImage: "dot.radiowaves.left.and.right")
+                Label(liveSummary(live), systemImage: live.tripVehicleIsWaiting ? "clock" : "dot.radiowaves.left.and.right")
                     .font(.caption)
-                    .foregroundStyle(.green)
+                    .foregroundStyle(live.tripVehicleIsWaiting ? Color.blue : Color.green)
+                if let vehicle = live.tripVehicle, vehicle.mode == .regionalRail, vehicle.track != nil || vehicle.cars != nil {
+                    // Where to stand: platform and train length.
+                    HStack(spacing: 10) {
+                        if let track = vehicle.track {
+                            Label("Track \(track)\(vehicle.trackChanged ? " (changed)" : "")", systemImage: "signpost.right")
+                                .foregroundStyle(vehicle.trackChanged ? Color.orange : Color.primary)
+                        }
+                        if let cars = vehicle.cars {
+                            Label("\(cars) car\(cars == 1 ? "" : "s")", systemImage: "tram")
+                        }
+                    }
+                    .font(.caption.weight(.semibold))
+                }
+                if let occupancy = live.tripVehicle?.occupancy {
+                    OccupancyView(occupancy: occupancy).font(.caption)
+                }
+                if let bunch {
+                    Label("Bunched with #\(bunch.otherLabel) (\(WalkRow.distance(bunch.meters)) apart)", systemImage: "arrow.left.and.right.square")
+                        .font(.caption)
+                        .foregroundStyle(.orange)
+                }
                 Button {
                     showOnMap(live, live.nearest?.mode)
                 } label: {
@@ -179,6 +203,9 @@ private struct RideRow: View {
     }
 
     private func liveSummary(_ live: LiveLineMatcher.LiveInfo) -> String {
+        if let vehicle = live.tripVehicle, live.tripVehicleIsWaiting {
+            return "Your \(vehicle.mode.title.lowercased()) #\(vehicle.label) is waiting at its first stop"
+        }
         if let vehicle = live.tripVehicle {
             let noun = vehicle.mode == .regionalRail ? "Your train" : "Your \(vehicle.mode.title.lowercased()) #\(vehicle.label)"
             var text = noun + " is live"

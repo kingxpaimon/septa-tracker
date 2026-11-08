@@ -29,18 +29,24 @@ struct SEPTAClient {
     static let busRealtimeURL = URL(string: "https://www3.septa.org/gtfsrt/septa-pa-us/Vehicle/rtVehiclePosition.pb")!
     static let railRealtimeURL = URL(string: "https://www3.septa.org/gtfsrt/septarail-pa-us/Vehicle/rtVehiclePosition.pb")!
 
-    /// All buses and trolleys currently reporting: TransitView merged with GTFS-realtime.
-    /// If only one of the two feeds fails, the other is used alone.
-    func fetchSurfaceVehicles() async throws -> [Vehicle] {
+    struct SurfaceFeed {
+        /// Buses/trolleys running a trip (shown on the map).
+        let vehicles: [Vehicle]
+        /// Buses only GTFS-RT reports: almost always waiting at their first stop or between
+        /// trips. Not shown on the map, but used to say "your bus is waiting at its first stop".
+        let waiting: [Vehicle]
+    }
+
+    /// Buses and trolleys: TransitView merged with GTFS-realtime. TransitView is required
+    /// (it defines which buses are on a trip); if only GTFS-RT fails, TransitView is used alone.
+    func fetchSurfaceVehicles() async throws -> SurfaceFeed {
         async let json = Self.capture { try Self.parseTransitViewAllEntries(try await get(Self.baseURL.appendingPathComponent("TransitViewAll/index.php"))) }
         async let realtime = Self.capture { try GTFSRealtime.parseVehiclePositions(try await get(Self.busRealtimeURL)) }
         let (entries, positions) = await (json, realtime)
-        switch (entries, positions) {
-        case (.success(let e), .success(let p)): return VehicleMerger.mergeSurface(transitView: e, realtime: p)
-        case (.success(let e), .failure): return VehicleMerger.mergeSurface(transitView: e, realtime: [])
-        case (.failure, .success(let p)): return VehicleMerger.mergeSurface(transitView: [], realtime: p)
-        case (.failure(let error), .failure): throw error
-        }
+        let transitView = try entries.get()
+        let rt = (try? positions.get()) ?? []
+        return SurfaceFeed(vehicles: VehicleMerger.mergeSurface(transitView: transitView, realtime: rt),
+                           waiting: VehicleMerger.realtimeOnly(transitView: transitView, realtime: rt))
     }
 
     /// All Regional Rail trains currently reporting: TrainView, with GTFS-realtime
@@ -145,7 +151,9 @@ struct SEPTAClient {
             nextStop: JSONValues.string(entry, "next_stop_name"),
             minutesLate: normalizedLateness(JSONValues.int(entry, "late")),
             reportedAt: reportedAt,
-            tripID: JSONValues.string(entry, "trip")
+            tripID: JSONValues.string(entry, "trip"),
+            // "NOT_AVAILABLE" and "TBD" (about 40% of buses in captures) map to nil.
+            occupancy: JSONValues.string(entry, "estimated_seat_availability").flatMap(Vehicle.Occupancy.init(rawValue:))
         )
     }
 
@@ -181,7 +189,12 @@ struct SEPTAClient {
                 direction: nil,
                 nextStop: JSONValues.string(entry, "nextstop"),
                 minutesLate: normalizedLateness(JSONValues.int(entry, "late")),
-                reportedAt: nil
+                reportedAt: nil,
+                track: JSONValues.string(entry, "TRACK"),
+                trackChanged: JSONValues.string(entry, "TRACK_CHANGE") != nil,
+                cars: JSONValues.string(entry, "consist").map { $0.split(separator: ",").filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }.count }.flatMap { $0 > 0 ? $0 : nil },
+                service: JSONValues.string(entry, "service"),
+                currentStop: JSONValues.string(entry, "currentstop")
             )
         }
         return VehicleMerger.uniqued(trains)

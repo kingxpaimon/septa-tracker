@@ -40,7 +40,13 @@ enum VehicleMerger {
         }
 
         guard includeRealtimeOnly else { return uniqued(merged) }
-        let known = Set(merged.map(\.label))
+        return uniqued(merged + realtimeOnly(transitView: transitView, realtime: realtime))
+    }
+
+    /// Vehicles GTFS-RT reports on a trip that TransitView doesn't list (see type docs:
+    /// nearly all are waiting at their first stop or between trips).
+    static func realtimeOnly(transitView: [Vehicle], realtime: [RealtimeVehiclePosition]) -> [Vehicle] {
+        let known = Set(transitView.map(\.label))
         let extras = realtime.compactMap { rt -> Vehicle? in
             // No trip means the vehicle isn't in service (deadheading, in the garage).
             guard !known.contains(rt.vehicleID), let tripID = rt.tripID, let route = rt.routeID else { return nil }
@@ -62,7 +68,7 @@ enum VehicleMerger {
                 positionSource: .gtfsRealtime
             )
         }
-        return uniqued(merged + extras.filter(isPlausible))
+        return uniqued(extras.filter(isPlausible))
     }
 
     /// Collapses entries that share an ID to one. Preference order:

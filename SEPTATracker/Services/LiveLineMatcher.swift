@@ -16,13 +16,16 @@ enum LiveLineMatcher {
         let vehicleCount: Int
         /// The vehicle running this exact trip, when known.
         let tripVehicle: Vehicle?
+        /// True when that vehicle is assigned to the trip but hasn't started it yet (it's
+        /// typically waiting at the first stop). Only GTFS-RT reports these.
+        var tripVehicleIsWaiting = false
         let tripVehicleDistanceMeters: Double?
         /// Otherwise: the live vehicle on the line nearest the boarding stop.
         let nearest: Vehicle?
         let nearestDistanceMeters: Double?
     }
 
-    static func liveInfo(for ride: TransitRoute.Ride, in vehicles: [Vehicle]) -> LiveInfo? {
+    static func liveInfo(for ride: TransitRoute.Ride, in vehicles: [Vehicle], waiting: [Vehicle] = []) -> LiveInfo? {
         guard ride.isSEPTA || ride.agencyNames.isEmpty else { return nil }
 
         let candidates: [Vehicle]
@@ -40,6 +43,12 @@ enum LiveLineMatcher {
         } else if let trip = ride.tripID {
             tripVehicle = vehicles.first { $0.mode != .regionalRail && $0.tripID == trip }
         }
+        var isWaiting = false
+        if tripVehicle == nil, !ride.isRail, let trip = ride.tripID,
+           let parked = waiting.first(where: { $0.tripID == trip }) {
+            tripVehicle = parked
+            isWaiting = true
+        }
 
         guard let route = tripVehicle?.route ?? candidates.first?.route else { return nil }
 
@@ -55,8 +64,9 @@ enum LiveLineMatcher {
                 nearestDistance = d
             }
         }
-        return LiveInfo(route: route, vehicleCount: max(candidates.count, tripVehicle == nil ? 0 : 1),
-                        tripVehicle: tripVehicle, tripVehicleDistanceMeters: tripVehicle.flatMap(distance),
+        return LiveInfo(route: route, vehicleCount: max(candidates.count, tripVehicle == nil || isWaiting ? 0 : 1),
+                        tripVehicle: tripVehicle, tripVehicleIsWaiting: isWaiting,
+                        tripVehicleDistanceMeters: tripVehicle.flatMap(distance),
                         nearest: nearest, nearestDistanceMeters: nearestDistance)
     }
 

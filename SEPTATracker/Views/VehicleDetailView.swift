@@ -16,10 +16,38 @@ struct VehicleDetailView: View {
                             if let direction = vehicle.direction { row("Direction", direction) }
                             if let nextStop = vehicle.nextStop { row("Next stop", nextStop) }
                             row("Status", vehicle.lateDescription)
+                            if let occupancy = vehicle.occupancy {
+                                LabeledContent("Crowding") { OccupancyView(occupancy: occupancy) }
+                            }
+                            if let track = vehicle.track {
+                                LabeledContent("Track") {
+                                    HStack(spacing: 4) {
+                                        Text(track).font(.body.weight(.semibold))
+                                        if vehicle.trackChanged {
+                                            Text("changed").font(.caption.weight(.semibold)).foregroundStyle(.orange)
+                                        }
+                                    }
+                                }
+                            }
+                            if let cars = vehicle.cars { row("Train length", "\(cars) car\(cars == 1 ? "" : "s")") }
+                            if let service = vehicle.service, service.uppercased() != "LOCAL" { row("Service", service.capitalized) }
+                            if let current = vehicle.currentStop { row("At / leaving", current) }
                             if let reportedAt = vehicle.reportedAt {
                                 row("Last GPS report", Self.age(since: reportedAt))
                             }
                             row("Position from", vehicle.positionSource.title)
+                        }
+                        if let bunch = store.bunching[vehicle.id] {
+                            Section {
+                                Label {
+                                    Text("Running with #\(bunch.otherLabel), \(Self.distance(bunch.meters)) apart. The next bus after these two may be a long wait.")
+                                } icon: {
+                                    Image(systemName: "arrow.left.and.right.square").foregroundStyle(.orange)
+                                }
+                                .font(.callout)
+                            } header: {
+                                Text("Bunched")
+                            }
                         }
                         if let ride = rideTracker.ride, ride.vehicleID == vehicle.id {
                             Section {
@@ -69,5 +97,35 @@ struct VehicleDetailView: View {
     private static func age(since date: Date) -> String {
         let seconds = max(0, Int(Date().timeIntervalSince(date)))
         return seconds < 60 ? "\(seconds)s ago" : "\(seconds / 60) min ago"
+    }
+}
+
+/// Four-bar crowding gauge plus a label ("Few seats").
+struct OccupancyView: View {
+    let occupancy: Vehicle.Occupancy
+
+    var body: some View {
+        HStack(spacing: 6) {
+            HStack(spacing: 2) {
+                ForEach(1...4, id: \.self) { bar in
+                    RoundedRectangle(cornerRadius: 1)
+                        .fill(bar <= occupancy.level ? color : Color(.systemGray4))
+                        .frame(width: 4, height: CGFloat(4 + bar * 3))
+                }
+            }
+            .frame(height: 16, alignment: .bottom)
+            Text(occupancy.title)
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Crowding: \(occupancy.title)")
+    }
+
+    private var color: Color {
+        switch occupancy.level {
+        case 1: return .green
+        case 2: return .yellow
+        case 3: return .orange
+        default: return .red
+        }
     }
 }

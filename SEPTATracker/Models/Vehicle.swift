@@ -25,6 +25,47 @@ struct Vehicle: Identifiable, Hashable {
     var tripID: String? = nil
     /// Which feed the position came from.
     var positionSource: PositionSource = .septaJSON
+    /// How full it is (TransitView `estimated_seat_availability`), when SEPTA knows.
+    var occupancy: Occupancy? = nil
+    // Regional Rail only (TrainView):
+    /// Platform/track at the current or next station, e.g. "1N", "2C".
+    var track: String? = nil
+    var trackChanged: Bool = false
+    /// Number of cars, from the consist list.
+    var cars: Int? = nil
+    /// "LOCAL", "EXPRESS", ...
+    var service: String? = nil
+    var currentStop: String? = nil
+
+    enum Occupancy: String, Hashable {
+        case empty = "EMPTY"
+        case manySeats = "MANY_SEATS_AVAILABLE"
+        case fewSeats = "FEW_SEATS_AVAILABLE"
+        case standingRoom = "STANDING_ROOM_ONLY"
+        case crushed = "CRUSHED_STANDING_ROOM_ONLY"
+        case full = "FULL"
+
+        var title: String {
+            switch self {
+            case .empty: return "Empty"
+            case .manySeats: return "Many seats"
+            case .fewSeats: return "Few seats"
+            case .standingRoom: return "Standing room only"
+            case .crushed: return "Very crowded"
+            case .full: return "Full"
+            }
+        }
+
+        /// 1 (empty) … 4 (full), for a small gauge.
+        var level: Int {
+            switch self {
+            case .empty, .manySeats: return 1
+            case .fewSeats: return 2
+            case .standingRoom: return 3
+            case .crushed, .full: return 4
+            }
+        }
+    }
 
     enum PositionSource: String, Hashable {
         /// TransitViewAll or TrainView.

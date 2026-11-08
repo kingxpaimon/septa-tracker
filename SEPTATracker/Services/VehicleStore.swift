@@ -5,6 +5,10 @@ import Combine
 final class VehicleStore: ObservableObject {
     @Published private(set) var surfaceVehicles: [Vehicle] = []
     @Published private(set) var trains: [Vehicle] = []
+    /// Buses only GTFS-RT reports (waiting at their first stop / between trips). Not on the map.
+    @Published private(set) var waitingVehicles: [Vehicle] = []
+    /// Buses running bunched with another on the same route and direction.
+    @Published private(set) var bunching: [Vehicle.ID: VehicleInsights.Bunch] = [:]
     @Published private(set) var lastUpdated: Date?
     @Published private(set) var isRefreshing = false
     /// One message per failing feed. A failing feed keeps its last good data.
@@ -52,7 +56,10 @@ final class VehicleStore: ObservableObject {
 
         var newErrors: [String] = []
         switch surface {
-        case .success(let vehicles): surfaceVehicles = vehicles
+        case .success(let feed):
+            surfaceVehicles = feed.vehicles
+            waitingVehicles = feed.waiting
+            bunching = VehicleInsights.bunching(feed.vehicles)
         case .failure(let error): newErrors.append("Buses/trolleys: \(error.localizedDescription)")
         }
         switch rail {
@@ -72,7 +79,7 @@ final class VehicleStore: ObservableObject {
         }
     }
 
-    private static func capture(_ work: () async throws -> [Vehicle]) async -> Result<[Vehicle], Error> {
+    private static func capture<T>(_ work: () async throws -> T) async -> Result<T, Error> {
         do { return .success(try await work()) } catch { return .failure(error) }
     }
 }
