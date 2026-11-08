@@ -124,8 +124,8 @@ So the freshness gain for buses is small. The real wins are coverage, choosing t
 
 ## Known gaps and risks
 
-- **The app has never been built in Xcode or run on a device.** Nothing here has gone through the iOS SDK. These were written by hand and never compiled: the views (`TripPlannerView`, `RouteDetailView` and the rest), `VehicleStore`, `LocationService`, `TripPlanner`/`PlaceSearch`, the Xcode project file, `Config/App.xcconfig`, and the shared scheme. The project file does load in the `pbxproj` Python library. Expect to fix small build errors on first open.
-- **What was verified, and how.** SEPTA's JSON feeds and GTFS-realtime feeds were captured live on 2026-11-07, and SEPTA's GTFS schedule (v202611010) was downloaded the same evening. Trimmed copies of the live responses are in `SEPTATrackerTests/Fixtures/`; entries were dropped, nothing edited. `MiniSEPTA.zip` and `MiniTripUpdates-*.pb` are hand-made. All non-UI code (the planner, zip reader, parsers, merger, Google client) was compiled with Swift 6.0.3 on Linux, using stub `CoreLocation`/`SwiftUI` modules. All 53 tests passed there. Disabling live delays or cancellations in the router makes tests fail, so they do check those paths. The planner also ran end to end against the real schedule and live feeds (see "On-device planner"). The tests have not been run in Xcode.
+- **Built and tested in Xcode, but not yet used.** On 2026-11-08 the project built with `xcodebuild` for the iOS Simulator (`generic/platform=iOS Simulator`), and `xcodebuild test` passed on an iOS 27.2 "iPhone Duo" simulator. Nobody has opened the app and used it yet: the map, location permission, directions screen and first-run schedule download are unchecked in practice, and it hasn't run on a physical iPhone.
+- **What was verified, and how.** SEPTA's JSON feeds and GTFS-realtime feeds were captured live on 2026-11-07, and SEPTA's GTFS schedule (v202611010) was downloaded the same evening. Trimmed copies of the live responses are in `SEPTATrackerTests/Fixtures/`; entries were dropped, nothing edited. `MiniSEPTA.zip` and `MiniTripUpdates-*.pb` are hand-made. All non-UI code (the planner, zip reader, parsers, merger, Google client) was compiled with Swift 6.0.3 on Linux, using stub `CoreLocation`/`SwiftUI` modules. All 53 tests passed there. Disabling live delays or cancellations in the router makes tests fail, so they do check those paths. The planner also ran end to end against the real schedule and live feeds (see "On-device planner"). The tests also pass in Xcode (see above).
 - **The optional Google planner has never made a real request.** No API key was available. `GoogleRoutes-Synthetic.json` was written by hand from Google's documentation, and how Google names SEPTA lines is a guess.
 - **Live-vehicle matching.** For SEPTA-planned rides, *your* bus is found by trip ID (TransitView's `trip` equals the schedule's `trip_id`) and your train by train number. It's shown only when that vehicle is currently reporting. Otherwise the app falls back to the line's closest vehicle by straight-line distance, which ignores direction.
 - **The planner hasn't been checked against reality.** Its routes match an independent planner on one sample trip and look plausible on others, but nobody has ridden them. Known simplifications:
@@ -177,7 +177,7 @@ Config/
 
 ## Next steps
 
-1. Build in Xcode, fix any compile errors, and run the tests (⌘U).
+1. Run the app (⌘R): check the live map, location permission, and a directions search with each planner.
 2. Try directions on a real phone: first-run download time, memory while compiling, and whether the suggested routes make sense.
 3. Add a departure-time picker and a custom starting point (the router already supports any time).
 4. Draw the chosen SEPTA route on the live map (allowed for SEPTA data, unlike Google's).
